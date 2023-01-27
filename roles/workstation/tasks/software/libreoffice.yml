@@ -1,3 +1,5 @@
+---
+
 - name: Software | libreoffice | install package
   become_user: root
   snap:

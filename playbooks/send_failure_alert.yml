@@ -1,3 +1,5 @@
+---
+
 - block:
   - name: Send failure notification via telegram
     tags: always

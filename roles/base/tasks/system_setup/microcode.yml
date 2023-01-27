@@ -1,3 +1,5 @@
+---
+
 - name: System setup | microcode | install package for amd
   package:
     name: "{{ amd_microcode_package }}"

@@ -1,3 +1,5 @@
+---
+
 - name: System setup | scripts | copy image_prep.sh script
   copy:
     src: system_setup/image_prep.sh

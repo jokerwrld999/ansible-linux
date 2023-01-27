@@ -34,4 +34,3 @@
   shell: |
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'Enabled' 'false'
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'First Use' 'false'
-

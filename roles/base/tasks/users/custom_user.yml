@@ -1,3 +1,5 @@
+---
+
 - name: Users | custom user | create group
   group:
     name: "{{ custom_user }}"

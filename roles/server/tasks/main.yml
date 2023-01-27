@@ -1,4 +1,5 @@
-# Load distro-specific variables
+---
+
 - include_vars: "{{ ansible_distribution }}.yml"
   tags: always
 
@@ -13,3 +14,4 @@
 
   rescue:
     - set_fact: task_failed=true
+

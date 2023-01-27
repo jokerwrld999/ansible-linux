@@ -1,3 +1,5 @@
+---
+
 - name: System setup | openssh | install or update daemon package
   package:
     name: "{{ openssh_package }}"

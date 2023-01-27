@@ -1,3 +1,5 @@
+---
+
 - name: Unattended upgrades | install unattended-upgrades for debian-based hosts
   package:
     state: latest

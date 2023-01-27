@@ -1,3 +1,5 @@
+---
+
 - name: System setup | logging | adjust retention period
   lineinfile:
     dest: "/etc/systemd/journald.conf"

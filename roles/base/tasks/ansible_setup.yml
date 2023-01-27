@@ -1,3 +1,5 @@
+---
+
 - name: Ansible setup | ensure ansible is the latest version
   package:
     name: ansible

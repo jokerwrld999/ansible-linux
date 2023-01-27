@@ -1,3 +1,5 @@
+---
+
 - name: System setup | clock | install systemd-timesyncd (ubuntu)
   package:
     name: systemd-timesyncd

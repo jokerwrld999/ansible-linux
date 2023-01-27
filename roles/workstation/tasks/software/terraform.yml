@@ -1,3 +1,5 @@
+---
+
 - name: Software | terraform | install snap
   become_user: root
   snap:
