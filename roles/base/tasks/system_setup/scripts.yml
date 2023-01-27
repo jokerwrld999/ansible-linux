@@ -1,0 +1,16 @@
+- name: System setup | scripts | copy image_prep.sh script
+  copy:
+    src: system_setup/image_prep.sh
+    dest: /usr/local/bin/image_prep.sh
+    owner: root
+    group: root
+    mode: 0755
+
+- name: System setup | scripts | copy pi_cpu_temp.py script
+  copy:
+    src: system_setup/pi_cpu_temp.py
+    dest: /usr/local/bin/cpu_temp
+    owner: root
+    group: root
+    mode: 0755
+  when: ansible_architecture == "aarch64"

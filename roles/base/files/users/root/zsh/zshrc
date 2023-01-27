@@ -1,0 +1,20 @@
+source ~/.zsh/aliases.zsh
+source ~/.zsh/bindkey.zsh
+source ~/.zsh/completion.zsh
+source ~/.zsh/exports.zsh
+source ~/.zsh/functions.zsh
+source ~/.zsh/history.zsh
+source ~/.zsh/path.zsh
+source ~/.zsh/plugins.zsh
+source ~/.zsh/prompt.zsh
+source ~/.zsh/setopt.zsh
+source ~/.zsh/theming.zsh
+
+# ZSH p10k Theme
+[[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh
+
+# ZSH Plugins
+source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+source /usr/share/autojump/autojump.zsh 2>/dev/null

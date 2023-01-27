@@ -1,0 +1,45 @@
+# **** Installing Chrome | Debian-based
+- name: Software | google-chrome | add repository key
+  become_user: root
+  apt_key:
+    url: "https://dl-ssl.google.com/linux/linux_signing_key.pub"
+    state: present
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+- name: Software | google-chrome | add repository
+  become_user: root
+  apt_repository:
+    repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
+    filename: google-chrome
+    state: present
+  register: chrome_repo_debian
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+- name: Software | google-chrome | install package
+  become_user: root
+  apt:
+    name: google-chrome-stable
+    state: latest
+    update_cache: true
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+# **** Installing Chrome | Fedora
+- name: Software | google-chrome | add repository
+  become_user: root
+  command: dnf config-manager --set-enabled google-chrome
+  register: chrome_repo_fedora
+  when: ansible_distribution == "Fedora"
+
+- name: Software | google-chrome | install package
+  become_user: root
+  dnf:
+    name: google-chrome-stable
+    state: latest
+  when: ansible_distribution == "Fedora"
+
+# **** Installing Chrome | Arch-based
+- name: Software | google-chrome | install package
+  kewlfft.aur.aur:
+    use: yay
+    name: google-chrome
+  when: ansible_distribution == "Archlinux"

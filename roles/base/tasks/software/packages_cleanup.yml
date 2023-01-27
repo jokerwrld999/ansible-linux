@@ -1,0 +1,9 @@
+- name: System setup | package cleanup | remove unneeded packages (debian, ubuntu, etc)
+  package:
+    state: absent
+    name:
+      - cowsay
+      - exim4
+      - exim4-base
+      - exim4-config
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]

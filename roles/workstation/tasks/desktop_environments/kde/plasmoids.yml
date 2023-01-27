@@ -1,0 +1,79 @@
+# **** Plasma Customization Saver
+- name: Plasmoids | custom user | clone plasma saver
+  git:
+    repo: https://github.com/paju1986/PlasmaConfSaver.git
+    dest: "{{ tmp_dir }}/PlasmaConfSaver"
+    force: yes
+  
+- name: Plasmoids | custom user | install plasma saver
+  shell: kpackagetool5 -i . || kpackagetool5 -u .
+  args:
+    chdir: "{{ tmp_dir }}/PlasmaConfSaver/com.pajuelo.plasmaConfSaver/"
+
+# **** Latte Spacer
+- name: Plasmoids | custom user | clone latte spacer
+  git:
+    repo: https://github.com/psifidotos/applet-latte-spacer.git
+    dest: "{{ tmp_dir }}/applet-latte-spacer"
+    force: yes
+  
+- name: Plasmoids | custom user | install latte spacer
+  shell: kpackagetool5 -i . || kpackagetool5 -u .
+  args:
+    chdir: "{{ tmp_dir }}/applet-latte-spacer/"
+
+  # **** Better Inline Clock
+- name: Plasmoids | custom user | clone better inline clock
+  git:
+    repo: https://github.com/MarianArlt/kde-plasmoid-betterinlineclock.git
+    dest: "{{ tmp_dir }}/kde-plasmoid-betterinlineclock"
+    force: yes
+
+- name: Plasmoids | custom user | install better inline clock
+  shell: kpackagetool5 -i . || kpackagetool5 -u .
+  args:
+    chdir: "{{ tmp_dir }}/kde-plasmoid-betterinlineclock/org.kde.plasma.betterinlineclock/"
+
+ # **** Inline Battery
+- name: Plasmoids | custom user | clone inline battery
+  git:
+    repo: https://github.com/0kzh/mac-inline-battery.git
+    dest: "{{ tmp_dir }}/mac-inline-battery"
+    force: yes
+
+- name: Plasmoids | custom user | install inline battery
+  shell: kpackagetool5 -i . || kpackagetool5 -u .
+  args:
+    chdir: "{{ tmp_dir }}/mac-inline-battery/"
+
+  # **** Splash Screen
+- name: Plasmoids | custom user | clone watch_dogs splash
+  git:
+    repo: https://github.com/ferretwithaberet/watch_dogs-kde-splash.git
+    dest: "{{ tmp_dir }}/watch_dogs-kde-splash"
+    force: yes
+
+- name: Plasmoids | custom user | install watch_dogs splash
+  shell: kpackagetool5 -i . || kpackagetool5 -u .
+  args:
+    chdir: "{{ tmp_dir }}/watch_dogs-kde-splash"
+
+  # **** Systray Latte Tweaks
+- name: Plasmoids | custom user | clone latte systray tweaks
+  git:
+    repo: https://github.com/psifidotos/plasma-systray-latte-tweaks.git
+    dest: "{{ tmp_dir }}/plasma-systray-latte-tweaks"
+    force: yes
+
+- name: Plasmoids | copy latte systray tweaks files
+  copy:
+    src: "{{ tmp_dir }}/plasma-systray-latte-tweaks/{{ item.src }}"
+    dest: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0755
+    remote_src: true
+  with_items:
+    - { src: 'org.kde.plasma.systemtray' }
+    - { src: 'org.kde.plasma.private.systemtray' }
+

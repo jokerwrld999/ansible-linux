@@ -1,0 +1,7 @@
+- name:  Software | desktop | install desktop packages
+  become_user: root
+  package:
+    state: latest
+    name:
+      - flameshot
+      - telegram-desktop

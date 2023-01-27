@@ -1,0 +1,30 @@
+- name: Ansible setup | ensure ansible is the latest version
+  package:
+    name: ansible
+    state: latest
+
+- name: Ansible setup | install required packages
+  package:
+    name:
+      - "{{ dconf_package }}"
+      - "{{ python_psutil_package }}"
+
+# Note: For Arch, the requirement is met by a dependency of systemd, only necessary on Debian-based
+- name: Ansible setup | install acl package
+  package:
+    name: acl
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+- name: Ansible setup | create ansible log file
+  file:
+    path: /var/log/ansible.log
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0664
+    state: touch
+  changed_when: False
+
+- name: Ansible setup | remove default ansible directory (/etc/ansible) from host
+  file:
+    path: /etc/ansible
+    state: absent

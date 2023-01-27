@@ -1,0 +1,164 @@
+# **** Installing Theme Packages | Debian-based
+- name: Software | theme | install packages
+  become_user: root
+  apt:
+    name:
+      - gtk2-engines-murrine 
+      - sassc 
+      - qt5-style-kvantum 
+      - qt5-style-kvantum-themes
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+# **** Installing Theme Packages | Fedora
+- name: Software | theme | install packages
+  become_user: root
+  dnf:
+    name:
+      - gtk-murrine-engine 
+      - sassc 
+      - kvantum
+  when: ansible_distribution == "Fedora"
+
+# **** Installing Theme Packages | Arch-based
+- name: Software | theme | install packages
+  become_user: root
+  pacman:
+    name: 
+      - gtk-engine-murrine 
+      - sassc 
+      - kvantum-qt5
+  when: ansible_distribution == "Archlinux"
+
+  # **** Orchis KDE Theme
+- name: Software | theme | clone orchis-theme
+  git:
+    repo: https://github.com/vinceliuice/Orchis-theme.git
+    dest: "{{ tmp_dir }}/Orchis-theme"
+    force: yes
+
+- name: Software | theme | install orchis-theme
+  shell: ./install.sh
+  args:
+    chdir: "{{ tmp_dir }}/Orchis-theme/"
+
+#- name: Software | theme | change desktop theme
+#  command: plasma-apply-desktoptheme Orchis-dark -platform offscreen
+
+# **** Sevi Icon Theme
+- name: Software | theme | clone sevi icons
+  git:
+    repo: https://github.com/TaylanTatli/Sevi.git
+    dest: "{{ tmp_dir }}/Sevi"
+    force: yes
+
+- name: Software | theme | install sevi icons
+  shell: ./install.sh -black
+  args:
+    chdir: "{{ tmp_dir }}/Sevi/"
+  failed_when: false
+
+- name: Software | theme | change icons theme
+  shell: | 
+    changeicons=$(find /usr/ -name 'plasma-changeicons')
+    $changeicons Sevi-black -platform offscreen
+
+  # **** Bibata Cursors
+- name: Software | theme | install bibata cursors for user
+  unarchive:
+    src: users/custom_user/resources/cursors/Bibata-Modern-Ice.tar.gz
+    dest: "{{ item.dest }}"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0755
+  with_items:
+    - { dest: '/home/{{ custom_user }}/.icons/' }
+    #- { dest: '/usr/share/icons/' }
+
+- name: Software | theme | install bibata cursors for root
+  become_user: root
+  unarchive:
+    src: users/custom_user/resources/cursors/Bibata-Modern-Ice.tar.gz
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - { dest: '/usr/share/icons/' }
+
+- name: Software | theme | change cursor theme
+  command: plasma-apply-cursortheme Bibata-Modern-Ice -platform offscreen
+
+# **** Force Blur
+- name: Software | theme | clone force blur
+  git:
+    repo: https://github.com/esjeon/kwin-forceblur.git
+    dest: "{{ tmp_dir }}/kwin-forceblur"
+    force: yes
+
+- name: Software | theme | copy forceblur files
+  copy:
+    src: "{{ tmp_dir }}/kwin-forceblur/metadata.desktop"
+    dest: "/home/{{ custom_user }}/{{ item.dest }}"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0755
+    remote_src: true
+  with_items:
+    - { dest: '.local/share/kwin/scripts/forceblur/' }
+    - { dest: '.local/share/kservices5/forceblur.desktop' }
+
+# **** SDDM
+- name: Software | theme | clone swish sddm
+  git:
+    repo: https://github.com/icaho/Swish.git
+    dest: "{{ tmp_dir }}/Swish"
+    force: yes
+
+- name: Software | theme | make a dirictory
+  file:
+    path: /etc/sddm.conf.d/
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become_user: root
+
+- name: Software | theme | copy swish sddm
+  copy:
+    src: "{{ tmp_dir }}/Swish"
+    dest: /usr/share/sddm/themes/
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: true
+  become_user: root
+
+- name: Software | theme | copy a kde_settings
+  copy:
+    src: users/custom_user/resources/sddm/kde_settings.conf
+    dest: /etc/sddm.conf.d/
+    owner: root
+    group: root
+    mode: 0755
+  become_user: root
+
+# **** Restore Backup
+- name: Software | theme | clone force blur
+  git:
+    repo: https://github.com/jokerwrld999/plasma-backup.git
+    dest: "{{ tmp_dir }}/plasma-backup"
+    force: yes
+
+- name: Software | theme | copy forceblur files
+  copy:
+    src: "{{ tmp_dir }}/plasma-backup/{{ item.src }}"
+    dest: "/home/{{ custom_user }}/{{ item.dest }}"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0755
+    remote_src: true
+  with_items:
+    - { src: 'plasmaConfSaver', dest: '.config/' }
+    - { src: 'fonts', dest: '.local/share/' }
+  notify: Update fonts
+

@@ -1,0 +1,37 @@
+# **** Installing KDE Packages | Debian-based
+- name: Software | kde | install package
+  become_user: root
+  apt:
+    name: kde-plasma-desktop
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+  notify: 
+    - Reconfigure display_manager
+    - Disable kdewallet
+
+# **** Installing KDE Packages | Fedora
+- name: Software | kde | install package
+  become_user: root
+  dnf:
+    name: "@kde-desktop"
+  when: ansible_distribution == "Fedora"
+  notify:
+    - Stop gdm
+    - Start sddm
+    - Start NetworkManager
+    - Disable kdewallet
+
+# **** Installing KDE Packages | Arch-based
+- name: Software | kde | install package
+  become_user: root
+  pacman:
+    name:
+      - plasma 
+      - plasma-wayland-session 
+      - kde-applications
+  when: ansible_distribution == "Archlinux"
+  notify:
+    - Stop gdm
+    - Start sddm
+    - Start NetworkManager
+    - Disable kdewallet
+

@@ -1,0 +1,48 @@
+# **** Installing VS Code | Debian-based
+- name: Software | vs_code | add repository key
+  become_user: root
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+- name: Software | vs_code | add repository
+  become_user: root
+  apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+    state: present
+    filename: vs-code
+  register: vs_code_repo_debian
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+- name: Software | vs_code | install package
+  become_user: root
+  apt:
+    name: code
+    state: latest
+    update_cache: true
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+# **** Installing VS Code | Fedora
+- name: Software | vs_code | add repository and key
+  become_user: root
+  ansible.builtin.yum_repository:
+    name: vs_code
+    description: Vs Code repo
+    baseurl: https://packages.microsoft.com/yumrepos/vscode
+    gpgcheck: yes
+    gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+  when: ansible_distribution == "Fedora"
+
+- name: Software | vs_code | install package
+  become_user: root
+  dnf:
+    name: code
+  when: ansible_distribution == "Fedora"
+
+# **** Installing VS Code | Arch-based
+- name: Software | vs_code | install package
+  kewlfft.aur.aur:
+    use: yay
+    name: visual-studio-code-bin
+  when: ansible_distribution == "Archlinux"

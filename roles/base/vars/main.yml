@@ -1,0 +1,22 @@
+---
+# Base Role Configuration
+
+# provision
+branch: master
+
+# ssh
+ansible_cron_minute: "*/5"
+ssh_port: 22
+ssh_users: "{{ custom_user }} jokerwrld"
+
+# platform-specific
+microcode_intel_install: true
+microcode_amd_install: false
+proxmox_instance: false
+
+# user
+custom_user: jokerwrld
+custom_user_passwd: $6$7pBJdaOrm.iB9vGI$Swk3nCORRyvKw1gBN4pC7GiF1J.cb/AuZC0A8nTrrKNia1JBvu3B27Tud.BPCl.OyPVA0yhJQE6b6eEcCgCcz/
+
+# Encrypt Password
+# python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'

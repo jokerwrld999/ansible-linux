@@ -1,0 +1,89 @@
+# **** Installing Flatpak Package 
+- name: System setup | tweaks | add flatpak support
+  become_user: root
+  package:
+    name: flatpak
+    state: present
+
+- name: System setup | tweaks | flatpak | add flathub remote
+  flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    method: user
+    state: present
+
+# **** Installing Snap Package
+- name: System setup | tweaks | install snapd
+  become_user: root
+  package:
+    name: snapd
+    state: latest
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "Fedora"]
+
+# **** Installing Snap Package | Arch-based
+- name: System setup | tweaks | install snapd
+  kewlfft.aur.aur:
+    use: yay
+    name: snapd
+  when: ansible_distribution == "Archlinux"
+
+- name: System setup | tweaks | Create ln snap
+  become_user: root
+  file:
+    src: /var/lib/snapd/snap 
+    dest: /snap
+    owner: root
+    group: root
+    state: link
+  when: ansible_distribution != "Ubuntu"
+
+# **** Installing Snap Core Package 
+- name: System setup | tweaks | install/update core snap
+  become_user: root
+  snap:
+    name:  core
+    state: present
+
+# **** Distro-specific Tasks For Arch
+# **** Installing AUR Helper Package
+- name: System setup | tweaks | install/update yay
+  kewlfft.aur.aur:
+    use: makepkg
+    name: yay-git
+    local_pkgbuild: /opt/yay-git
+  when: ansible_distribution == "Archlinux"
+  
+- name: System setup | tweaks | install xorg (archlinux)
+  become_user: root
+  package:
+    name: xorg-server
+  when: ansible_distribution == "Archlinux"
+
+- name: System setup | tweaks | install nvidia gpu packages (arch)
+  become_user: root
+  package:
+    name:
+      - nvidia
+      - nvidia-lts
+      - nvidia-utils
+  when:
+    - ansible_distribution == "Archlinux"
+    - gpu is defined
+    - gpu == "nvidia"
+
+# **** Distro-specific Tasks For Ubuntu
+- name: System setup | tweaks | disable apport in config on ubuntu-based hosts
+  lineinfile:
+    dest: /etc/default/apport
+    regexp: "enabled="
+    line: "enabled=0"
+  failed_when: false
+  when: ansible_distribution in ["Pop!_OS", "Ubuntu"]
+
+- name: System setup | tweaks | disable and stop apport service on ubuntu-based hosts
+  service:
+    name: apport
+    enabled: no
+    state: stopped
+  failed_when: false
+  when: ansible_distribution in ["Pop!_OS", "Ubuntu"]

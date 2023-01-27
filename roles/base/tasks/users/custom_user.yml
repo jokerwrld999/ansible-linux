@@ -1,0 +1,111 @@
+- name: Users | custom user | create group
+  group:
+    name: "{{ custom_user }}"
+    state: present
+
+- name: Users | custom user | create user
+  user:
+    name: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    groups: "{{ custom_user }},{{ sudo_group }}"
+    state: present
+    password: "{{ custom_user_passwd }}"
+    update_password: on_create
+    shell: /bin/zsh
+
+- name: Users | custom user | add sudoers file
+  copy:
+    src: "users/sudoers_custom_user"
+    dest: "/etc/sudoers.d/sudoers_{{ custom_user }}"
+    owner: root
+    group: root
+    mode: 0440
+  register: sudoers_file
+
+- name: Users | custom user | change sudoers file
+  lineinfile:
+    dest: "/etc/sudoers.d/sudoers_{{ custom_user }}"
+    regexp: "^custom_user"
+    line: "{{ custom_user }} ALL=(ALL) NOPASSWD: ALL"
+
+- name: Users | custom user | add public key
+  become_user: "{{ custom_user }}"
+  shell: "wget -O - https://github.com/jokerwrld999.keys | sudo tee -a /home/{{ custom_user }}/.ssh/authorized_keys"
+
+- name: Users | custom user | create config directories
+  file:
+    path: "/home/{{ custom_user }}/{{ item.dir }}"
+    state: directory
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0700
+  with_items:
+    - { dir: '.bash' }
+    - { dir: '.config' }
+    - { dir: '.config/htop' }
+    - { dir: 'github' }
+    - { dir: '.vim' }
+    - { dir: '.vim/autoload' }
+    - { dir: '.vim/bundle' }
+    - { dir: '.vim/colors' }
+    - { dir: '.vim/ftplugin' }
+    - { dir: '.zsh' }
+
+- name: Users | custom user | copy dotfiles
+  copy:
+    src: "users/custom_user/{{ item.src }}"
+    dest: "/home/{{ custom_user }}/{{ item.dest }}"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0600
+  with_items:
+    - { src: 'bash/bash_aliases', dest: '.bash/bash_aliases' }
+    - { src: 'bash/bash_profile', dest: '.bash_profile' }
+    - { src: 'bash/bash_prompt', dest: '.bash/bash_prompt' }
+    - { src: 'bash/bash_functions', dest: '.bash/bash_functions' }
+    - { src: 'bash/bashrc', dest: '.bashrc' }
+    - { src: 'bash/profile', dest: '.profile' }
+    - { src: 'git/gitconfig', dest: '.gitconfig' }
+    - { src: 'htop/htoprc', dest: '.config/htop/htoprc' }
+    - { src: 'inputrc', dest: '.inputrc' }
+    - { src: 'zsh/zshrc', dest: '.zshrc' }
+    - { src: 'zsh/p10k.zsh', dest: '.zsh/.p10k.zsh' }
+
+
+- name: Users | custom user | clone zsh-autosuggestions plugin repository
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+    dest: "/home/{{ custom_user }}/.zsh/zsh-autosuggestions"
+    force: yes
+
+- name: Users | custom user | clone zsh-syntax-highlighting plugin repository
+  git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: "/home/{{ custom_user }}/.zsh/zsh-syntax-highlighting"
+    force: yes
+
+- name: Users | custom user | clone powerlevel10k plugin repository
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "/home/{{ custom_user }}/.zsh/powerlevel10k"
+    force: yes
+
+- name: Users | custom user | copy individual zsh config files
+  copy:
+    src: "users/custom_user/zsh/{{ item.src }}"
+    dest: "/home/{{ custom_user }}/.zsh/{{ item.src }}"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0600
+  with_items:
+    - { src: 'aliases.zsh' }
+    - { src: 'bindkey.zsh' }
+    - { src: 'completion.zsh' }
+    - { src: 'exports.zsh' }
+    - { src: 'functions.zsh' }
+    - { src: 'history.zsh' }
+    - { src: 'path.zsh' }
+    - { src: 'plugins.zsh' }
+    - { src: 'prompt.zsh' }
+    - { src: 'setopt.zsh' }
+    - { src: 'theming.zsh' }

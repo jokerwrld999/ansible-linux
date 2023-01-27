@@ -1,0 +1,24 @@
+- name: Software | virtual_desktop_bar | clone repository
+  git:
+    repo: https://github.com/wsdfhjxc/virtual-desktop-bar.git
+    dest: "{{ tmp_dir }}/virtual-desktop-bar"
+    force: yes
+
+- name: Software | virtual_desktop_bar | install dependencies debian-based
+  become_user: root
+  shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-dependencies-ubuntu.sh"
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+- name: Software | virtual_desktop_bar | install dependencies fedora
+  become_user: root
+  shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-dependencies-fedora.sh"
+  when: ansible_distribution == "Fedora"
+
+- name: Software | virtual_desktop_bar | install dependencies arch-based
+  become_user: root
+  shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-dependencies-arch.sh"
+  when: ansible_distribution == "Archlinux"
+
+- name: Software | virtual_desktop_bar | install applet
+  become_user: root
+  shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-applet.sh"

@@ -1,0 +1,5 @@
+- name: System setup | pip packages | install bpytop
+  pip:
+    executable: /usr/bin/pip3
+    state: latest
+    name: bpytop

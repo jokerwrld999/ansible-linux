@@ -1,0 +1,5 @@
+- name: Software | vlc | install package
+  become_user: root
+  snap:
+    name:  vlc
+    state: present

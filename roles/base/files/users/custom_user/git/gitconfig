@@ -1,0 +1,3 @@
+[user]
+	email = ifalaleev49@gmail.com
+	name = "{{ custom_user }}"999

@@ -1,0 +1,80 @@
+- name: Users | root | ensure account is locked
+  user:
+    name: root
+    password_lock: yes
+
+- name: Users | root | create config directories
+  file:
+    path: /home/root/{{ item.dir }}
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  with_items:
+    - { dir: '.bash' }
+    - { dir: '.config' }
+    - { dir: '.config/htop' }
+    - { dir: '.vim' }
+    - { dir: '.vim/autoload' }
+    - { dir: '.vim/bundle' }
+    - { dir: '.vim/colors' }
+    - { dir: '.vim/ftplugin' }
+    - { dir: '.zsh' }
+
+- name: Users | root | copy dotfiles
+  copy:
+    src: users/root/{{ item.src }}
+    dest: /home/root/{{ item.dest }}
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    - { src: 'bash/bash_aliases', dest: '.bash/bash_aliases' }
+    - { src: 'bash/bash_profile', dest: '.bash_profile' }
+    - { src: 'bash/bash_prompt', dest: '.bash/bash_prompt' }
+    - { src: 'bash/bash_functions', dest: '.bash/bash_functions' }
+    - { src: 'bash/bashrc', dest: '.bashrc' }
+    - { src: 'bash/profile', dest: '.profile' }
+    - { src: 'htop/htoprc', dest: '.config/htop/htoprc' }
+    - { src: 'inputrc', dest: '.inputrc' }
+    - { src: 'zsh/zshrc', dest: '.zshrc' }
+    - { src: 'zsh/p10k.zsh', dest: '.zsh/.p10k.zsh' }
+
+
+- name: Users | root | clone zsh-autosuggestions plugin repository
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+    dest: /home/root/.zsh/zsh-autosuggestions
+    force: yes
+
+- name: Users | root | clone zsh-syntax-highlighting plugin repository
+  git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: /home/root/.zsh/zsh-syntax-highlighting
+    force: yes
+
+- name: Users | root | clone powerlevel10k plugin repository
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: /home/root/.zsh/powerlevel10k
+    force: yes
+
+- name: Users | root | copy individual zsh config files
+  copy:
+    src: users/root/zsh/{{ item.src }}
+    dest: /home/root/.zsh/{{ item.src }}
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    - { src: 'aliases.zsh' }
+    - { src: 'bindkey.zsh' }
+    - { src: 'completion.zsh' }
+    - { src: 'exports.zsh' }
+    - { src: 'functions.zsh' }
+    - { src: 'history.zsh' }
+    - { src: 'path.zsh' }
+    - { src: 'plugins.zsh' }
+    - { src: 'prompt.zsh' }
+    - { src: 'setopt.zsh' }
+    - { src: 'theming.zsh' }

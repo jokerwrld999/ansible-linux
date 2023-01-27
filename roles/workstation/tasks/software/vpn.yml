@@ -1,0 +1,27 @@
+# **** Installing VPN Packages | Debian-based
+- name: Software | vpn | install package
+  become_user: root
+  apt:
+    name:
+      - strongswan
+      - network-manager-strongswan 
+      - libcharon-extra-plugins
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+# **** Installing VPN Packages | Fedora
+- name: Software | vpn | install package
+  become_user: root
+  dnf:
+    name:
+      - strongswan
+      - NetworkManager-strongswan 
+  when: ansible_distribution == "Fedora"
+
+# **** Installing VPN Packages | Arch-based
+- name: Software | vpn | install package
+  become_user: root
+  pacman:
+    name: 
+      - strongswan 
+      - networkmanager-strongswan
+  when: ansible_distribution == "Archlinux"

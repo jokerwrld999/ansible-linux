@@ -1,0 +1,33 @@
+---
+- name: System setup | utilities | install utility packages
+  package:
+    name:
+      - zsh
+      - autojump
+      - colordiff
+      - curl
+      - "{{ dns_utils_package }}"
+      - "{{ github_cli }}"
+      - htop
+      - lsof
+      - ncdu
+      - neofetch
+      - net-tools
+      - "{{ nfs_client_package }}"
+      - nmap
+      - "{{ rename_package }}"
+      - rsync
+      - sshfs
+      - tldr
+      - traceroute
+      - tree
+      - wget
+      - whois
+
+- name: System setup | utilities | install utility packages (arch)
+  pacman:
+    name:
+      - man-db
+      - man-pages
+      - github-cli
+  when: ansible_distribution == "Archlinux"
