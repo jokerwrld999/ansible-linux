@@ -1,4 +1,5 @@
 ---
+
 - name: Send completion notification via telegram
   tags: always
   telegram:
