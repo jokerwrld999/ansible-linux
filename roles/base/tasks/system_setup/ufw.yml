@@ -4,7 +4,11 @@
   package:
     name:
       - ufw
-  notify: enable_ufw
+
+- name: System setup | ufw | ufw enable
+  ufw:
+    state: enabled
+  when: ansible_distribution in ['Debian', 'Ubuntu']
 
 - name: System setup | ufw-docker | get ufw-docker
   shell:  wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker

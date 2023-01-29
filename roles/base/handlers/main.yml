@@ -1,4 +1,5 @@
 ---
+
 - name: apt_update
   apt: update_cache=yes
 
@@ -6,9 +7,3 @@
   service:
     name: "{{ openssh_service }}"
     state: restarted
-
-- name: enable_ufw
-  service:
-    name: ufw
-    state: started
-    enabled: yes
