@@ -46,6 +46,7 @@
     - { dir: '.config' }
     - { dir: '.config/htop' }
     - { dir: 'github' }
+    - { dir: 'tmp' }
     - { dir: '.vim' }
     - { dir: '.vim/autoload' }
     - { dir: '.vim/bundle' }

@@ -1,0 +1,18 @@
+---
+
+- name: System setup | docker | curl docker script
+  command: curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+
+- name: System setup | docker | install docker
+  shell: /tmp/get-docker.sh
+
+- name: System setup | docker | install docker
+  user:
+    name: "{{ custom_user }}"
+    groups: docker
+    append: yes
+
+- name: System setup | docker-compose | install docker-compose
+  package:
+    name:
+      - docker-compose

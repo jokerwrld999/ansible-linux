@@ -8,8 +8,6 @@
     group: "{{ custom_user }}"
     mode: 0755
   with_items:
-    - { dir: github }
-    - { dir: tmp }
     - { dir: .config }
     - { dir: .config/autostart }
     - { dir: .config/bpytop }

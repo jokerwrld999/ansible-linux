@@ -1,0 +1,17 @@
+---
+
+- name: System setup | ufw | install ufw
+  package:
+    name:
+      - ufw
+  notify: enable_ufw
+
+- name: System setup | ufw-docker | get ufw-docker
+  shell:  wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+
+- name: System setup | ufw-docker | change ufw-docker permission
+  file:
+    path: chmod +x /usr/local/bin/ufw-docker
+    owner: root
+    group: root
+    mode: '0755'
