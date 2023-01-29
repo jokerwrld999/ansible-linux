@@ -12,10 +12,11 @@ ssh_users: "{{ custom_user }} jokerwrld"
 # platform-specific
 microcode_intel_install: true
 microcode_amd_install: false
-proxmox_instance: false
+proxmox_instance: true
 
 # user
 custom_user: jokerwrld
+tmp_dir: "/home/{{ custom_user }}/tmp"
 custom_user_passwd: $6$7pBJdaOrm.iB9vGI$Swk3nCORRyvKw1gBN4pC7GiF1J.cb/AuZC0A8nTrrKNia1JBvu3B27Tud.BPCl.OyPVA0yhJQE6b6eEcCgCcz/
 
 # Encrypt Password

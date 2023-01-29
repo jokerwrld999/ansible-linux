@@ -11,7 +11,7 @@
 
 - name: System setup | ufw-docker | change ufw-docker permission
   file:
-    path: chmod +x /usr/local/bin/ufw-docker
+    path: /usr/local/bin/ufw-docker
     owner: root
     group: root
     mode: '0755'

@@ -54,6 +54,11 @@
     - { dir: '.vim/ftplugin' }
     - { dir: '.zsh' }
 
+- name: Users | custom user | install zsh
+  package:
+    name:
+      - zsh
+
 - name: Users | custom user | copy dotfiles
   copy:
     src: "users/custom_user/{{ item.src }}"
