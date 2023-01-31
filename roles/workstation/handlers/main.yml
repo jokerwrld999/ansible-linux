@@ -1,36 +1,8 @@
 ---
 
-- name: update_xdg
-  command: /usr/bin/xdg-user-dirs-update
-
-- name: enable_gnome_extensions
-  include_tasks: handlers/enable_gnome_extensions.yml
-
 - name: Reconfigure display_manager
   command: dpkg-reconfigure gdm
-
-- name: Stop gdm
-  service:
-    name: gdm
-    state: stopped
-    enable: false
-
-- name: Start sddm
-  service:
-    name: sddm
-    state: started
-    enable: true
-
-- name: Start NetworkManager
-  service:
-    name: NetworkManager
-    state: started
-    enabled: yes
 
 - name: Update fonts
   command: fc-cache -vf
 
-- name: Disable kdewallet
-  shell: |
-    kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'Enabled' 'false'
-    kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'First Use' 'false'

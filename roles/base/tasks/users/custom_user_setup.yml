@@ -4,6 +4,7 @@
   group:
     name: "{{ custom_user }}"
     state: present
+  register: custom_user
 
 - name: Users | custom user | create user
   user:
@@ -14,6 +15,7 @@
     password: "{{ custom_user_passwd }}"
     update_password: on_create
     shell: /bin/zsh
+  when: custom_user.changed
 
 - name: Users | custom user | stat sudoers file
   stat:
@@ -40,5 +42,3 @@
 - name: Users | custom user | add public key
   become_user: "{{ custom_user }}"
   shell: "wget -O - https://github.com/jokerwrld999.keys | sudo tee -a /home/{{ custom_user }}/.ssh/authorized_keys"
-
-

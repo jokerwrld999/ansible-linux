@@ -6,7 +6,6 @@
   command: "curl -fsSL https://get.docker.com -o {{ tmp_dir }}/get-docker.sh"
   when: ansible_lsb.id != "ManjaroLinux"
 
-
 - name: System setup | docker | change docker script permission
   file:
     path: "{{ tmp_dir }}/get-docker.sh"
@@ -18,21 +17,30 @@
   become_user: "{{ custom_user }}"
   shell: "{{ tmp_dir }}/get-docker.sh"
   when: ansible_lsb.id != "ManjaroLinux"
+  register: docker_script_installed
 
 - name: System setup | docker | install docker
   package:
     name:
       - docker
   when: ansible_lsb.id == "ManjaroLinux"
+  register: docker_installed
 
 - name: System setup | docker | add user to docker group
   user:
     name: "{{ custom_user }}"
     groups: docker
     append: yes
+  when: docker_script_installed.changed or docker_installed.changed
 
 - name: System setup | docker-compose | install docker-compose
   package:
     name:
       - docker-compose
 
+- name: System setup | docker | start docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
+    

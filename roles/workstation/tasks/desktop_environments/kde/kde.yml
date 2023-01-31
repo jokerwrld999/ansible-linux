@@ -8,7 +8,6 @@
   when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
   notify: 
     - Reconfigure display_manager
-    - Disable kdewallet
 
 # **** Installing KDE Packages | Fedora
 - name: Software | kde | install package
@@ -16,11 +15,6 @@
   dnf:
     name: "@kde-desktop"
   when: ansible_distribution == "Fedora"
-  notify:
-    - Stop gdm
-    - Start sddm
-    - Start NetworkManager
-    - Disable kdewallet
 
 # **** Installing KDE Packages | Arch-based
 - name: Software | kde | install package
@@ -31,8 +25,29 @@
       - plasma-wayland-session 
       - kde-applications
   when: ansible_distribution == "Archlinux"
-  notify:
-    - Stop gdm
-    - Start sddm
-    - Start NetworkManager
-    - Disable kdewallet
+  
+- name: Software | kde | stop gdm
+  service:
+    name: gdm
+    state: stopped
+    enable: false
+  when: ansible_distribution in ["Archlinux", "Fedora"]
+
+- name: Software | kde | start sddm
+  service:
+    name: sddm
+    state: started
+    enable: true
+  when: ansible_distribution in ["Archlinux", "Fedora"]
+
+- name: Software | kde | start NetworkManager
+  service:
+    name: NetworkManager
+    state: started
+    enabled: yes
+  when: ansible_distribution in ["Archlinux", "Fedora"]
+
+- name: Software | kde | disable kdewallet
+  shell: |
+    kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'Enabled' 'false'
+    kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'First Use' 'false'

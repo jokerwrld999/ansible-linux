@@ -20,15 +20,6 @@
     - { dir: .local/share/kwin/scripts/forceblur }
     - { dir: .icons }
 
-- name: Users | custom user | copy user-dirs.dirs
-  copy:
-    src: users/custom_user/user-dirs.dirs
-    dest: "/home/{{ custom_user }}/.config/user-dirs.dirs"
-    owner: "{{ custom_user }}"
-    group: "{{ custom_user }}"
-    mode: 0600
-  notify: update_xdg
-
 - name: Users | custom user | copy personal config files
   copy:
     src: "users/custom_user/{{ item.src }}"
@@ -40,12 +31,3 @@
     - { src: 'bpytop.conf', dest: '.config/bpytop/bpytop.conf' }
     - { src: 'resources/splash_screen/ksplashrc', dest: '.config' }
     - { src: 'resources/walls', dest: '/.local/share/wallpapers/' }
-
-#- name: Users | custom user | copy profile image
-#  copy:
-#    src: "users/custom_user/profile_image.png"
-#    dest: "/var/lib/AccountsService/icons/{{ custom_user }}.png"
-#    owner: root
-#    group: root
-#    mode: 0644
-#  become_user: root
