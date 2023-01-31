@@ -26,28 +26,39 @@
       - kde-applications
   when: ansible_distribution == "Archlinux"
   
-- name: Software | kde | stop gdm
+- name: Software | kde services | stat gdm service
+  stat: 
+    path: /etc/init.d/gdm
+  register: gdm_service_status
+
+- name: Software | kde services | stop gdm
   service:
     name: gdm
     state: stopped
-    enable: false
-  when: ansible_distribution in ["Archlinux", "Fedora"]
+    enabled: false
+  when: ansible_distribution in ["Archlinux", "Fedora"] and gdm_service_status.stat.exists
 
-- name: Software | kde | start sddm
+- name: Software | kde services | start sddm
   service:
     name: sddm
     state: started
-    enable: true
+    enabled: true
   when: ansible_distribution in ["Archlinux", "Fedora"]
 
-- name: Software | kde | start NetworkManager
+- name: Software | kde services | start NetworkManager
   service:
     name: NetworkManager
     state: started
     enabled: yes
   when: ansible_distribution in ["Archlinux", "Fedora"]
 
-- name: Software | kde | disable kdewallet
+- name: Software | kde services | stat kdewallet config
+  command: "grep -Fxq 'Enabled=true' /home/{{ custom_user }}/.config/kwalletrc"
+  failed_when: false
+  register: kdewallet_conf
+
+- name: Software | kde services | disable kwallet
   shell: |
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'Enabled' 'false'
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'First Use' 'false'
+  when: kdewallet_conf.rc == 0
