@@ -4,4 +4,4 @@
 
 [workstation]
 localhost ansible_connection=local
-#192.168.1.6
+192.168.1.6
