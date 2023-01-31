@@ -14,9 +14,10 @@
       when: ansible_distribution in ["Debian", "Ubuntu"]
     
     - name: Pre-run | update package cache (fedora)
-      dnf: 
+      dnf:
         update_only: yes
-        update_cache: yes
+        name: "*"
+        state: latest
       changed_when: False
       when: ansible_distribution == "Fedora"
 
@@ -53,6 +54,13 @@
       autoremove: yes
       purge: yes
     when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+  - name: Cleanup package cache (fedora)
+    tags: always
+    dnf:
+      autoremove: yes
+    #changed_when: false
+    when: ansible_distribution == "Fedora"
 
   - name: Send completion alert
     include_tasks: playbooks/send_completion_alert.yml

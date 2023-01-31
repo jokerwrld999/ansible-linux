@@ -14,7 +14,6 @@
     repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
     state: present
     filename: vs-code
-  register: vs_code_repo_debian
   when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
 
 - name: Software | vs_code | install package

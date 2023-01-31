@@ -43,10 +43,12 @@
   shell: ./install.sh
   args:
     chdir: "{{ tmp_dir }}/Orchis-theme/"
+  register: orchis_theme_installed
   when: orchis_theme.changed
 
-#- name: Software | theme | change desktop theme
-#  command: plasma-apply-desktoptheme Orchis-dark -platform offscreen
+- name: Software | theme | change desktop theme
+  command: plasma-apply-desktoptheme Orchis-dark -platform offscreen
+  when: orchis_theme_installed.changed
 
 # **** Sevi Icon Theme
 - name: Software | theme | clone sevi icons
@@ -61,13 +63,14 @@
   args:
     chdir: "{{ tmp_dir }}/Sevi/"
   failed_when: false
+  register: sevi_icons_installed
   when: sevi_icons.changed
 
 - name: Software | theme | change icons
   shell: | 
     changeicons=$(find /usr/ -name 'plasma-changeicons')
     $changeicons Sevi-black -platform offscreen
-  when: sevi_icons.changed
+  when: sevi_icons_installed.changed
 
   # **** Bibata Cursors
 - name: Software | theme | install bibata cursors for user
@@ -91,10 +94,12 @@
     mode: 0755
   with_items:
     - { dest: '/usr/share/icons/' }
+  register: bibata_cursors_installed
+  when: bibata_cursors.changed
 
 - name: Software | theme | change cursor theme
   command: plasma-apply-cursortheme Bibata-Modern-Ice -platform offscreen
-  when: bibata_cursors.changed
+  when: bibata_cursors_installed.changed
 
 # **** Force Blur
 - name: Software | theme | clone force blur

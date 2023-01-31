@@ -25,7 +25,13 @@
       - plasma-wayland-session 
       - kde-applications
   when: ansible_distribution == "Archlinux"
-  
+
+- name: Change default target to graphical.target
+  file:
+    src: /usr/lib/systemd/system/graphical.target
+    dest: /etc/systemd/system/default.target
+    state: link
+
 - name: Software | kde services | stat gdm service
   stat: 
     path: /etc/init.d/gdm

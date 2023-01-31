@@ -14,7 +14,6 @@
     repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
     filename: google-chrome
     state: present
-  register: chrome_repo_debian
   when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
 
 - name: Software | google-chrome | install package
@@ -28,8 +27,20 @@
 # **** Installing Chrome | Fedora
 - name: Software | google-chrome | add repository
   become_user: root
-  command: dnf config-manager --set-enabled google-chrome
-  register: chrome_repo_fedora
+  rpm_key:
+    key: https://dl.google.com/linux/linux_signing_key.pub
+    state: present
+  when: ansible_distribution == "Fedora"
+
+- name: Add repository into repo.d list
+  become_user: root
+  yum_repository:
+    name: google-chrome
+    description: google-chrome repository
+    baseurl: http://dl.google.com/linux/chrome/rpm/stable/x86_64
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://dl.google.com/linux/linux_signing_key.pub
   when: ansible_distribution == "Fedora"
 
 - name: Software | google-chrome | install package
