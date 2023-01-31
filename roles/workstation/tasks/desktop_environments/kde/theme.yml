@@ -37,11 +37,13 @@
     repo: https://github.com/vinceliuice/Orchis-theme.git
     dest: "{{ tmp_dir }}/Orchis-theme"
     force: yes
+  register: orchis_theme
 
 - name: Software | theme | install orchis-theme
   shell: ./install.sh
   args:
     chdir: "{{ tmp_dir }}/Orchis-theme/"
+  when: orchis_theme.changed
 
 #- name: Software | theme | change desktop theme
 #  command: plasma-apply-desktoptheme Orchis-dark -platform offscreen
@@ -52,17 +54,20 @@
     repo: https://github.com/TaylanTatli/Sevi.git
     dest: "{{ tmp_dir }}/Sevi"
     force: yes
+  register: sevi_icons
 
 - name: Software | theme | install sevi icons
   shell: ./install.sh -black
   args:
     chdir: "{{ tmp_dir }}/Sevi/"
   failed_when: false
+  when: sevi_icons.changed
 
-- name: Software | theme | change icons theme
+- name: Software | theme | change icons
   shell: | 
     changeicons=$(find /usr/ -name 'plasma-changeicons')
     $changeicons Sevi-black -platform offscreen
+  when: sevi_icons.changed
 
   # **** Bibata Cursors
 - name: Software | theme | install bibata cursors for user
@@ -74,7 +79,7 @@
     mode: 0755
   with_items:
     - { dest: '/home/{{ custom_user }}/.icons/' }
-    #- { dest: '/usr/share/icons/' }
+  register: bibata_cursors
 
 - name: Software | theme | install bibata cursors for root
   become_user: root
@@ -89,6 +94,7 @@
 
 - name: Software | theme | change cursor theme
   command: plasma-apply-cursortheme Bibata-Modern-Ice -platform offscreen
+  when: bibata_cursors.changed
 
 # **** Force Blur
 - name: Software | theme | clone force blur
@@ -115,17 +121,19 @@
     repo: https://github.com/icaho/Swish.git
     dest: "{{ tmp_dir }}/Swish"
     force: yes
+  register: swish_sddm
 
 - name: Software | theme | make a dirictory
+  become_user: root
   file:
     path: /etc/sddm.conf.d/
     state: directory
     owner: root
     group: root
     mode: 0755
-  become_user: root
 
 - name: Software | theme | copy swish sddm
+  become_user: root
   copy:
     src: "{{ tmp_dir }}/Swish"
     dest: /usr/share/sddm/themes/
@@ -133,16 +141,16 @@
     group: root
     mode: 0755
     remote_src: true
-  become_user: root
+  when: swish_sddm.changed
 
 - name: Software | theme | copy a kde_settings
+  become_user: root
   copy:
     src: users/custom_user/resources/sddm/kde_settings.conf
     dest: /etc/sddm.conf.d/
     owner: root
     group: root
     mode: 0755
-  become_user: root
 
 # **** Restore Backup
 - name: Software | theme | clone force blur

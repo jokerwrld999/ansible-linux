@@ -5,22 +5,24 @@
     repo: https://github.com/wsdfhjxc/virtual-desktop-bar.git
     dest: "{{ tmp_dir }}/virtual-desktop-bar"
     force: yes
+  register: virtual_desktop_bar
 
 - name: Software | virtual_desktop_bar | install dependencies debian-based
   become_user: root
   shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-dependencies-ubuntu.sh"
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"] and virtual_desktop_bar.changed
 
 - name: Software | virtual_desktop_bar | install dependencies fedora
   become_user: root
   shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-dependencies-fedora.sh"
-  when: ansible_distribution == "Fedora"
+  when: ansible_distribution == "Fedora" and virtual_desktop_bar.changed
 
 - name: Software | virtual_desktop_bar | install dependencies arch-based
   become_user: root
   shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-dependencies-arch.sh"
-  when: ansible_distribution == "Archlinux"
+  when: ansible_distribution == "Archlinux" and virtual_desktop_bar.changed
 
 - name: Software | virtual_desktop_bar | install applet
   become_user: root
   shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-applet.sh"
+  when: virtual_desktop_bar.changed
