@@ -4,24 +4,36 @@
   become: true
   become_user: "{{ custom_user }}"
   command: "curl -fsSL https://get.docker.com -o {{ tmp_dir }}/get-docker.sh"
+  when: ansible_destribution != "Manjaro"
+
 
 - name: System setup | docker | change docker script permission
   file:
     path: "{{ tmp_dir }}/get-docker.sh"
     mode: '0755'
+  when: ansible_destribution != "Manjaro"
 
 - name: System setup | docker | install docker
   become: true
   become_user: "{{ custom_user }}"
   shell: "{{ tmp_dir }}/get-docker.sh"
+  when: ansible_destribution != "Manjaro"
 
+- name: System setup | docker-compose | install docker-compose
+  package:
+    name:
+      - docker
+  when: ansible_destribution == "Manjaro"
+  
 - name: System setup | docker | add user to docker group
   user:
     name: "{{ custom_user }}"
     groups: docker
     append: yes
+  when: ansible_destribution != "Manjaro"
 
 - name: System setup | docker-compose | install docker-compose
   package:
     name:
       - docker-compose
+
