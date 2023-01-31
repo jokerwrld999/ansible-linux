@@ -13,18 +13,18 @@
     mode: '0755'
   when: ansible_destribution != "Manjaro"
 
-- name: System setup | docker | install docker
+- name: System setup | docker | install docker script
   become: true
   become_user: "{{ custom_user }}"
   shell: "{{ tmp_dir }}/get-docker.sh"
   when: ansible_destribution != "Manjaro"
 
-- name: System setup | docker-compose | install docker-compose
+- name: System setup | docker | install docker
   package:
     name:
       - docker
   when: ansible_destribution == "Manjaro"
-  
+
 - name: System setup | docker | add user to docker group
   user:
     name: "{{ custom_user }}"

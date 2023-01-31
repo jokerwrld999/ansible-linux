@@ -1,39 +1,5 @@
 ---
 
-- name: Users | custom user | create group
-  group:
-    name: "{{ custom_user }}"
-    state: present
-
-- name: Users | custom user | create user
-  user:
-    name: "{{ custom_user }}"
-    group: "{{ custom_user }}"
-    groups: "{{ custom_user }},{{ sudo_group }}"
-    state: present
-    password: "{{ custom_user_passwd }}"
-    update_password: on_create
-    shell: /bin/zsh
-
-- name: Users | custom user | add sudoers file
-  copy:
-    src: "users/sudoers_custom_user"
-    dest: "/etc/sudoers.d/sudoers_{{ custom_user }}"
-    owner: root
-    group: root
-    mode: 0440
-  register: sudoers_file
-
-- name: Users | custom user | change sudoers file
-  lineinfile:
-    dest: "/etc/sudoers.d/sudoers_{{ custom_user }}"
-    regexp: "^custom_user"
-    line: "{{ custom_user }} ALL=(ALL) NOPASSWD: ALL"
-
-- name: Users | custom user | add public key
-  become_user: "{{ custom_user }}"
-  shell: "wget -O - https://github.com/jokerwrld999.keys | sudo tee -a /home/{{ custom_user }}/.ssh/authorized_keys"
-
 - name: Users | custom user | create config directories
   file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"

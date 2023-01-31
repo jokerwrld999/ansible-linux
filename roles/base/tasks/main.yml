@@ -4,7 +4,8 @@
 
 - block:
   # Make sure users exist on the system
-  - import_tasks: users/custom_user.yml
+  - import_tasks: users/custom_user_setup.yml
+  - import_tasks: users/custom_user_config.yml
   - import_tasks: users/root.yml
 
   # Set up the ansible environment
