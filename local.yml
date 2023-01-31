@@ -43,8 +43,11 @@
 - hosts: all
   become: true
   tasks:
+  - name: Cleanup packages (arch)
+    shell: yes | pacman -Scc
+    when: ansible_distribution == "Archlinux"
+
   - name: Cleanup package cache (debian and ubuntu)
-    tags: always
     apt:
       autoclean: yes
     changed_when: false
@@ -57,12 +60,10 @@
     when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
 
   - name: Cleanup package cache (fedora)
-    tags: always
     dnf:
       autoremove: yes
-    #changed_when: false
     when: ansible_distribution == "Fedora"
-
+  
   - name: Send completion alert
     include_tasks: playbooks/send_completion_alert.yml
     when:
