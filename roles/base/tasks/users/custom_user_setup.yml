@@ -40,5 +40,6 @@
   when: new_sudoers_file.changed
   
 - name: Users | custom user | add public key
-  become_user: "{{ custom_user }}"
-  shell: "wget -O - https://github.com/jokerwrld999.keys | sudo tee -a /home/{{ custom_user }}/.ssh/authorized_keys"
+  shell: "wget -O - https://github.com/jokerwrld999.keys | tee -a /home/{{ custom_user }}/.ssh/authorized_keys"
+  args:
+    executable: /bin/bash
