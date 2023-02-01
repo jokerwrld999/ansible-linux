@@ -3,7 +3,6 @@
 - name: System setup | development packages | install packages
   package:
     name:
-      - git
       - perl
       - "{{ python_flake8_package }}"
       - "{{ python_package }}"

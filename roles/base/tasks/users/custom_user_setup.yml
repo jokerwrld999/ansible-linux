@@ -1,15 +1,15 @@
 ---
 
-- name: Users | custom user | install zsh
+- name: Users | custom user | install base pkgs
   package:
     name:
       - zsh
+      - git
 
 - name: Users | custom user | create group
   group:
     name: "{{ custom_user }}"
     state: present
-  register: custom_user_group
 
 - name: Users | custom user | create user
   user:
@@ -20,7 +20,6 @@
     password: "{{ custom_user_passwd }}"
     update_password: on_create
     shell: /bin/zsh
-  when: custom_user_group.changed
 
 - name: Users | custom user | stat sudoers file
   stat:
@@ -55,3 +54,4 @@
   args:
     executable: /bin/bash
   when: authorized_keys.stat.exists == false
+  

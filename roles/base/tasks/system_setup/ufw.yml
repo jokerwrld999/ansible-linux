@@ -17,9 +17,14 @@
     name: OpenSSH
   when: ansible_distribution in ['Debian', 'Ubuntu']
 
+- name: Software | ufw-docker | stat ufw-docker script
+  stat: 
+    path: "/usr/local/bin/ufw-docker"
+  register: ufw_docker
+
 - name: System setup | ufw-docker | get ufw-docker
   shell:  wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
-  when: ansible_distribution in ['Debian', 'Ubuntu']
+  when: ansible_distribution in ['Debian', 'Ubuntu'] and ufw_docker.stat.exists == false
 
 - name: System setup | ufw-docker | change ufw-docker permission
   file:
