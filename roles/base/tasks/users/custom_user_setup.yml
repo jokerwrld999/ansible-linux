@@ -1,5 +1,10 @@
 ---
 
+- name: Users | custom user | install zsh
+  package:
+    name:
+      - zsh
+
 - name: Users | custom user | create group
   group:
     name: "{{ custom_user }}"
