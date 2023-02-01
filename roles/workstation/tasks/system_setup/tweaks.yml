@@ -61,17 +61,6 @@
     name: xorg-server
   when: ansible_distribution == "Archlinux"
 
-- name: System setup | tweaks | install nvidia gpu packages (arch)
-  become_user: root
-  package:
-    name:
-      - nvidia
-      - nvidia-utils
-  when:
-    - ansible_distribution == "Archlinux"
-    - gpu is defined
-    - gpu == "nvidia"
-
 # **** Distro-specific Tasks For Ubuntu
 - name: System setup | tweaks | disable apport in config on ubuntu-based hosts
   lineinfile:

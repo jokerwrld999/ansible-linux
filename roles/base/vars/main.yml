@@ -12,7 +12,6 @@ ssh_users: "{{ custom_user }} jokerwrld"
 # platform-specific
 microcode_intel_install: true
 microcode_amd_install: false
-proxmox_instance: false
 
 # user
 custom_user: jokerwrld

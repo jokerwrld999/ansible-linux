@@ -1,9 +1,6 @@
 ---
 # Workstation Role Configuration
 
-# platform-specific
-gpu: "nvidia"
-
 # user
 custom_user: jokerwrld
 tmp_dir: "/home/{{ custom_user }}/tmp"

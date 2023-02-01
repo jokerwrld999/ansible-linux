@@ -2,3 +2,4 @@
 
 # server
 unattended_upgrades: true
+proxmox_instance: true
