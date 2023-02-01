@@ -1,5 +1,10 @@
 ---
 
+- name: Users | custom user | install zsh
+  package:
+    name:
+      - zsh
+
 - name: Users | custom user | create config directories
   file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
@@ -19,11 +24,6 @@
     - { dir: '.vim/colors' }
     - { dir: '.vim/ftplugin' }
     - { dir: '.zsh' }
-
-- name: Users | custom user | install zsh
-  package:
-    name:
-      - zsh
 
 - name: Users | custom user | copy dotfiles
   copy:
@@ -47,6 +47,7 @@
 
 
 - name: Users | custom user | clone zsh-autosuggestions plugin repository
+  become_user: "{{ custom_user }}"
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
     dest: "/home/{{ custom_user }}/.zsh/zsh-autosuggestions"
@@ -54,12 +55,14 @@
     force: yes
 
 - name: Users | custom user | clone zsh-syntax-highlighting plugin repository
+  become_user: "{{ custom_user }}"
   git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
     dest: "/home/{{ custom_user }}/.zsh/zsh-syntax-highlighting"
     force: yes
 
 - name: Users | custom user | clone powerlevel10k plugin repository
+  become_user: "{{ custom_user }}"
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
     dest: "/home/{{ custom_user }}/.zsh/powerlevel10k"

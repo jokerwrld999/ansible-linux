@@ -4,11 +4,7 @@
   apt: 
     update_cache: true
     cache_valid_time: 3600
-
-- name: Release upgrade | Upgrade all packages to the latest version
-  apt: 
-    name: "*"
-    state: latest
+    upgrade: 'yes'
   register: upgrade
 
 - name: Release upgrade | Reboot the server.
