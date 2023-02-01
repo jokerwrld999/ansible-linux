@@ -7,7 +7,7 @@ branch: master
 # ssh
 ansible_cron_minute: "*/5"
 ssh_port: 22
-ssh_users: "{{ custom_user }} jokerwrld"
+ssh_users: "{{ custom_user }}"
 
 # platform-specific
 microcode_intel_install: true

@@ -50,6 +50,7 @@
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
     dest: "/home/{{ custom_user }}/.zsh/zsh-autosuggestions"
+    update: yes
     force: yes
 
 - name: Users | custom user | clone zsh-syntax-highlighting plugin repository

@@ -1,10 +1,5 @@
 ---
 
-- name: Users | root | ensure account is locked
-  user:
-    name: root
-    password_lock: yes
-
 - name: Users | root | create config directories
   file:
     path: /home/root/{{ item.dir }}

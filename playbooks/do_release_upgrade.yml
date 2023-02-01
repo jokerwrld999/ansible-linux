@@ -9,7 +9,6 @@
     - /run/motd.dynamic
 
 - name: Release upgrade | Upgrade all packages to the latest version
-  become_user: root
   apt: 
     update_cache: true
     cache_valid_time: 3600
@@ -21,7 +20,10 @@
   when: upgrade.changed
 
 - name: Release upgrade | Ensure update-manager-core is installed.
-  apt: name=update-manager-core state=present
+  apt: 
+    name: 
+      update-manager-core 
+    state: present
 
 - name: Release upgrade | Run do-release-upgrade non-interactively.
   command: do-release-upgrade -f DistUpgradeViewNonInteractive
@@ -30,4 +32,4 @@
 
 - name: Release upgrade | Reboot the server.
   reboot:
-  when: release_upgrade.stdout is not search('no development version')
+  when: release_upgrade.changed or release_upgrade.stdout is not search('no development version')
