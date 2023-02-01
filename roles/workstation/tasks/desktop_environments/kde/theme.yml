@@ -157,14 +157,7 @@
     group: root
     mode: 0755
 
-# **** Restore Backup
-- name: Software | theme | clone force blur
-  git:
-    repo: https://github.com/jokerwrld999/plasma-backup.git
-    dest: "{{ tmp_dir }}/plasma-backup"
-    force: yes
-
-- name: Software | theme | copy forceblur files
+- name: Software | theme | copy plasma files
   copy:
     src: "{{ tmp_dir }}/plasma-backup/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"

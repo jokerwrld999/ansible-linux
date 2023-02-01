@@ -87,3 +87,19 @@
     - { src: 'prompt.zsh' }
     - { src: 'setopt.zsh' }
     - { src: 'theming.zsh' }
+
+- name: Users | custom user | clone backups
+  become_user: "{{ custom_user }}"
+  git:
+    repo: https://github.com/jokerwrld999/plasma-backup.git
+    dest: "{{ tmp_dir }}/plasma-backup"
+    force: yes
+
+- name: Users | custom user | copy plasma files
+  copy:
+    src: "{{ tmp_dir }}/plasma-backup/fonts"
+    dest: "/home/{{ custom_user }}/.local/share/"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0755
+    #remote_src: true
