@@ -8,7 +8,7 @@
 - name: Release upgrade | Remove apt lock file
   file:
     state: absent
-    path: "/var/lib/dpkg/lock"
+    path: "/var/lib/dpkg/lock-frontend"
 
 - name: Release upgrade | Upgrade all packages to the latest version
   apt:
