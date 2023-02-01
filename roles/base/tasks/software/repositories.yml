@@ -34,6 +34,7 @@
   stat: 
     path: "/etc/yum.repos.d/rpmfusion-free.repo"
   register: rpmfusion_repos
+  when: ansible_distribution == "Fedora"
 
 - name: System setup | repositories | install repositories (fedora)
   shell: |

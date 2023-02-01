@@ -1,18 +1,14 @@
 ---
 
-- name: Release upgrade | Remove the EOL message of the day if one exists.
-  file:
-    path: "{{ item }}"
-    state: absent
-  with_items:
-    - /etc/update-motd.d/99-esm
-    - /run/motd.dynamic
-
 - name: Release upgrade | Upgrade all packages to the latest version
   apt: 
     update_cache: true
     cache_valid_time: 3600
-    upgrade: 'yes'
+
+- name: Release upgrade | Upgrade all packages to the latest version
+  apt: 
+    name: "*"
+    state: latest
   register: upgrade
 
 - name: Release upgrade | Reboot the server.
@@ -32,4 +28,4 @@
 
 - name: Release upgrade | Reboot the server.
   reboot:
-  when: release_upgrade.changed or release_upgrade.stdout is not search('no development version')
+  when: release_upgrade.stdout is not search('no development version')

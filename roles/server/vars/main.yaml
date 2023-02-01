@@ -1,5 +1,5 @@
 ---
 
 # server
-unattended_upgrades: true
-proxmox_instance: true
+unattended_upgrades: false
+proxmox_instance: false
