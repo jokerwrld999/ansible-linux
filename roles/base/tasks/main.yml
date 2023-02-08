@@ -12,6 +12,7 @@
   - import_tasks: ansible_setup.yml
 
   # install software
+  - import_tasks: software/tweaks.yml
   - import_tasks: software/repositories.yml
   - import_tasks: software/packages_development.yml
   - import_tasks: software/packages_docker.yml

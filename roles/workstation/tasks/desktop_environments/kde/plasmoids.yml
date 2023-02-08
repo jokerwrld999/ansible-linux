@@ -56,6 +56,22 @@
     chdir: "{{ tmp_dir }}/mac-inline-battery/"
   when: inline_battery.changed
 
+ # **** Thermal Monitor
+- name: Software | theme | extract thermal monitor
+  unarchive:
+    src: users/custom_user/resources/plasmoids/org.kde.thermalMonitorFix.tar.gz
+    dest: "{{ tmp_dir }}"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0755
+  register: thermal_monitor
+
+- name: Plasmoids | custom user | install thermal monitor
+  shell: kpackagetool5 -i . || kpackagetool5 -u .
+  args:
+    chdir: "{{ tmp_dir }}/org.kde.thermalMonitorFix/"
+  when: thermal_monitor.changed
+
   # **** Splash Screen
 - name: Plasmoids | custom user | clone watch_dogs splash
   git:

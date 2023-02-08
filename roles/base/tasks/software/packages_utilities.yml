@@ -9,6 +9,7 @@
       - "{{ dns_utils_package }}"
       - "{{ github_cli }}"
       - htop
+      - "{{ lm_sensors_package }}"
       - lsof
       - ncdu
       - neofetch
@@ -18,6 +19,7 @@
       - "{{ rename_package }}"
       - rsync
       - sshfs
+      - "{{ system_guard }}"
       - tldr
       - traceroute
       - tree

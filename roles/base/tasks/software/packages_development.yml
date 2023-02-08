@@ -14,3 +14,9 @@
       - "{{ ruby_rake_package }}"
       - tig
     state: latest
+
+- name: System setup | development packages | install kubectl
+  become_user: root
+  snap:
+    name:  kubectl
+    classic: true
