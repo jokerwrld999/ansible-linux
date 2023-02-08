@@ -38,3 +38,5 @@ bindkey -e
 bindkey '^H' backward-kill-word
 bindkey '5~' kill-word
 bindkey '^[[3~' delete-char
+bindkey 'C' forward-word
+bindkey 'D' backward-word
