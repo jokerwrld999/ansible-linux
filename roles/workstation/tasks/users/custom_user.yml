@@ -1,5 +1,21 @@
 ---
 
+- name: Users | custom user | stat .config folder
+  stat: 
+    path: "/home/{{ custom_user }}/.config"
+  register: config_dir
+
+- name: Users | custom user | create config directories
+  file:
+    path: "/home/{{ custom_user }}/{{ item.dir }}"
+    state: directory
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0700
+  with_items:
+    - { dir: '.config' }
+  when: config_dir.stat.exists == false
+
 - name: Users | custom user | create personal config directories
   file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
@@ -8,7 +24,6 @@
     group: "{{ custom_user }}"
     mode: 0755
   with_items:
-    - { dir: .config }
     - { dir: .config/autostart }
     - { dir: .config/bpytop }
     - { dir: .config/gtk-3.0 }

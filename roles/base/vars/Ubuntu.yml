@@ -18,5 +18,5 @@ python_virtualenv_package: python3-virtualenv
 rename_package: rename
 ruby_rake_package: rake
 sudo_group: sudo
-system_guard: ksysguard
+system_guard: ksystemstats
 github_cli: gh
