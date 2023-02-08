@@ -1,6 +1,6 @@
 ---
 
-- name:  Software | desktop | install desktop packages
+- name:  Software | flameshot | install package
   become_user: root
   package:
     state: latest
