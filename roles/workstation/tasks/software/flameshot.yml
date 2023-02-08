@@ -6,4 +6,3 @@
     state: latest
     name:
       - flameshot
-      - telegram-desktop
