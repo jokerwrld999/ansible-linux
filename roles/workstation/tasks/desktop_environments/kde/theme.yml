@@ -32,6 +32,21 @@
   when: ansible_distribution == "Archlinux"
 
   # **** Orchis KDE Theme
+- name: Software | theme | clone orchis-kde
+  git:
+    repo: https://github.com/vinceliuice/Orchis-kde.git
+    dest: "{{ tmp_dir }}/Orchis-kde"
+    force: yes
+  register: orchis_kde
+
+- name: Software | theme | install orchis-kde
+  shell: ./install.sh
+  args:
+    chdir: "{{ tmp_dir }}/Orchis-kde/"
+  #register: orchis_kde_installed
+  when: orchis_kde.changed
+
+  # **** Orchis Theme
 - name: Software | theme | clone orchis-theme
   git:
     repo: https://github.com/vinceliuice/Orchis-theme.git

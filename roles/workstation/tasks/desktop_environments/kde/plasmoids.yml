@@ -100,7 +100,6 @@
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
     mode: 0755
-    remote_src: true
   with_items:
     - { src: 'org.kde.plasma.systemtray' }
     - { src: 'org.kde.plasma.private.systemtray' }

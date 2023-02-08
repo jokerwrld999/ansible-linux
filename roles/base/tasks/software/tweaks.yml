@@ -39,7 +39,7 @@
     state: link
   when: ansible_distribution != "Ubuntu"
 
-# **** Installing Snap Core Package 
+# **** Installing Snap Core Package
 - name: System setup | tweaks | install/update core snap
   become_user: root
   snap:
@@ -48,11 +48,18 @@
 
 # **** Distro-specific Tasks For Arch
 # **** Installing AUR Helper Package
+- name: System setup | tweaks | clone yay-git
+  git:
+    repo: https://aur.archlinux.org/yay.git
+    dest: /opt/yay
+    force: yes
+  when: ansible_distribution == "Archlinux"
+
 - name: System setup | tweaks | install/update yay
   kewlfft.aur.aur:
     use: makepkg
-    name: yay-git
-    local_pkgbuild: /opt/yay-git
+    name: yay
+    local_pkgbuild: /opt/yay
   when: ansible_distribution == "Archlinux"
   
 - name: System setup | tweaks | install xorg (archlinux)
