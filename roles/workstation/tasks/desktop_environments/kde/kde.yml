@@ -50,6 +50,7 @@
     name: sddm
     state: started
     enabled: true
+  failed_when: false
   when: ansible_distribution in ["Archlinux", "Fedora"]
 
 - name: Software | kde services | start NetworkManager

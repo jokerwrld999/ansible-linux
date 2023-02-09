@@ -33,6 +33,7 @@
     - { dir: '.vim/bundle' }
     - { dir: '.vim/colors' }
     - { dir: '.vim/ftplugin' }
+    - { dir: '.ssh' }
     - { dir: '.zsh' }
 
 - name: Users | custom user | copy dotfiles
@@ -125,3 +126,15 @@
     group: "{{ custom_user }}"
     mode: 0755
     #remote_src: true
+
+- name: Users | custom user | stat authorized_keys file
+  stat:
+    path: "/home/{{ custom_user }}/.ssh/authorized_keys"
+  register: authorized_keys
+
+- name: Users | custom user | add public key
+  become_user: "{{ custom_user }}"
+  shell: "wget -O - https://github.com/jokerwrld999.keys | tee -a /home/{{ custom_user }}/.ssh/authorized_keys"
+  args:
+    executable: /bin/bash
+  when: authorized_keys.stat.exists == false
