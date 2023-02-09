@@ -5,7 +5,7 @@
     state: latest
     name:
       - unattended-upgrades
-  when: ansible_distribution in ['Debian', "Pop!_OS", "Ubuntu", "elementary OS"]
+  when: ansible_distribution in ['Debian', "Ubuntu"]
 
 - name: Unattended upgrades | copy 20auto-upgrades file for debian-based hosts
   copy:
@@ -14,7 +14,7 @@
     owner: root
     group: root
     mode: 0644
-  when: ansible_distribution in ['Debian', "Pop!_OS", "Ubuntu", "elementary OS"]
+  when: ansible_distribution in ['Debian', "Ubuntu"]
 
 - name: Unattended upgrades | copy 50unattended-upgrades file (debian)
   copy:
@@ -32,5 +32,5 @@
     owner: root
     group: root
     mode: 0644
-  when: ansible_distribution in ["Pop!_OS", "Ubuntu", "elementary OS"]
+  when: ansible_distribution == "Ubuntu"
   

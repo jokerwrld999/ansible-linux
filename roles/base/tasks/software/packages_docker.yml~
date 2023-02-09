@@ -11,6 +11,7 @@
   command: "curl -fsSL https://get.docker.com -o {{ tmp_dir }}/get-docker.sh"
   failed_when: false
   when: docker_script.stat.exists == false
+  register: docker_script_pulled
 
 - name: System setup | docker | change docker script permission
   file:
@@ -24,7 +25,7 @@
   shell: "{{ tmp_dir }}/get-docker.sh"
   failed_when: false
   register: docker_script_installed
-
+  when: docker_script_pulled.changed
 
 - name: System setup | docker | install docker
   package:

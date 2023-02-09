@@ -64,7 +64,7 @@
   register: autojump_repo
 
 - name: Users | custom user | install autojump
-  shell: ./install.py
+  shell: python3 ./install.py
   args:
     chdir: "/home/{{ custom_user }}/tmp/autojump/"
   when: autojump_repo.changed

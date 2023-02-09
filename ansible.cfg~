@@ -1,7 +1,0 @@
-[defaults]
-inventory = inventory
-private_key_file = ~/.ssh/ansible
-collections_paths = ./collections
-vault_password_file = ~/.vault_pass
-retry_files_enabled = false
-deprecation_warnings = false
