@@ -1,5 +1,7 @@
 ---
+
 - name: restart_qemu_agent
   service:
     name: "{{ qemu_agent_service }}"
     state: restarted
+    

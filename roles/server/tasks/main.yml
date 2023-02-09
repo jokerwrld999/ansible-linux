@@ -8,10 +8,11 @@
 
   - include_tasks: unattended_upgrades.yml
     when:
-      - ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+      - ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
       - unattended_upgrades is defined
       - unattended_upgrades == true
 
   rescue:
     - set_fact: task_failed=true
+    
 

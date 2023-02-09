@@ -4,3 +4,4 @@
 # user
 custom_user: jokerwrld
 tmp_dir: "/home/{{ custom_user }}/tmp"
+

@@ -12,7 +12,7 @@
 
     - name: Pre-run | update package cache (debian, etc)
       include_tasks: playbooks/do_release_upgrade.yml
-      when: ansible_distribution in ["Debian", "Ubuntu"]
+      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
     
     - name: Pre-run | update package cache (fedora)
       dnf:
@@ -51,13 +51,13 @@
     apt:
       autoclean: yes
     changed_when: false
-    when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+    when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
 
   - name: Autoremove orphan packages (debian and ubuntu)
     apt:
       autoremove: yes
       purge: yes
-    when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+    when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
 
   - name: Cleanup package cache (fedora)
     dnf:
@@ -74,3 +74,4 @@
     when:
       - task_failed is defined
       - task_failed == true
+      

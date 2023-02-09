@@ -14,7 +14,7 @@
 - name: Ansible setup | install acl package
   package:
     name: acl
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
 
 - name: Ansible setup | create ansible log file
   file:

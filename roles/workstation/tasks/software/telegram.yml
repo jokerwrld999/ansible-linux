@@ -4,3 +4,4 @@
   become_user: root
   snap:
     name:  telegram-desktop
+    

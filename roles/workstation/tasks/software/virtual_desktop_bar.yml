@@ -10,7 +10,7 @@
 - name: Software | virtual_desktop_bar | install dependencies debian-based
   become_user: root
   shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-dependencies-ubuntu.sh"
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"] and virtual_desktop_bar.changed
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"] and virtual_desktop_bar.changed
 
 - name: Software | virtual_desktop_bar | install dependencies fedora
   become_user: root
@@ -26,3 +26,4 @@
   become_user: root
   shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-applet.sh"
   when: virtual_desktop_bar.changed
+  

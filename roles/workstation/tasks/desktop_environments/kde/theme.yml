@@ -9,7 +9,7 @@
       - sassc 
       - qt5-style-kvantum 
       - qt5-style-kvantum-themes
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
 
 # **** Installing Theme Packages | Fedora
 - name: Software | theme | install packages
@@ -185,3 +185,4 @@
     - { src: 'fonts', dest: '.local/share/' }
     - { src: 'konsole', dest: '.local/share/' }
   notify: Update fonts
+  

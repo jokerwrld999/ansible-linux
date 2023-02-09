@@ -28,7 +28,7 @@
       - aptitude
       - software-properties-common
     state: latest
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
 
 - name: System setup | repositories | stat rpmfusion repos
   stat: 

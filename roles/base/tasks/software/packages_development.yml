@@ -20,3 +20,4 @@
   snap:
     name:  kubectl
     classic: true
+    

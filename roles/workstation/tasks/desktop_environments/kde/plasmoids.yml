@@ -103,3 +103,4 @@
   with_items:
     - { src: 'org.kde.plasma.systemtray' }
     - { src: 'org.kde.plasma.private.systemtray' }
+    

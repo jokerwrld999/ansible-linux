@@ -5,7 +5,7 @@
   become_user: root
   apt:
     name: kde-plasma-desktop
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
   notify: 
     - Reconfigure display_manager
 
@@ -69,3 +69,4 @@
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'Enabled' 'false'
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'First Use' 'false'
   when: kdewallet_conf.rc == 0
+  

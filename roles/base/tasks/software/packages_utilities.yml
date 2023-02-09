@@ -32,3 +32,4 @@
       - man-pages
       - github-cli
   when: ansible_distribution == "Archlinux"
+  

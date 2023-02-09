@@ -31,3 +31,4 @@
 
   rescue:
     - set_fact: task_failed=true
+    

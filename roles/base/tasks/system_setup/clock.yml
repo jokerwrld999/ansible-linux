@@ -4,7 +4,7 @@
   package:
     name: systemd-timesyncd
     state: latest
-  when: ansible_distribution in ["Pop!_OS", "Ubuntu"]
+  when: ansible_distribution in ["Pop!_OS", "Ubuntu", "elementary OS"]
 
 # Currently systemd-timesyncd for debian is available only in buster-backports
 - name: System setup | clock | install systemd-timesyncd (debian)
@@ -23,3 +23,4 @@
 - name: System setup | clock | set time zone
   timezone:
     name: "Europe/Kiev"
+    

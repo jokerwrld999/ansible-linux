@@ -4,18 +4,18 @@
   package:
     name:
       - ufw
-  when: ansible_distribution in ['Debian', 'Ubuntu']
+  when: ansible_distribution in ['Debian', "Pop!_OS", "Ubuntu", "elementary OS"]
 
 - name: System setup | ufw | ufw enable
   ufw:
     state: enabled
-  when: ansible_distribution in ['Debian', 'Ubuntu']
+  when: ansible_distribution in ['Debian', "Pop!_OS", "Ubuntu", "elementary OS"]
 
 - name: System setup | ufw | ufw alow OpenSSH
   ufw:
     rule: allow
     name: OpenSSH
-  when: ansible_distribution in ['Debian', 'Ubuntu']
+  when: ansible_distribution in ['Debian', "Pop!_OS", "Ubuntu", "elementary OS"]
 
 - name: Software | ufw-docker | stat ufw-docker script
   stat: 
@@ -24,7 +24,7 @@
 
 - name: System setup | ufw-docker | get ufw-docker
   shell:  wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
-  when: ansible_distribution in ['Debian', 'Ubuntu'] and ufw_docker.stat.exists == false
+  when: ansible_distribution in ['Debian', "Pop!_OS", "Ubuntu", "elementary OS"] and ufw_docker.stat.exists == false
 
 - name: System setup | ufw-docker | change ufw-docker permission
   file:
@@ -32,4 +32,5 @@
     owner: root
     group: root
     mode: '0755'
-  when: ansible_distribution in ['Debian', 'Ubuntu']
+  when: ansible_distribution in ['Debian', "Pop!_OS", "Ubuntu", "elementary OS"]
+  

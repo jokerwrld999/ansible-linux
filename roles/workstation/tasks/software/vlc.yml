@@ -5,3 +5,4 @@
   snap:
     name:  vlc
     state: present
+    

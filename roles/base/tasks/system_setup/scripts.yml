@@ -16,3 +16,4 @@
     group: root
     mode: 0755
   when: ansible_architecture == "aarch64"
+  

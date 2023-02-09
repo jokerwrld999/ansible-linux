@@ -46,3 +46,4 @@
     - { src: 'bpytop.conf', dest: '.config/bpytop/bpytop.conf' }
     - { src: 'resources/splash_screen/ksplashrc', dest: '.config' }
     - { src: 'resources/walls', dest: '/.local/share/wallpapers/' }
+    
