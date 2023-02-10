@@ -117,6 +117,7 @@
 
 # **** SDDM
 - name: Software | theme | clone swish sddm
+  become_user: root
   git:
     repo: https://github.com/icaho/Swish.git
     dest: "{{ tmp_dir }}/Swish"

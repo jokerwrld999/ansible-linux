@@ -40,14 +40,14 @@
   register: gdm_service_status
 
 - name: Software | kde services | stop gdm
-  service:
+  systemd:
     name: gdm
     state: stopped
     enabled: false
   when: ansible_distribution in ["Archlinux", "Fedora"] and gdm_service_status.stat.exists
 
 - name: Software | kde services | start sddm
-  service:
+  systemd:
     name: sddm
     state: started
     enabled: true
