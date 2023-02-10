@@ -1,4 +1,5 @@
 ---
+
 - block:
   ## User configs
   - import_tasks: users/custom_user.yml

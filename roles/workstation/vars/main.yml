@@ -1,7 +1,7 @@
 ---
 # Workstation Role Configuration
 
-# user
+# User
 custom_user: jokerwrld
 tmp_dir: "/home/{{ custom_user }}/tmp"
 

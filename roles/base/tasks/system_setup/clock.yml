@@ -6,11 +6,9 @@
     state: latest
   when: ansible_distribution in ["Pop!_OS", "Ubuntu", "elementary OS"]
 
-# Currently systemd-timesyncd for debian is available only in buster-backports
 - name: System setup | clock | install systemd-timesyncd (debian)
   apt:
     name: systemd-timesyncd
-    default_release: buster-backports
     state: latest
   when: ansible_distribution == "Debian"
 

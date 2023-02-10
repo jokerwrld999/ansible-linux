@@ -43,6 +43,7 @@
   args:
     chdir: "{{ tmp_dir }}/Orchis-kde/"
     creates: "/home/{{ custom_user }}/.local/share/plasma/desktoptheme/Orchis-dark"
+  register: orchis_theme_installed
 
 - name: Software | theme | apply desktop theme
   command: plasma-apply-desktoptheme Orchis-dark -platform offscreen
@@ -60,7 +61,6 @@
   args:
     chdir: "{{ tmp_dir }}/Sevi/"
     creates: "/home/{{ custom_user }}/.local/share/icons/Sevi-black"
-  #failed_when: false
   register: sevi_icons_installed
 
 - name: Software | theme | apply icons
@@ -79,6 +79,7 @@
     mode: 0755
   with_items:
     - { dest: '/home/{{ custom_user }}/.icons/' }
+  register: bibata_cursors_installed
 
 - name: Software | theme | install bibata cursors for root
   become_user: root
@@ -90,11 +91,10 @@
     mode: 0755
   with_items:
     - { dest: '/usr/share/icons/' }
-  register: bibata_cursors_installed
 
 - name: Software | theme | apply cursor theme
   command: plasma-apply-cursortheme Bibata-Modern-Ice -platform offscreen
-  when: bibata_cursors.changed
+  when: bibata_cursors_installed.changed
 
 # **** Force Blur
 - name: Software | theme | clone force blur
