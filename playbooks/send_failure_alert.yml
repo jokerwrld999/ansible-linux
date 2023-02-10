@@ -2,13 +2,12 @@
 
 - block:
   - name: Send failure notification via telegram
-    tags: always
     telegram:
       token: "{{ telegram_token }}"
       api_args:
         chat_id: "{{ telegram_chat_id }}"
-        msg_format: markdown
-        msg: "⚠️  Ansible provision failed on *{{ ansible_hostname }}*\n\n
+        parse_mode: "markdown"
+        text: "⚠️  Ansible provision failed on *{{ ansible_hostname }}*\n\n
           *Task*:  {{ ansible_failed_task.name }}\n
           *Action*: {{ ansible_failed_task.action }}\n
           *Error Message*: \n ```{{ ansible_failed_result | to_nice_json }}```"
@@ -16,13 +15,12 @@
 
   rescue:
     - name: Send failure notification via telegram
-      tags: always
       telegram:
         token: "{{ telegram_token }}"
         api_args:
           chat_id: "{{ telegram_chat_id }}"
-          msg_format: markdown
-          msg: "⚠️  Ansible provision failed on *{{ ansible_hostname }}*\n\n
+          parse_mode: "markdown"
+          text: "⚠️  Ansible provision failed on *{{ ansible_hostname }}*\n\n
             The specific error couldn't be shown, check the log."
       changed_when: False
 

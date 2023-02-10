@@ -10,11 +10,16 @@
     - Reconfigure display_manager
 
 # **** Installing KDE Packages | Fedora
+- name: Check if foo.rpm is installed
+  command: rpm -q foo.rpm
+  register: rpm_check
+  when: ansible_distribution == "Fedora"
+
 - name: Software | kde | install package
   become_user: root
   dnf:
-    name: "@kde-desktop"
-  when: ansible_distribution == "Fedora"
+    name: "@KDE Plasma Workspaces"
+  when: ansible_distribution == "Fedora" and rpm_check.rc == 1
 
 # **** Installing KDE Packages | Arch-based
 - name: Software | kde | install package
@@ -61,13 +66,13 @@
   when: ansible_distribution in ["Archlinux", "Fedora"]
 
 - name: Software | kde services | stat kdewallet config
-  command: "grep -Fxq 'Enabled=true' /home/{{ custom_user }}/.config/kwalletrc"
-  failed_when: false
+  stat: 
+    path: "/home/{{ custom_user }}/.config/kwalletrc"
   register: kdewallet_conf
 
 - name: Software | kde services | disable kwallet
   shell: |
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'Enabled' 'false'
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'First Use' 'false'
-  when: kdewallet_conf.rc == 0
+  when: kdewallet_conf.stat.exists == false
   

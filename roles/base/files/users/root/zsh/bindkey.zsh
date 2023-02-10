@@ -34,9 +34,8 @@ bindkey '^x^e' edit-command-line
 
 # Custom ZSH Binds
 bindkey '^@' autosuggest-accept
-bindkey -e
 bindkey '^H' backward-kill-word
-bindkey '5~' kill-word
+bindkey '^[[3;5~' kill-word
 bindkey '^[[3~' delete-char
-bindkey 'C' forward-word
-bindkey 'D' backward-word
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
