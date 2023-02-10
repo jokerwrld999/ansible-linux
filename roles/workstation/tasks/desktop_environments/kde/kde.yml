@@ -34,26 +34,19 @@
     dest: /etc/systemd/system/default.target
     state: link
 
-- name: Software | kde services | stat gdm service
-  stat: 
-    path: /etc/init.d/gdm
-  register: gdm_service_status
+#- name: Software | kde services | stat gdm service
+#  file: 
+#    path: /etc/systemd/system/display-manager.service
+#  register: gdm_service_status
 
-- name: Software | kde services | stop gdm
+- name: System setup | tweaks | Create sddm link
   become_user: root
-  systemd:
-    name: gdm
-    state: stopped
-    enabled: false
-  when: ansible_distribution in ["Archlinux", "Fedora"] and gdm_service_status.stat.exists
-
-- name: Software | kde services | start sddm
-  become_user: root
-  systemd:
-    name: sddm
-    state: started
-    enabled: true
-  failed_when: false
+  file:
+    src: /usr/lib/systemd/system/sddm.service
+    dest: /etc/systemd/system/display-manager.service
+    owner: root
+    group: root
+    state: link
   when: ansible_distribution in ["Archlinux", "Fedora"]
 
 - name: Software | kde services | start NetworkManager

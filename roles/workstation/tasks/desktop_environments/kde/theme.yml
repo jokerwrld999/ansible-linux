@@ -132,6 +132,11 @@
     group: root
     mode: 0755
 
+- name: Users | custom user | stat .config folder
+  stat: 
+    path: "/usr/share/sddm/themes/Swish"
+  register: sddm_theme
+
 - name: Software | theme | copy swish sddm
   become_user: root
   copy:
@@ -140,6 +145,7 @@
     owner: root
     group: root
     mode: 0755
+  when: sddm_theme.stat.exists == false
 
 - name: Software | theme | copy a kde_settings
   become_user: root
