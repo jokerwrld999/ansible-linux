@@ -4,16 +4,20 @@
   become: true
   pre_tasks:
     - name: Pre-run | update package cache (arch, manjaro)
-      pacman: 
+      pacman:
         update_cache: yes
         upgrade: yes
       changed_when: False
       when: ansible_distribution == "Archlinux"
 
     - name: Pre-run | update package cache (debian, etc)
-      include_tasks: playbooks/do_release_upgrade.yml
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        name: "*"
+        state: latest
       when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
-    
+
     - name: Pre-run | update package cache (fedora)
       dnf:
         update_only: yes
@@ -63,7 +67,7 @@
     dnf:
       autoremove: yes
     when: ansible_distribution == "Fedora"
-  
+
   - name: Send completion alert
     include_tasks: playbooks/send_completion_alert.yml
     when:
@@ -74,4 +78,4 @@
     when:
       - task_failed is defined
       - task_failed == true
-      
+
