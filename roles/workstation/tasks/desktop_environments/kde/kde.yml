@@ -10,16 +10,12 @@
     - Reconfigure display_manager
 
 # **** Installing KDE Packages | Fedora
-- name: Check if foo.rpm is installed
-  command: rpm -q foo.rpm
-  register: rpm_check
-  when: ansible_distribution == "Fedora"
-
 - name: Software | kde | install package
   become_user: root
   dnf:
     name: "@KDE Plasma Workspaces"
-  when: ansible_distribution == "Fedora" and rpm_check.rc == 1
+    state: latest
+  when: ansible_distribution == "Fedora"
 
 # **** Installing KDE Packages | Arch-based
 - name: Software | kde | install package
