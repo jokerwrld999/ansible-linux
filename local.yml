@@ -23,10 +23,10 @@
       when: ansible_distribution == "Fedora"
 
 # run roles
-#- hosts: all
-#  become: true
-#  roles:
-#    - base
+- hosts: all
+  become: true
+  roles:
+    - base
 
 - hosts: workstation
   become: true
