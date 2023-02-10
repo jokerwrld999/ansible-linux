@@ -137,7 +137,7 @@
     path: "/usr/share/sddm/themes/Swish"
   register: sddm_theme
 
-- name: Software | theme | copy swish sddm
+- name: Software | theme | restore swish sddm
   become_user: root
   copy:
     src: "{{ tmp_dir }}/Swish"
@@ -147,7 +147,7 @@
     mode: 0755
   when: sddm_theme.stat.exists == false
 
-- name: Software | theme | copy a kde_settings
+- name: Software | theme | restore a kde_settings
   become_user: root
   copy:
     src: users/custom_user/resources/sddm/kde_settings.conf
@@ -156,7 +156,7 @@
     group: root
     mode: 0755
 
-- name: Software | theme | copy plasma files
+- name: Software | theme | restore plasma backup
   copy:
     src: "{{ tmp_dir }}/plasma-backup/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
@@ -166,7 +166,15 @@
     remote_src: true
   with_items:
     - { src: 'plasmaConfSaver', dest: '.config/' }
-    - { src: 'fonts', dest: '.local/share/' }
     - { src: 'konsole', dest: '.local/share/' }
   notify: Update fonts
   
+- name: Software | theme | restore fonts
+  copy:
+    src: "{{ tmp_dir }}/plasma-backup/fonts"
+    dest: "/home/{{ custom_user }}/.local/share/"
+    owner: "{{ custom_user }}"
+    group: "{{ custom_user }}"
+    mode: 0755
+    remote_src: true
+  notify: Update fonts
