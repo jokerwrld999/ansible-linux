@@ -21,7 +21,6 @@
   - import_tasks: software/libreoffice.yml
   - import_tasks: software/telegram.yml
   - import_tasks: software/terraform.yml
-  - import_tasks: software/virtual_desktop_bar.yml
   - import_tasks: software/vlc.yml
   - import_tasks: software/vpn.yml
   - import_tasks: software/vs_code.yml
