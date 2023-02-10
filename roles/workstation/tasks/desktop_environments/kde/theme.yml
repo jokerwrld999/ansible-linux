@@ -167,7 +167,6 @@
   with_items:
     - { src: 'plasmaConfSaver', dest: '.config/' }
     - { src: 'konsole', dest: '.local/share/' }
-  notify: Update fonts
   
 - name: Software | theme | restore fonts
   copy:
