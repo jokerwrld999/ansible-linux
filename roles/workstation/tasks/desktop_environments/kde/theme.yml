@@ -9,7 +9,7 @@
       - sassc 
       - qt5-style-kvantum 
       - qt5-style-kvantum-themes
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # **** Installing Theme Packages | Fedora
 - name: Software | theme | install packages

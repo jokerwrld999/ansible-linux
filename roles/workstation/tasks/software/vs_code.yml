@@ -6,7 +6,7 @@
   apt_key:
     url: https://packages.microsoft.com/keys/microsoft.asc
     state: present
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | vs_code | add repository
   become_user: root
@@ -14,7 +14,7 @@
     repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
     state: present
     filename: vs-code
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | vs_code | install package
   become_user: root
@@ -22,7 +22,7 @@
     name: code
     state: latest
     update_cache: true
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # **** Installing VS Code | Fedora
 - name: Software | vs_code | add repository and key

@@ -8,7 +8,7 @@
       - strongswan
       - network-manager-strongswan 
       - libcharon-extra-plugins
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # **** Installing VPN Packages | Fedora
 - name: Software | vpn | install package

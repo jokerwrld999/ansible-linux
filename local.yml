@@ -16,7 +16,7 @@
         cache_valid_time: 3600
         name: "*"
         state: latest
-      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
+      when: ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: Pre-run | update package cache (fedora)
       dnf:
@@ -55,13 +55,13 @@
     apt:
       autoclean: yes
     changed_when: false
-    when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
+    when: ansible_distribution in ["Debian", "Ubuntu"]
 
   - name: Autoremove orphan packages (debian and ubuntu)
     apt:
       autoremove: yes
       purge: yes
-    when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
+    when: ansible_distribution in ["Debian", "Ubuntu"]
 
   - name: Cleanup package cache (fedora)
     dnf:

@@ -5,7 +5,7 @@
   become_user: root
   apt:
     name: kde-plasma-desktop
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
   notify: 
     - Reconfigure display_manager
 

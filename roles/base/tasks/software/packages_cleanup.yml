@@ -8,5 +8,5 @@
       - exim4
       - exim4-base
       - exim4-config
-  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu", "elementary OS"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
   
