@@ -6,13 +6,12 @@
     repo: https://github.com/paju1986/PlasmaConfSaver.git
     dest: "{{ tmp_dir }}/PlasmaConfSaver"
     force: yes
-  register: plasme_saver
   
 - name: Plasmoids | custom user | install plasma saver
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
     chdir: "{{ tmp_dir }}/PlasmaConfSaver/com.pajuelo.plasmaConfSaver/"
-  when: plasme_saver.changed
+    creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/com.pajuelo.plasmaConfSaver"
 
 # **** Latte Spacer
 - name: Plasmoids | custom user | clone latte spacer
@@ -20,13 +19,12 @@
     repo: https://github.com/psifidotos/applet-latte-spacer.git
     dest: "{{ tmp_dir }}/applet-latte-spacer"
     force: yes
-  register: latte_spacer
   
 - name: Plasmoids | custom user | install latte spacer
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
     chdir: "{{ tmp_dir }}/applet-latte-spacer/"
-  when: latte_spacer.changed
+    creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/org.kde.latte.spacer"
 
   # **** Better Inline Clock
 - name: Plasmoids | custom user | clone better inline clock
@@ -34,13 +32,12 @@
     repo: https://github.com/MarianArlt/kde-plasmoid-betterinlineclock.git
     dest: "{{ tmp_dir }}/kde-plasmoid-betterinlineclock"
     force: yes
-  register: inline_clock
 
 - name: Plasmoids | custom user | install better inline clock
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
     chdir: "{{ tmp_dir }}/kde-plasmoid-betterinlineclock/org.kde.plasma.betterinlineclock/"
-  when: inline_clock.changed
+    creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/org.kde.plasma.betterinlineclock"
 
  # **** Inline Battery
 - name: Plasmoids | custom user | clone inline battery
@@ -48,13 +45,12 @@
     repo: https://github.com/0kzh/mac-inline-battery.git
     dest: "{{ tmp_dir }}/mac-inline-battery"
     force: yes
-  register: inline_battery
 
 - name: Plasmoids | custom user | install inline battery
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
     chdir: "{{ tmp_dir }}/mac-inline-battery/"
-  when: inline_battery.changed
+    creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/org.kde.plasma.inlineBattery"
 
  # **** Thermal Monitor
 - name: Software | theme | extract thermal monitor
@@ -64,13 +60,12 @@
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
     mode: 0755
-  register: thermal_monitor
 
 - name: Plasmoids | custom user | install thermal monitor
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
     chdir: "{{ tmp_dir }}/org.kde.thermalMonitorFix/"
- # when: thermal_monitor.changed
+    creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/org.kde.thermalMonitorFix"
 
   # **** Splash Screen
 - name: Plasmoids | custom user | clone watch_dogs splash
@@ -78,13 +73,12 @@
     repo: https://github.com/ferretwithaberet/watch_dogs-kde-splash.git
     dest: "{{ tmp_dir }}/watch_dogs-kde-splash"
     force: yes
-  register: splash_screen
 
 - name: Plasmoids | custom user | install watch_dogs splash
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
     chdir: "{{ tmp_dir }}/watch_dogs-kde-splash"
-  when: splash_screen.changed
+    creates: "/home/{{ custom_user }}/.local/share/plasma/look-and-feel/WatchDogsBootSplash"
 
   # **** Systray Latte Tweaks
 - name: Plasmoids | custom user | clone latte systray tweaks
