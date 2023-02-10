@@ -24,6 +24,7 @@
 
 - name: Software | virtual_desktop_bar | install applet
   become_user: root
-  shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-applet.sh"
-  #when: virtual_desktop_bar.changed
-  
+  shell: kpackagetool5 -i . || kpackagetool5 -u .
+  args:
+    chdir: "{{ tmp_dir }}/virtual-desktop-bar/package"
+    creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/org.kde.plasma.virtualdesktopbar"
