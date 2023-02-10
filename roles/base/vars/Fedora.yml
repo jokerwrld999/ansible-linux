@@ -1,5 +1,6 @@
 ---
 
+autojump_package: autojump-zsh
 amd_microcode_package: microcode_ctl
 cron_package: cronie
 dconf_package: dconf

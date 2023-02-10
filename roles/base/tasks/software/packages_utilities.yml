@@ -3,6 +3,7 @@
 - name: System setup | utilities | install utility packages
   package:
     name:
+      - "{{ autojump_package }}"
       - colordiff
       - curl
       - "{{ dns_utils_package }}"
