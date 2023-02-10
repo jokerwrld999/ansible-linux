@@ -110,11 +110,11 @@
   with_items:
     - { dest: '/usr/share/icons/' }
   register: bibata_cursors_installed
-  when: bibata_cursors.changed
+  #when: bibata_cursors.changed
 
 - name: Software | theme | change cursor theme
   command: plasma-apply-cursortheme Bibata-Modern-Ice -platform offscreen
-  when: bibata_cursors_installed.changed
+  when: bibata_cursors.changed
 
 # **** Force Blur
 - name: Software | theme | clone force blur

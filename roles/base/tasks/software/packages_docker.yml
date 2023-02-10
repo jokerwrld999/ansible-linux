@@ -39,7 +39,6 @@
     name: "{{ custom_user }}"
     groups: docker
     append: yes
-  when: docker_script_installed.changed or docker_installed.changed
 
 - name: System setup | docker-compose | install docker-compose
   package:
@@ -51,4 +50,4 @@
     name: docker
     state: started
     enabled: true
-    
+  

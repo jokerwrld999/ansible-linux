@@ -70,7 +70,7 @@
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
     chdir: "{{ tmp_dir }}/org.kde.thermalMonitorFix/"
-  when: thermal_monitor.changed
+ # when: thermal_monitor.changed
 
   # **** Splash Screen
 - name: Plasmoids | custom user | clone watch_dogs splash

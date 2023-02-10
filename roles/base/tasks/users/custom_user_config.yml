@@ -68,7 +68,7 @@
   shell: python3 ./install.py
   args:
     chdir: "/home/{{ custom_user }}/tmp/autojump/"
-  when: autojump_repo.changed
+  #when: autojump_repo.changed
 
 - name: Users | custom user | clone zsh-autosuggestions plugin repository
   become_user: "{{ custom_user }}"
