@@ -37,31 +37,14 @@
     repo: https://github.com/vinceliuice/Orchis-kde.git
     dest: "{{ tmp_dir }}/Orchis-kde"
     force: yes
-  register: orchis_kde
 
 - name: Software | theme | install orchis-kde
   shell: ./install.sh
   args:
     chdir: "{{ tmp_dir }}/Orchis-kde/"
-  #register: orchis_kde_installed
-  when: orchis_kde.changed
+    creates: "/home/{{ custom_user }}/.local/share/plasma/desktoptheme/Orchis-dark"
 
-  # **** Orchis Theme
-- name: Software | theme | clone orchis-theme
-  git:
-    repo: https://github.com/vinceliuice/Orchis-theme.git
-    dest: "{{ tmp_dir }}/Orchis-theme"
-    force: yes
-  register: orchis_theme
-
-- name: Software | theme | install orchis-theme
-  shell: ./install.sh
-  args:
-    chdir: "{{ tmp_dir }}/Orchis-theme/"
-  register: orchis_theme_installed
-  when: orchis_theme.changed
-
-- name: Software | theme | change desktop theme
+- name: Software | theme | apply desktop theme
   command: plasma-apply-desktoptheme Orchis-dark -platform offscreen
   when: orchis_theme_installed.changed
 
@@ -71,17 +54,16 @@
     repo: https://github.com/TaylanTatli/Sevi.git
     dest: "{{ tmp_dir }}/Sevi"
     force: yes
-  register: sevi_icons
 
 - name: Software | theme | install sevi icons
   shell: ./install.sh -black
   args:
     chdir: "{{ tmp_dir }}/Sevi/"
-  failed_when: false
+    creates: "/home/{{ custom_user }}/.local/share/icons/Sevi-black"
+  #failed_when: false
   register: sevi_icons_installed
-  when: sevi_icons.changed
 
-- name: Software | theme | change icons
+- name: Software | theme | apply icons
   shell: | 
     changeicons=$(find /usr/ -name 'plasma-changeicons')
     $changeicons Sevi-black -platform offscreen
@@ -97,7 +79,6 @@
     mode: 0755
   with_items:
     - { dest: '/home/{{ custom_user }}/.icons/' }
-  register: bibata_cursors
 
 - name: Software | theme | install bibata cursors for root
   become_user: root
@@ -110,9 +91,8 @@
   with_items:
     - { dest: '/usr/share/icons/' }
   register: bibata_cursors_installed
-  #when: bibata_cursors.changed
 
-- name: Software | theme | change cursor theme
+- name: Software | theme | apply cursor theme
   command: plasma-apply-cursortheme Bibata-Modern-Ice -platform offscreen
   when: bibata_cursors.changed
 
@@ -141,7 +121,6 @@
     repo: https://github.com/icaho/Swish.git
     dest: "{{ tmp_dir }}/Swish"
     force: yes
-  register: swish_sddm
 
 - name: Software | theme | make a dirictory
   become_user: root
@@ -161,7 +140,6 @@
     group: root
     mode: 0755
     remote_src: true
-  when: swish_sddm.changed
 
 - name: Software | theme | copy a kde_settings
   become_user: root

@@ -25,5 +25,5 @@
 - name: Software | virtual_desktop_bar | install applet
   become_user: root
   shell: yes | "{{ tmp_dir }}/virtual-desktop-bar/scripts/install-applet.sh"
-  when: virtual_desktop_bar.changed
+  #when: virtual_desktop_bar.changed
   
