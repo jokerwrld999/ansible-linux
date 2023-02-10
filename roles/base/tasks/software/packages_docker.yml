@@ -10,6 +10,7 @@
   become_user: "{{ custom_user }}"
   command: "curl -fsSL https://get.docker.com -o {{ tmp_dir }}/get-docker.sh"
   failed_when: false
+  register: docker_script_pulled
   when: docker_script.stat.exists == false
 
 - name: System setup | docker | change docker script permission
@@ -24,7 +25,7 @@
   shell: "{{ tmp_dir }}/get-docker.sh"
   failed_when: false
   register: docker_script_installed
-
+  when: docker_script_pulled.changed
 
 - name: System setup | docker | install docker
   package:
