@@ -42,7 +42,6 @@
     owner: root
     group: root
     state: link
-  when: ansible_distribution in ["Archlinux", "Fedora"]
 
 - name: Software | kde services | start NetworkManager
   service:
