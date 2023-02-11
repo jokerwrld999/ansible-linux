@@ -4,7 +4,9 @@
 - name: Software | kde | install package
   become_user: root
   apt:
-    name: kde-plasma-desktop
+    name: 
+      - kde-plasma-desktop
+      - plasma-workspace-wayland
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # **** Installing KDE Packages | Fedora
