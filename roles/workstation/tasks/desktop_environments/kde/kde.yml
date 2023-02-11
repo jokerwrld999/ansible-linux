@@ -27,17 +27,11 @@
       - kde-applications
   when: ansible_distribution == "Archlinux"
 
-- name: Software | kde services | switch to sddm
-  become_user: root
-  command: dpkg-reconfigure -f noninteractive sddm
-  when: ansible_distribution in ["Debian", "Ubuntu"]
-
-- name: Software | kde services | start NetworkManager
+- name: Software | kde services | start sddm
   become_user: root
   systemd:
     name: sddm
-    state: started
-    enabled: true
+    enabled: false
     force: true
   when: ansible_distribution in ["Archlinux", "Fedora"]
 
