@@ -43,7 +43,7 @@
 - name: System setup | tweaks | install/update core snap
   become_user: root
   snap:
-    name:  core
+    name: core
     state: present
 
 # **** Distro-specific Tasks For Arch

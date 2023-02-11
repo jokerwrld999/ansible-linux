@@ -6,8 +6,6 @@
   apt:
     name: kde-plasma-desktop
   when: ansible_distribution in ["Debian", "Ubuntu"]
-  notify: 
-    - Reconfigure display_manager
 
 # **** Installing KDE Packages | Fedora
 - name: Software | kde | install package
@@ -33,11 +31,6 @@
     src: /usr/lib/systemd/system/graphical.target
     dest: /etc/systemd/system/default.target
     state: link
-
-#- name: Software | kde services | stat gdm service
-#  file: 
-#    path: /etc/systemd/system/display-manager.service
-#  register: gdm_service_status
 
 - name: System setup | tweaks | Create sddm link
   become_user: root

@@ -1,8 +1,4 @@
 ---
 
-- name: Reconfigure display_manager
-  become_user: root
-  command: dpkg-reconfigure gdm
-
 - name: Update fonts
   command: fc-cache -vf

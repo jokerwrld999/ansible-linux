@@ -3,5 +3,5 @@
 - name: Software | telegram | install snap
   become_user: root
   snap:
-    name:  telegram-desktop
+    name: telegram-desktop
     

@@ -118,3 +118,4 @@
   args:
     executable: /bin/bash
     creates: "/home/{{ custom_user }}/.ssh/authorized_keys"
+    warn: false

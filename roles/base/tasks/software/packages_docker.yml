@@ -1,38 +1,13 @@
 ---
 
-- name: Software | docker | stat docker script
-  stat: 
-    path: "{{ tmp_dir }}/get-docker.sh"
-  register: docker_script
+- name: System setup | docker | install snap
+  snap:
+    name: docker
 
-- name: System setup | docker | curl docker script
-  become: true
-  become_user: "{{ custom_user }}"
-  command: "curl -fsSL https://get.docker.com -o {{ tmp_dir }}/get-docker.sh"
-  failed_when: false
-  register: docker_script_pulled
-  when: docker_script.stat.exists == false
-
-- name: System setup | docker | change docker script permission
-  file:
-    path: "{{ tmp_dir }}/get-docker.sh"
-    mode: '0755'
-  failed_when: false
-
-- name: System setup | docker | install docker script
-  become: true
-  become_user: "{{ custom_user }}"
-  shell: "{{ tmp_dir }}/get-docker.sh"
-  failed_when: false
-  register: docker_script_installed
-  when: docker_script_pulled.changed
-
-- name: System setup | docker | install docker
-  package:
-    name:
-      - docker
-  failed_when: false
-  register: docker_installed
+- name: Users | custom user | create group
+  group:
+    name: docker
+    state: present
 
 - name: System setup | docker | add user to docker group
   user:

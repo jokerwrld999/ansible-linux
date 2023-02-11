@@ -13,7 +13,7 @@
   apt_repository:
     repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
     state: present
-    filename: vs-code
+    filename: vscode
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | vs_code | install package
@@ -21,7 +21,6 @@
   apt:
     name: code
     state: latest
-    update_cache: true
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # **** Installing VS Code | Fedora

@@ -8,20 +8,25 @@
     state: present
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
+- name: Users | custom user | stat chrome repo
+  stat: 
+    path: "/etc/apt/sources.list.d/google-chrome.list"
+  register: chrome_repo
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
 - name: Software | google-chrome | add repository
   become_user: root
   apt_repository:
     repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
     filename: google-chrome
     state: present
-  when: ansible_distribution in ["Debian", "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Ubuntu"] and chrome_repo.stat.exists == false
 
 - name: Software | google-chrome | install package
   become_user: root
   apt:
     name: google-chrome-stable
     state: latest
-    update_cache: true
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # **** Installing Chrome | Fedora

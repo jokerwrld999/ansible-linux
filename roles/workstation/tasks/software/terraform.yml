@@ -3,6 +3,6 @@
 - name: Software | terraform | install snap
   become_user: root
   snap:
-    name:  terraform
+    name: terraform
     classic: true
     

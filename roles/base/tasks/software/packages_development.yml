@@ -18,6 +18,6 @@
 - name: System setup | development packages | install kubectl
   become_user: root
   snap:
-    name:  kubectl
+    name: kubectl
     classic: true
     
