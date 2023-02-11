@@ -34,21 +34,30 @@
     dest: /etc/systemd/system/default.target
     state: link
 
-- name: System setup | tweaks | Create sddm link
+- name: Software | kde services | start NetworkManager
   become_user: root
-  file:
-    src: /usr/lib/systemd/system/sddm.service
-    dest: /etc/systemd/system/display-manager.service
-    owner: root
-    group: root
-    state: link
+  systemd:
+    name: gdm
+    state: stopped
+    enabled: no
+    force: true
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | kde services | start NetworkManager
-  service:
+  become_user: root
+  systemd:
+    name: sddm
+    state: started
+    enabled: true
+    force: true
+
+- name: Software | kde services | start NetworkManager
+  become_user: root
+  systemd:
     name: NetworkManager
     state: started
-    enabled: yes
-  when: ansible_distribution in ["Archlinux", "Fedora"]
+    enabled: true
+  #when: ansible_distribution in ["Archlinux", "Fedora"]
 
 - name: Software | kde services | disable kwallet
   shell: |

@@ -11,23 +11,24 @@
     name: "{{ custom_user }}"
     state: present
 
-- name: Users | custom user | stat user
-  getent:
-    database: passwd
-    key: "{{ custom_user }}"
-  check_mode: true
-  register: getent_user
+#- name: Users | custom user | stat user
+#  getent:
+#    database: passwd
+#    key: "{{ custom_user }}"
+#  check_mode: true
+#  register: getent_user
 
 - name: Users | custom user | create user
   user:
     name: "{{ custom_user }}"
     group: "{{ custom_user }}"
     groups: "{{ custom_user }},{{ sudo_group }}"
+    append: true
     password: "{{ custom_user_passwd }}"
     update_password: on_create
     shell: /bin/zsh
     state: present
-  when: getent_user.changed
+  #when: getent_user.changed
 
 - name: Users | custom user | stat sudoers file
   stat:
