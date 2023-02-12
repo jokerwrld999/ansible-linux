@@ -25,4 +25,5 @@
     name: docker
     state: started
     enabled: true
+  when: ansible_distribution != "Archlinux"
   

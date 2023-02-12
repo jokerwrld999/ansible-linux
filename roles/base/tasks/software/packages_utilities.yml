@@ -3,7 +3,6 @@
 - name: System setup | utilities | install utility packages
   package:
     name:
-      - "{{ autojump_package }}"
       - colordiff
       - curl
       - "{{ dns_utils_package }}"
@@ -25,6 +24,19 @@
       - tree
       - wget
       - whois
+
+- name: System setup | utilities | install autojump
+  package:
+    name:
+      - "{{ autojump_package }}"
+  when: ansible_distribution != "Archlinux"
+
+- name: System setup | utilities | install autojump arch
+  become_user: "{{ custom_user }}"
+  kewlfft.aur.aur:
+    use: yay
+    name: "{{ autojump_package }}"
+  when: ansible_distribution == "Archlinux"
 
 - name: System setup | utilities | install utility packages (arch)
   pacman:

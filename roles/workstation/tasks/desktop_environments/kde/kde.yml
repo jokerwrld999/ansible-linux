@@ -31,9 +31,18 @@
   become_user: root
   systemd:
     name: sddm
-    enabled: false
+    enabled: true
     force: true
   when: ansible_distribution in ["Archlinux", "Fedora"]
+
+- name: Change file ownership, group and permissions
+  become_user: root
+  file:
+    path: /var/lib/sddm/.config
+    owner: sddm
+    group: sddm
+    mode: '0755'
+  when: ansible_distribution == "Archlinux"
 
 - name: Software | kde services | start NetworkManager
   become_user: root
