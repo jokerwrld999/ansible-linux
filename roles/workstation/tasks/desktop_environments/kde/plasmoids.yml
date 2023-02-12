@@ -6,7 +6,7 @@
     repo: https://github.com/paju1986/PlasmaConfSaver.git
     dest: "{{ tmp_dir }}/PlasmaConfSaver"
     force: yes
-  
+
 - name: Plasmoids | custom user | install plasma saver
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
@@ -19,7 +19,7 @@
     repo: https://github.com/psifidotos/applet-latte-spacer.git
     dest: "{{ tmp_dir }}/applet-latte-spacer"
     force: yes
-  
+
 - name: Plasmoids | custom user | install latte spacer
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
@@ -97,4 +97,3 @@
   with_items:
     - { src: 'org.kde.plasma.systemtray' }
     - { src: 'org.kde.plasma.private.systemtray' }
-    

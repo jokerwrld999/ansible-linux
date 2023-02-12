@@ -4,7 +4,7 @@
 - name: Software | kde | install package
   become_user: root
   apt:
-    name: 
+    name:
       - kde-plasma-desktop
       - plasma-workspace-wayland
   when: ansible_distribution in ["Debian", "Ubuntu"]
@@ -22,8 +22,8 @@
   become_user: root
   pacman:
     name:
-      - plasma 
-      - plasma-wayland-session 
+      - plasma
+      - plasma-wayland-session
       - kde-applications
   when: ansible_distribution == "Archlinux"
 
@@ -58,4 +58,3 @@
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'First Use' 'false'
   args:
     creates: "/home/{{ custom_user }}/.config/kwalletrc"
-  

@@ -6,7 +6,7 @@
   apt:
     name:
       - strongswan
-      - network-manager-strongswan 
+      - network-manager-strongswan
       - libcharon-extra-plugins
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
@@ -16,15 +16,14 @@
   dnf:
     name:
       - strongswan
-      - NetworkManager-strongswan 
+      - NetworkManager-strongswan
   when: ansible_distribution == "Fedora"
 
 # **** Installing VPN Packages | Arch-based
 - name: Software | vpn | install package
   become_user: root
   pacman:
-    name: 
-      - strongswan 
+    name:
+      - strongswan
       - networkmanager-strongswan
   when: ansible_distribution == "Archlinux"
-  

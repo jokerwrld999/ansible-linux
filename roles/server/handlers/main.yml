@@ -4,4 +4,3 @@
   service:
     name: "{{ qemu_agent_service }}"
     state: restarted
-    

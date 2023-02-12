@@ -9,4 +9,3 @@
       - exim4-base
       - exim4-config
   when: ansible_distribution in ["Debian", "Ubuntu"]
-  

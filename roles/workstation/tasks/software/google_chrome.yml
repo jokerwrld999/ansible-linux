@@ -9,7 +9,7 @@
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Users | custom user | stat chrome repo
-  stat: 
+  stat:
     path: "/etc/apt/sources.list.d/google-chrome.list"
   register: chrome_repo
   when: ansible_distribution in ["Debian", "Ubuntu"]
@@ -61,4 +61,3 @@
     use: yay
     name: google-chrome
   when: ansible_distribution == "Archlinux"
-  

@@ -15,4 +15,3 @@
   when:
     - microcode_intel_install is defined
     - microcode_intel_install == true
-    

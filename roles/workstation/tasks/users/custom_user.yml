@@ -1,7 +1,7 @@
 ---
 
 - name: Users | custom user | stat .config folder
-  stat: 
+  stat:
     path: "/home/{{ custom_user }}/.config"
   register: config_dir
 
@@ -46,4 +46,3 @@
     - { src: 'bpytop.conf', dest: '.config/bpytop/bpytop.conf' }
     - { src: 'resources/splash_screen/ksplashrc', dest: '.config' }
     - { src: 'resources/walls', dest: '/.local/share/wallpapers/' }
-    

@@ -17,7 +17,7 @@
   - import_tasks: software/flameshot.yml
   - import_tasks: software/foliate.yml
   - import_tasks: software/google_chrome.yml
-  - import_tasks: software/latte_dock.yml  
+  - import_tasks: software/latte_dock.yml
   - import_tasks: software/libreoffice.yml
   - import_tasks: software/telegram.yml
   - import_tasks: software/terraform.yml
@@ -26,5 +26,4 @@
   - import_tasks: software/vs_code.yml
 
   rescue:
-    - set_fact: task_failed=true
-  
+  - set_fact: task_failed=true

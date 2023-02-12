@@ -9,30 +9,30 @@
 
 - name: System setup | repositories | add sources.list for debian hosts
   copy:
-    src: distribution_packages/debian_sources.list
-    dest: /etc/apt/sources.list
-    backup: yes
+      src: distribution_packages/debian_sources.list
+      dest: /etc/apt/sources.list
+      backup: yes
   notify: apt_update
   when: ansible_distribution == "Debian"
 
 - name: System setup | repositories | add debian-backports
   apt_repository:
-    repo: deb http://deb.debian.org/debian buster-backports main
-    filename: debian-backports
+      repo: deb http://deb.debian.org/debian buster-backports main
+      filename: debian-backports
   notify: apt_update
   when: ansible_distribution == "Debian"
 
 - name: System setup | repositories | install package management tools
   package:
-    name:
-      - aptitude
-      - software-properties-common
-    state: latest
+      name:
+          - aptitude
+          - software-properties-common
+      state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: System setup | repositories | stat rpmfusion repos
-  stat: 
-    path: "/etc/yum.repos.d/rpmfusion-free.repo"
+  stat:
+      path: "/etc/yum.repos.d/rpmfusion-free.repo"
   register: rpmfusion_repos
   when: ansible_distribution == "Fedora"
 
@@ -42,4 +42,3 @@
     dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
     dnf install -y fedora-workstation-repositories
   when: ansible_distribution == "Fedora" and rpmfusion_repos.stat.exists == false
-  

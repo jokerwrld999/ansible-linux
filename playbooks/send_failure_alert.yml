@@ -14,15 +14,15 @@
     changed_when: False
 
   rescue:
-    - name: Send failure notification via telegram
-      telegram:
-        token: "{{ telegram_token }}"
-        api_args:
-          chat_id: "{{ telegram_chat_id }}"
-          parse_mode: "markdown"
-          text: "⚠️  Ansible provision failed on *{{ ansible_hostname }}*\n\n
-            The specific error couldn't be shown, check the log."
-      changed_when: False
+  - name: Send failure notification via telegram
+    telegram:
+      token: "{{ telegram_token }}"
+      api_args:
+        chat_id: "{{ telegram_chat_id }}"
+        parse_mode: "markdown"
+        text: "⚠️  Ansible provision failed on *{{ ansible_hostname }}*\n\n
+          The specific error couldn't be shown, check the log."
+    changed_when: False
 
 - name: Ansible job failed, clear cache later on to trigger another provision run
   become: yes

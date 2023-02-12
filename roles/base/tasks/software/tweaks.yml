@@ -1,7 +1,7 @@
 ---
 
 
-# **** Installing Flatpak Package 
+# **** Installing Flatpak Package
 - name: System setup | tweaks | add flatpak support
   become_user: root
   package:
@@ -40,7 +40,7 @@
     cmd: "makepkg -sfi --noconfirm"
     creates: /usr/bin/yay
   when: ansible_distribution == "Archlinux"
-  
+
 - name: System setup | tweaks | install xorg (archlinux)
   become_user: root
   package:
@@ -57,7 +57,7 @@
 - name: System setup | tweaks | Create ln snap
   become_user: root
   file:
-    src: /var/lib/snapd/snap 
+    src: /var/lib/snapd/snap
     dest: /snap
     owner: root
     group: root
@@ -98,4 +98,3 @@
     enabled: no
   failed_when: false
   when: ansible_distribution in ["Ubuntu"]
-  

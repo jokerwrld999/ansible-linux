@@ -13,4 +13,3 @@
     use: yay
     name: latte-dock
   when: ansible_distribution == "Archlinux"
-  

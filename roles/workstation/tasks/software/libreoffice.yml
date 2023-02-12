@@ -5,4 +5,3 @@
   snap:
     name: libreoffice
     state: present
-    

@@ -12,4 +12,3 @@
     name: systemd-journald
     state: restarted
   when: journald_config.changed
-  

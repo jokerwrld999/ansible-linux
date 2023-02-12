@@ -11,13 +11,6 @@
     name: "{{ custom_user }}"
     state: present
 
-#- name: Users | custom user | stat user
-#  getent:
-#    database: passwd
-#    key: "{{ custom_user }}"
-#  check_mode: true
-#  register: getent_user
-
 - name: Users | custom user | create user
   user:
     name: "{{ custom_user }}"
@@ -28,7 +21,6 @@
     update_password: on_create
     shell: /bin/zsh
     state: present
-  #when: getent_user.changed
 
 - name: Users | custom user | stat sudoers file
   stat:
@@ -44,12 +36,10 @@
     mode: 0440
   register: new_sudoers_file
   when: sudoers_file.stat.exists == false
-  
+
 - name: Users | custom user | change sudoers file
   lineinfile:
     dest: "/etc/sudoers.d/sudoers_{{ custom_user }}"
     regexp: "^custom_user"
     line: "{{ custom_user }} ALL=(ALL) NOPASSWD: ALL"
   when: new_sudoers_file.changed
-
-  

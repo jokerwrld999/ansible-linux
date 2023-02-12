@@ -29,4 +29,4 @@
   - import_tasks: system_setup/ufw.yml
 
   rescue:
-    - set_fact: task_failed=true
+  - set_fact: task_failed=true

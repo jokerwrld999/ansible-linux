@@ -5,4 +5,3 @@
     executable: /usr/bin/pip3
     state: latest
     name: bpytop
-    

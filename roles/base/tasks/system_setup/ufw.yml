@@ -18,7 +18,7 @@
   when: ansible_distribution in ['Debian', "Ubuntu"]
 
 - name: System setup | ufw-docker | get ufw-docker
-  shell:  wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+  shell: wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
   args:
     creates: "/usr/local/bin/ufw-docker"
     warn: false
@@ -31,4 +31,3 @@
     group: root
     mode: '0755'
   when: ansible_distribution in ['Debian', "Ubuntu"]
-  

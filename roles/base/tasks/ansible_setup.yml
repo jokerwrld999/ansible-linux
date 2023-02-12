@@ -29,4 +29,3 @@
   file:
     path: /etc/ansible
     state: absent
-    
