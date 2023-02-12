@@ -4,7 +4,7 @@
   ## User configs
   - import_tasks: users/custom_user.yml
 
-## desktop environments
+  ## desktop environments
 
   - include_tasks: desktop_environments/kde/kde.yml
   - include_tasks: desktop_environments/kde/plasmoids.yml
@@ -27,4 +27,4 @@
 
   rescue:
     - set_fact: task_failed=true
-    
+  
