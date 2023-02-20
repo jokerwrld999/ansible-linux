@@ -20,9 +20,9 @@
     name:
       - docker-compose
 
-- name: System setup | docker | start docker service
-  service:
-    name: docker
-    state: started
-    enabled: true
-  when: ansible_distribution != "Archlinux"
+#- name: System setup | docker | start docker service
+#  service:
+#    name: docker
+#    state: started
+#    enabled: true
+#  when: ansible_distribution != "Archlinux"
