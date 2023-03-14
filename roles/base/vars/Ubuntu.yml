@@ -9,7 +9,7 @@ intel_microcode_package: intel-microcode
 lm_sensors_package: lm-sensors
 nfs_client_package: nfs-common
 openssh_package: openssh-server
-openssh_service: ssh
+openssh_service: sshd
 python_flake8_package: python3-flake8
 python_package: python3
 python_pip_package: python3-pip
