@@ -45,3 +45,8 @@
       - man-pages
       - github-cli
   when: ansible_distribution == "Archlinux"
+
+- name: System setup | utilities | install speedtest-cli
+  pip:
+    name:
+      - speedtest-cli
