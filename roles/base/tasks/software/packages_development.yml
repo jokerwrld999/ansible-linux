@@ -3,6 +3,7 @@
 - name: System setup | development packages | install packages
   package:
     name:
+      - "{{ development_tools }}"
       - perl
       - "{{ python_flake8_package }}"
       - "{{ python_package }}"
@@ -14,6 +15,26 @@
       - "{{ ruby_rake_package }}"
       - tig
     state: latest
+
+- name: System setup | development packages | install packages
+  pacman:
+    name: base-devel
+    state: latest
+  when: ansible_distribution == "Archlinux"
+
+- name: System setup | development packages | install packages
+  apt:
+    name: build-essential
+    state: latest
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: System setup | development packages | install packages
+  dnf:
+    name:
+      - '@Development tools'
+      - '@Development libraries'
+    state: latest
+  when: ansible_distribution == "Fedora"
 
 - name: System setup | development packages | install kubectl
   become_user: root
