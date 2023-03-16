@@ -9,7 +9,7 @@ export HISTSIZE=500
 export HISTCONTROL=erasedups:ignoredups:ignorespace
 
 # Check the window size after each command and, if necessary, update the values of LINES and COLUMNS
-shopt -s checkwinsize
+setopt -s checkwinsize
 
 # Enable history search with up and down arrows
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search

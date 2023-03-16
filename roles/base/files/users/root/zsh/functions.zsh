@@ -342,15 +342,5 @@ c() {
 	code "$1"
 }
 
-#Autojump
-
-if [ -f "/usr/share/autojump/autojump.sh" ]; then
-	. /usr/share/autojump/autojump.sh
-elif [ -f "/usr/share/autojump/autojump.bash" ]; then
-	. /usr/share/autojump/autojump.bash
-else
-	echo "can't found the autojump script"
-fi
-
 autoload -U add-zsh-hook
 add-zsh-hook precmd precmd_disown

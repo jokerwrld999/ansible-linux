@@ -27,7 +27,7 @@ HISTCONTROL=ignoreboth
 HISTTIMEFORMAT="%Y-%m-%d %T "
 
 # Correct simple errors while using cd
-shopt -s cdspell
+setopt -s cdspell
 
 # Add /home/$USER/bin to $PATH
 case :$PATH: in
