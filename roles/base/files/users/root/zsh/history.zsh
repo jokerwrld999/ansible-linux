@@ -8,9 +8,6 @@ export HISTSIZE=500
 # Don't put duplicate lines in the history and do not add lines that start with a space
 export HISTCONTROL=erasedups:ignoredups:ignorespace
 
-# Check the window size after each command and, if necessary, update the values of LINES and COLUMNS
-setopt -s checkwinsize
-
 # Enable history search with up and down arrows
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search

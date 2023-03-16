@@ -13,7 +13,7 @@ export HISTSIZE=500
 export HISTCONTROL=erasedups:ignoredups:ignorespace
 
 # Check the window size after each command and, if necessary, update the values of LINES and COLUMNS
-setopt -s checkwinsize
+shopt -s checkwinsize
 
 # Causes bash to append to history instead of overwriting it so if you start a new terminal, you have old session history
 setopt -s histappend
