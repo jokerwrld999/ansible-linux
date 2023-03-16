@@ -337,6 +337,11 @@ gup() {
     ssh -T git@github.com
 }
 
+# Quick shortcut to start code
+c() {
+	code "$1"
+}
+
 #Autojump
 
 if [ -f "/usr/share/autojump/autojump.sh" ]; then
