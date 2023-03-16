@@ -1,11 +1,15 @@
 # Set history file
 HISTFILE=~/.zhistory
 
-# Set history size
-HISTSIZE=1000
+# Expand the history size
+export HISTFILESIZE=10000
+export HISTSIZE=500
 
-# Set the number of lines in $HISTFILE
-SAVEHIST="${HISTSIZE}"
+# Don't put duplicate lines in the history and do not add lines that start with a space
+export HISTCONTROL=erasedups:ignoredups:ignorespace
+
+# Check the window size after each command and, if necessary, update the values of LINES and COLUMNS
+shopt -s checkwinsize
 
 # Enable history search with up and down arrows
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
