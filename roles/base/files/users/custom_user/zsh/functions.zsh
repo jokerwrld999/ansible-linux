@@ -339,7 +339,7 @@ gup() {
 
 # Quick shortcut to start code
 c() {
-	code "$1"
+	code "$1" &
 }
 
 autoload -U add-zsh-hook

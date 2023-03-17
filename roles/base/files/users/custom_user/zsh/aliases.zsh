@@ -36,7 +36,7 @@ alias da='date "+%Y-%m-%d %A %T %Z"'
 # Alias's to modified commands
 alias cp='cp -i'
 alias mv='mv -i'
-alias rm='trash -v'
+alias rm='rm -i'
 alias mkdir='mkdir -p'
 alias ps='ps auxf'
 alias ping='ping -c 10'
@@ -58,9 +58,6 @@ alias .....='cd ../../../..'
 
 # cd into the old directory
 alias bd='cd "$OLDPWD"'
-
-# Remove a directory and all files
-alias rmd='/bin/rm  --recursive --force --verbose '
 
 # Alias's for multiple directory listing commands
 alias la='ls -Alh' # show hidden files
