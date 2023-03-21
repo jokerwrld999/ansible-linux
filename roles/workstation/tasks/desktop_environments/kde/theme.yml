@@ -158,7 +158,7 @@
 
 - name: Software | theme | restore plasma backup
   copy:
-    src: "{{ tmp_dir }}/plasma-backup/{{ item.src }}"
+    src: "{{ tmp_dir }}/ultimate-backup/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
@@ -170,7 +170,7 @@
 
 - name: Software | theme | restore fonts
   copy:
-    src: "{{ tmp_dir }}/plasma-backup/fonts"
+    src: "{{ tmp_dir }}/ultimate-backup/fonts"
     dest: "/home/{{ custom_user }}/.local/share/"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"

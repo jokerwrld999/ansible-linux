@@ -1,6 +1,6 @@
 ---
 
-- name: System setup | utilities | install utility packages
+- name: System setup | utilities | install packages
   package:
     name:
       - colordiff
@@ -38,7 +38,7 @@
     name: "{{ autojump_package }}"
   when: ansible_distribution == "Archlinux"
 
-- name: System setup | utilities | install utility packages (arch)
+- name: System setup | utilities | install packages (arch)
   pacman:
     name:
       - man-db

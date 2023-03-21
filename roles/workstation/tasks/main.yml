@@ -2,7 +2,7 @@
 
 - block:
   ## User configs
-  - import_tasks: users/custom_user.yml
+  - import_tasks: users/custom_user_config.yml
 
   ## desktop environments
 
