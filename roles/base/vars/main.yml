@@ -1,13 +1,9 @@
 ---
-# Base Role Configuration
 
-# provision
-branch: master
-
+# Base Configuration
 # ssh
-ansible_cron_minute: "*/5"
-ssh_port: 22
 ssh_users: "{{ custom_user }}"
+ssh_port: 22
 
 # platform-specific
 microcode_intel_install: true
