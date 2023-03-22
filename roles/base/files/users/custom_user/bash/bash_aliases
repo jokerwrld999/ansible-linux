@@ -43,17 +43,13 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
 #######################################################
-# MACHINE SPECIFIC ALIAS'S
-#######################################################
-
-# Alias's to change the directory
-alias web='cd /var/www/html'
-
-#######################################################
 # GENERAL ALIAS'S
 #######################################################
 # To temporarily bypass an alias, we precede the command with a \
 # EG: the ls command is aliased, but to use the normal ls command you would type \ls
+
+# Alias's to change the directory
+alias web='cd /var/www/html'
 
 # Alias's to modified commands
 alias cp='cp -i'
