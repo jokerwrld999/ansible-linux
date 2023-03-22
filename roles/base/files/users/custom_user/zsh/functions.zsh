@@ -1,4 +1,14 @@
-# Easily extract archives
+# "path" shows current path, one element per line.
+# If an argument is supplied, grep for it.
+path() {
+    test -n "$1" && {
+        echo $PATH | perl -p -e "s/:/\n/g;" | grep -i "$1"
+    } || {
+        echo $PATH | perl -p -e "s/:/\n/g;"
+    }
+}
+
+# Extracts any archive(s)
 extract () {
   if [ -f $1 ] ; then
     case $1 in
@@ -20,115 +30,6 @@ extract () {
   else
     echo "'$1' is not a valid file"
   fi
-}
-
-reload () {
-    exec "${SHELL}" "$@"
-}
-
-confirm() {
-    local answer
-    echo -ne "zsh: sure you want to run '${YELLOW}$*${NC}' [yN]? "
-    read -q answer
-        echo
-    if [[ "${answer}" =~ ^[Yy]$ ]]; then
-        command "${@}"
-    else
-        return 1
-    fi
-}
-
-confirm_wrapper() {
-    if [ "$1" = '--root' ]; then
-        local as_root='true'
-        shift
-    fi
-
-    local prefix=''
-
-    if [ "${as_root}" = 'true' ] && [ "${USER}" != 'root' ]; then
-        prefix="sudo"
-    fi
-    confirm ${prefix} "$@"
-}
-
-poweroff() { confirm_wrapper --root $0 "$@"; }
-hibernate() { confirm_wrapper --root $0 "$@"; }
-
-startx() {
-    exec =startx
-}
-
-begin_with() {
-    local string="${1}"
-    shift
-    local element=''
-    for element in "$@"; do
-        if [[ "${string}" =~ "^${element}" ]]; then
-            return 0
-        fi
-    done
-    return 1
-
-}
-
-termtitle() {
-    case "$TERM" in
-        rxvt*|xterm*|nxterm|gnome|screen|screen-*)
-            local prompt_host="${(%):-%m}"
-            local prompt_user="${(%):-%n}"
-            local prompt_char="${(%):-%~}"
-            case "$1" in
-                precmd)
-                    printf '\e]0;%s@%s: %s\a' "${prompt_user}" "${prompt_host}" "${prompt_char}"
-                ;;
-                preexec)
-                    printf '\e]0;%s [%s@%s: %s]\a' "$2" "${prompt_user}" "${prompt_host}" "${prompt_char}"
-                ;;
-            esac
-        ;;
-    esac
-}
-
-dot_progress() {
-    # Fancy progress function from Landley's Aboriginal Linux.
-    # Useful for long rm, tar and such.
-    # Usage:
-    #     rm -rfv /foo | dot_progress
-    local i='0'
-    local line=''
-
-    while read line; do
-        i="$((i+1))"
-        if [ "${i}" = '25' ]; then
-            printf '.'
-            i='0'
-        fi
-    done
-    printf '\n'
-}
-
-# Fix backgrounding of GUI apps
-precmd_disown() {
-  emulate -L zsh
-  setopt extendedglob
-  local job match mbegin mend
-
-  jobs | while read job; do
-    if [[ $job = \[(#b)([[:digit:]]##)\]*running* ]]; then
-      disown %$match[1]
-    fi
-  done
-}
-
-# "path" shows current path, one element per line.
-# If an argument is supplied, grep for it.
-path() {
-    test -n "$1" && {
-        echo $PATH | perl -p -e "s/:/\n/g;" | grep -i "$1"
-    } || {
-        echo $PATH | perl -p -e "s/:/\n/g;"
-    }
 }
 
 # Searches for text in all files in the current folder
@@ -166,7 +67,7 @@ cpp()
 }
 
 # Create and go to the directory
-mkdirg ()
+mkdirgo ()
 {
 	mkdir -p "$1"
 	cd "$1"
@@ -261,17 +162,13 @@ netinfo ()
 }
 
 # IP address lookup
-alias whatismyip="whatsmyip"
-function whatsmyip ()
+whatsmyip ()
 {
-	# Dumps a list of all IP addresses for every device
-	# /sbin/ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }';
-
 	# Internal IP Lookup
-	echo -n "Internal IP: " ; /sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'
+	echo -n "Internal IP: " ; ip add | grep "eth0" | grep "inet" | awk '{print $2}'
 
 	# External IP Lookup
-	echo -n "External IP: " ; wget http://smart-ip.net/myip -O - -q
+	echo -n "External IP: " ; dig @resolver4.opendns.com myip.opendns.com +short
 }
 
 # View Apache logs
@@ -331,6 +228,12 @@ lazyg() {
 	git commit -m "$1"
 	git push
 }
+gclone() {
+	repo=$(basename "$1" | cut -d '.' -f 1)
+	git clone "$1"
+	cd $repo
+}
+
 gup() {
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/github
@@ -342,5 +245,7 @@ c() {
 	code "$1" &
 }
 
-autoload -U add-zsh-hook
-add-zsh-hook precmd precmd_disown
+cdls() {
+	cd "$1"
+	ll .
+}

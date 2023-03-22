@@ -3,6 +3,8 @@
 - name: System setup | utilities | install packages
   package:
     name:
+      - at
+      - openssl
       - colordiff
       - curl
       - "{{ dns_utils_package }}"
