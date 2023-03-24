@@ -1,7 +1,7 @@
 ---
 
 - block:
-  - name: Send failure notification via telegram
+  - name: Telegram | Send failure alert
     telegram:
       token: "{{ telegram_token }}"
       api_args:
@@ -14,7 +14,7 @@
     changed_when: False
 
   rescue:
-  - name: Send failure notification via telegram
+  - name: Telegram | Send failure alert
     telegram:
       token: "{{ telegram_token }}"
       api_args:
@@ -24,9 +24,3 @@
           The specific error couldn't be shown, check the log."
     changed_when: False
 
-- name: Ansible job failed, clear cache later on to trigger another provision run
-  become: yes
-  at:
-    command: "if ! pgrep -f ansible-pull >/dev/null; then rm -rf /home/{{ custom_user }}/.ansible; fi"
-    count: 60
-    units: minutes
