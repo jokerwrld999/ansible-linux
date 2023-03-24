@@ -20,5 +20,4 @@ rename_package: perl-rename
 ruby_rake_package: ruby-rake
 sudo_group: wheel
 system_guard: ksysguard
-vim_package: gvim
 github_cli: github-cli

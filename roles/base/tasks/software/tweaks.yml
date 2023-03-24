@@ -1,22 +1,7 @@
 ---
 
-
-# **** Installing Flatpak Package
-- name: System setup | tweaks | add flatpak support
-  become_user: root
-  package:
-    name: flatpak
-    state: present
-
-- name: System setup | tweaks | flatpak | add flathub remote
-  flatpak_remote:
-    name: flathub
-    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
-    method: user
-    state: present
-
 # **** Installing Snap Package
-- name: System setup | tweaks | install snapd
+- name: Software | Tweaks | Install snapd
   become_user: root
   package:
     name: snapd
@@ -25,7 +10,7 @@
 
 # **** Distro-specific Tasks For Arch
 # **** Installing AUR Helper Package
-- name: System setup | tweaks | clone yay
+- name: Software | Tweaks | Clone yay Arch
   become_user: "{{ custom_user }}"
   git:
     repo: https://aur.archlinux.org/yay-bin.git
@@ -33,7 +18,7 @@
     update: true
   when: ansible_distribution == "Archlinux"
 
-- name: System setup | tweaks | build and install yay
+- name: Software | Tweaks | Install yay Arch
   become_user: "{{ custom_user }}"
   command:
     chdir: "{{ tmp_dir }}/yay"
@@ -41,20 +26,20 @@
     creates: /usr/bin/yay
   when: ansible_distribution == "Archlinux"
 
-- name: System setup | tweaks | install xorg (archlinux)
+- name: Software | Tweaks | Install xorg Arch
   become_user: root
   package:
     name: xorg-server
   when: ansible_distribution == "Archlinux"
 
 # **** Installing Snap Package | Arch-based
-- name: System setup | tweaks | install snapd
+- name: Software | Tweaks | Install snapd Arch
   kewlfft.aur.aur:
     use: yay
     name: snapd
   when: ansible_distribution == "Archlinux"
 
-- name: System setup | tweaks | Create ln snap
+- name: Software | Tweaks | Create snap soft link
   become_user: root
   file:
     src: /var/lib/snapd/snap
@@ -64,13 +49,13 @@
     state: link
   when: ansible_distribution != "Ubuntu"
 
-- name: System setup | tweaks | enable snapd
+- name: Software | Tweaks | Enable snapd
   service:
     name: snapd
     state: started
     enabled: true
 
-- name: System setup | tweaks | enable snapd.apparmor
+- name: Software | Tweaks | Enable snapd.apparmor Arch
   service:
     name: snapd.apparmor
     state: started
@@ -78,12 +63,12 @@
   when: ansible_distribution == "Archlinux"
 
 # **** Installing Snap Core Package
-- name: System setup | tweaks | install/update core snap
+- name: Software | Tweaks | Install/update core snap
   snap:
     name: core
 
 # **** Distro-specific Tasks For Ubuntu
-- name: System setup | tweaks | disable apport in config on ubuntu-based hosts
+- name: Software | Tweaks | Disable apport Ubuntu
   lineinfile:
     dest: /etc/default/apport
     regexp: "enabled="
@@ -91,7 +76,7 @@
   failed_when: false
   when: ansible_distribution in ["Ubuntu"]
 
-- name: System setup | tweaks | disable and stop apport service on ubuntu-based hosts
+- name: Software | Tweaks | Stop apport Ubuntu
   service:
     name: apport
     state: stopped

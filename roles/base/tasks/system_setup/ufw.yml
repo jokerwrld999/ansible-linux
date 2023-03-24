@@ -1,33 +1,33 @@
 ---
 
-- name: System setup | ufw | install ufw
+- name: System setup | UFW | Install UFW
   package:
     name:
       - ufw
-  when: ansible_distribution in ['Debian', "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: System setup | ufw | ufw enable
+- name: System setup | UFW | Enable UFW
   ufw:
     state: enabled
-  when: ansible_distribution in ['Debian', "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: System setup | ufw | ufw alow OpenSSH
+- name: System setup | UFW | UFW alow OpenSSH
   ufw:
     rule: allow
     name: OpenSSH
-  when: ansible_distribution in ['Debian', "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: System setup | ufw-docker | get ufw-docker
+- name: System setup | ufw-docker | Get ufw-docker
   shell: wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
   args:
     creates: "/usr/local/bin/ufw-docker"
     warn: false
-  when: ansible_distribution in ['Debian', "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: System setup | ufw-docker | change ufw-docker permission
+- name: System setup | ufw-docker | Make ufw-docker an executable
   file:
     path: /usr/local/bin/ufw-docker
     owner: root
     group: root
     mode: '0755'
-  when: ansible_distribution in ['Debian', "Ubuntu"]
+  when: ansible_distribution in ["Debian", "Ubuntu"]

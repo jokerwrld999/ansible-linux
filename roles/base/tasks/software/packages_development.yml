@@ -1,6 +1,6 @@
 ---
 
-- name: System setup | development packages | install packages
+- name: Software | Development | Install packages
   package:
     name:
       - perl
@@ -15,19 +15,19 @@
       - tig
     state: latest
 
-- name: System setup | development packages | install packages
+- name: Software | Development | Install packages Arch
   pacman:
     name: base-devel
     state: latest
   when: ansible_distribution == "Archlinux"
 
-- name: System setup | development packages | install packages
+- name: Software | Development | Install packages Debian
   apt:
     name: build-essential
     state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: System setup | development packages | install packages
+- name: Software | Development | Install packages Fedora
   dnf:
     name:
       - '@Development tools'
@@ -35,8 +35,7 @@
     state: latest
   when: ansible_distribution == "Fedora"
 
-- name: System setup | development packages | install kubectl
-  become_user: root
+- name: Software | Development | Install kubectl snap
   snap:
     name: kubectl
     classic: true

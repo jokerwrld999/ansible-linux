@@ -1,18 +1,18 @@
 ---
 
-- name: System setup | openssh | install or update daemon package
+- name: System setup | OpenSSH | Install package
   package:
     name: "{{ openssh_package }}"
     state: latest
   notify: restart_sshd
 
-- name: System setup | openssh | enable daemon
+- name: System setup | OpenSSH | Enable daemon
   service:
     name: "{{ openssh_service }}"
     enabled: yes
     state: started
 
-- name: System setup | openssh | generate sshd_config file from template
+- name: System setup | OpenSSH | Generate sshd_config file from template
   template:
     src: sshd_config.j2
     dest: /etc/ssh/sshd_config
@@ -21,7 +21,7 @@
     mode: 0644
   notify: restart_sshd
 
-- name: System setup | openssh | copy issue.net
+- name: System setup | OpenSSH | Copy issue.net
   copy:
     src: system_setup/openssh_issue.net
     dest: /etc/issue.net

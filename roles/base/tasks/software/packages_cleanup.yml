@@ -1,6 +1,6 @@
 ---
 
-- name: System setup | package cleanup | remove unneeded packages
+- name: Software | Cleanup | Remove bloatware
   package:
     state: absent
     name:

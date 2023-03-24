@@ -1,21 +1,21 @@
 ---
 
-- name: System setup | docker | install snap
+- name: Software | Docker | Install snap
   snap:
     name: docker
 
-- name: Users | custom user | create group
+- name: Software | Docker | Create group
   group:
     name: docker
     state: present
 
-- name: System setup | docker | add user to docker group
+- name: Software | Docker | Add user to group
   user:
     name: "{{ custom_user }}"
     groups: docker
     append: yes
 
-- name: System setup | docker-compose | install docker-compose
+- name: Software | Docker Compose | Install package
   package:
     name:
       - docker-compose

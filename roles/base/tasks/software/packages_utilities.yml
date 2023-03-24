@@ -1,10 +1,10 @@
 ---
 
-- name: System setup | utilities | install packages
+- name: Software | Utilities | Install packages
   package:
     name:
       - at
-      - openssl
+      - git
       - colordiff
       - curl
       - "{{ dns_utils_package }}"
@@ -17,6 +17,7 @@
       - net-tools
       - "{{ nfs_client_package }}"
       - nmap
+      - openssl
       - "{{ rename_package }}"
       - rsync
       - sshfs
@@ -26,29 +27,25 @@
       - tree
       - wget
       - whois
+      - zsh
 
-- name: System setup | utilities | install autojump
+- name: Software | Utilities | Install autojump
   package:
     name:
       - "{{ autojump_package }}"
   when: ansible_distribution != "Archlinux"
 
-- name: System setup | utilities | install autojump arch
+- name: Software | Utilities | Install autojump Arch
   become_user: "{{ custom_user }}"
   kewlfft.aur.aur:
     use: yay
     name: "{{ autojump_package }}"
   when: ansible_distribution == "Archlinux"
 
-- name: System setup | utilities | install packages (arch)
+- name: Software | Utilities | Install packages Arch
   pacman:
     name:
       - man-db
       - man-pages
       - github-cli
   when: ansible_distribution == "Archlinux"
-
-- name: System setup | utilities | install speedtest-cli
-  pip:
-    name:
-      - speedtest-cli

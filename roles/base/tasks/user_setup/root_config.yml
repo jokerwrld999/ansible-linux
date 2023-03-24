@@ -11,11 +11,6 @@
     - { dir: '.bash' }
     - { dir: '.config' }
     - { dir: '.config/htop' }
-    - { dir: '.vim' }
-    - { dir: '.vim/autoload' }
-    - { dir: '.vim/bundle' }
-    - { dir: '.vim/colors' }
-    - { dir: '.vim/ftplugin' }
     - { dir: '.zsh' }
 
 - name: Users | root | copy dotfiles
