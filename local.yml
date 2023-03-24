@@ -3,6 +3,12 @@
 - hosts: all
   become: true
   pre_tasks:
+    - name: Pre-run | Install collections
+      command: ansible-galaxy collection install kewlfft.aur -p=./collections
+      args:
+        creates: collections/ansible_collections/kewlfft/aur/MANIFEST.json
+      delegate_to: localhost
+
     - name: Pre-run | update package cache (arch, manjaro)
       pacman:
         update_cache: yes

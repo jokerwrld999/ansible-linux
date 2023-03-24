@@ -1,6 +1,6 @@
 ---
 
-- name: Send completion notification via telegram
+- name: Telegram | Send completion alert
   telegram:
     token: "{{ telegram_token }}"
     api_args:
