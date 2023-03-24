@@ -46,6 +46,8 @@
 # end of run cleanup and reporting
 - hosts: all
   become: true
+  vars_files:
+    - roles/base/vars/main.yml
   tasks:
     - name: Cleanup packages (arch)
       shell: yes | pacman -Scc
@@ -69,12 +71,12 @@
       when: ansible_distribution == "Fedora"
 
     - name: Send completion alert
-      include_tasks: playbooks/send_completion_alert.yml
+      include_tasks: roles/base/tasks/alerts/send_completion_alert.yml
       when:
         - task_failed is not defined
 
     - name: Send failure alert
-      include_tasks: playbooks/send_failure_alert.yml
+      include_tasks: roles/base/tasks/alerts/send_failure_alert.yml
       when:
         - task_failed is defined
         - task_failed == true
