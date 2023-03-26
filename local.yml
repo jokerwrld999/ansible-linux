@@ -7,7 +7,7 @@
       pacman:
         update_cache: yes
         upgrade: yes
-      changed_when: False
+      changed_when: false
       when: ansible_distribution == "Archlinux"
 
     - name: Pre-run | update package cache (debian, etc)
@@ -23,7 +23,7 @@
         update_only: yes
         name: "*"
         state: latest
-      changed_when: False
+      changed_when: false
       when: ansible_distribution == "Fedora"
 
 - hosts: all

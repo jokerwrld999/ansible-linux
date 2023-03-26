@@ -23,7 +23,7 @@
     group: "{{ custom_user }}"
     mode: 0664
     state: touch
-  changed_when: False
+  changed_when: false
 
 - name: Ansible setup | remove default ansible directory (/etc/ansible) from host
   file:

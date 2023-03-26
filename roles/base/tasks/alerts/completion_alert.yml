@@ -7,4 +7,4 @@
       chat_id: "{{ telegram_chat_id }}"
       parse_mode: "markdown"
       text: "✔️  Ansible provision finished on *{{ ansible_hostname }}*"
-  changed_when: False
+  changed_when: false
