@@ -1,95 +1,95 @@
 ---
 
 # **** Plasma Customization Saver
-- name: Plasmoids | custom user | clone plasma saver
+- name: Plasmoids | Clone plasma saver
   git:
     repo: https://github.com/paju1986/PlasmaConfSaver.git
-    dest: "{{ tmp_dir }}/PlasmaConfSaver"
+    dest: "{{ temp_dir }}/PlasmaConfSaver"
     force: yes
 
-- name: Plasmoids | custom user | install plasma saver
+- name: Plasmoids | Install plasma saver
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
-    chdir: "{{ tmp_dir }}/PlasmaConfSaver/com.pajuelo.plasmaConfSaver/"
+    chdir: "{{ temp_dir }}/PlasmaConfSaver/com.pajuelo.plasmaConfSaver/"
     creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/com.pajuelo.plasmaConfSaver"
 
 # **** Latte Spacer
-- name: Plasmoids | custom user | clone latte spacer
+- name: Plasmoids | Clone latte spacer
   git:
     repo: https://github.com/psifidotos/applet-latte-spacer.git
-    dest: "{{ tmp_dir }}/applet-latte-spacer"
+    dest: "{{ temp_dir }}/applet-latte-spacer"
     force: yes
 
-- name: Plasmoids | custom user | install latte spacer
+- name: Plasmoids | Install latte spacer
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
-    chdir: "{{ tmp_dir }}/applet-latte-spacer/"
+    chdir: "{{ temp_dir }}/applet-latte-spacer/"
     creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/org.kde.latte.spacer"
 
   # **** Better Inline Clock
-- name: Plasmoids | custom user | clone better inline clock
+- name: Plasmoids | Clone better inline clock
   git:
     repo: https://github.com/MarianArlt/kde-plasmoid-betterinlineclock.git
-    dest: "{{ tmp_dir }}/kde-plasmoid-betterinlineclock"
+    dest: "{{ temp_dir }}/kde-plasmoid-betterinlineclock"
     force: yes
 
-- name: Plasmoids | custom user | install better inline clock
+- name: Plasmoids | Install better inline clock
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
-    chdir: "{{ tmp_dir }}/kde-plasmoid-betterinlineclock/org.kde.plasma.betterinlineclock/"
+    chdir: "{{ temp_dir }}/kde-plasmoid-betterinlineclock/org.kde.plasma.betterinlineclock/"
     creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/org.kde.plasma.betterinlineclock"
 
  # **** Inline Battery
-- name: Plasmoids | custom user | clone inline battery
+- name: Plasmoids | Clone inline battery
   git:
     repo: https://github.com/0kzh/mac-inline-battery.git
-    dest: "{{ tmp_dir }}/mac-inline-battery"
+    dest: "{{ temp_dir }}/mac-inline-battery"
     force: yes
 
-- name: Plasmoids | custom user | install inline battery
+- name: Plasmoids | Install inline battery
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
-    chdir: "{{ tmp_dir }}/mac-inline-battery/"
+    chdir: "{{ temp_dir }}/mac-inline-battery/"
     creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/org.kde.plasma.inlineBattery"
 
  # **** Thermal Monitor
-- name: Software | theme | extract thermal monitor
+- name: Plasmoids | Extract thermal monitor
   unarchive:
     src: users/custom_user/resources/plasmoids/org.kde.thermalMonitorFix.tar.gz
-    dest: "{{ tmp_dir }}"
+    dest: "{{ temp_dir }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
     mode: 0755
 
-- name: Plasmoids | custom user | install thermal monitor
+- name: Plasmoids | Install thermal monitor
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
-    chdir: "{{ tmp_dir }}/org.kde.thermalMonitorFix/"
+    chdir: "{{ temp_dir }}/org.kde.thermalMonitorFix/"
     creates: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/org.kde.thermalMonitorFix"
 
   # **** Splash Screen
-- name: Plasmoids | custom user | clone watch_dogs splash
+- name: Plasmoids | Clone watch_dogs splash
   git:
     repo: https://github.com/ferretwithaberet/watch_dogs-kde-splash.git
-    dest: "{{ tmp_dir }}/watch_dogs-kde-splash"
+    dest: "{{ temp_dir }}/watch_dogs-kde-splash"
     force: yes
 
-- name: Plasmoids | custom user | install watch_dogs splash
+- name: Plasmoids | Install watch_dogs splash
   shell: kpackagetool5 -i . || kpackagetool5 -u .
   args:
-    chdir: "{{ tmp_dir }}/watch_dogs-kde-splash"
+    chdir: "{{ temp_dir }}/watch_dogs-kde-splash"
     creates: "/home/{{ custom_user }}/.local/share/plasma/look-and-feel/WatchDogsBootSplash"
 
   # **** Systray Latte Tweaks
-- name: Plasmoids | custom user | clone latte systray tweaks
+- name: Plasmoids | Clone latte systray tweaks
   git:
     repo: https://github.com/psifidotos/plasma-systray-latte-tweaks.git
-    dest: "{{ tmp_dir }}/plasma-systray-latte-tweaks"
+    dest: "{{ temp_dir }}/plasma-systray-latte-tweaks"
     force: yes
 
-- name: Plasmoids | copy latte systray tweaks files
+- name: Plasmoids | Copy latte systray tweaks files
   copy:
-    src: "{{ tmp_dir }}/plasma-systray-latte-tweaks/{{ item.src }}"
+    src: "{{ temp_dir }}/plasma-systray-latte-tweaks/{{ item.src }}"
     dest: "/home/{{ custom_user }}/.local/share/plasma/plasmoids/"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"

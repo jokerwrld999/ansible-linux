@@ -2,21 +2,17 @@
 
 - block:
   ## User configs
-  - import_tasks: users/custom_user_config.yml
+  - import_tasks: user_setup/user_config.yml
 
-  ## desktop environments
-
+  ## Desktop environments
   - include_tasks: desktop_environments/kde/kde.yml
   - include_tasks: desktop_environments/kde/plasmoids.yml
-  - include_tasks: desktop_environments/kde/theme.yml
+  - include_tasks: desktop_environments/kde/customization.yml
 
-  ## System setup
-  - import_tasks: system_setup/scripts.yml
-
-  ## install software
+  ## Install software
+  - import_tasks: software/chrome.yml
   - import_tasks: software/flameshot.yml
   - import_tasks: software/foliate.yml
-  - import_tasks: software/google_chrome.yml
   - import_tasks: software/latte_dock.yml
   - import_tasks: software/libreoffice.yml
   - import_tasks: software/telegram.yml

@@ -1,7 +1,7 @@
 ---
 
 # **** Installing VPN Packages | Debian-based
-- name: Software | vpn | install package
+- name: Software | VPN | Install package Debian
   become_user: root
   apt:
     name:
@@ -11,7 +11,7 @@
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # **** Installing VPN Packages | Fedora
-- name: Software | vpn | install package
+- name: Software | VPN | Install package Fedora
   become_user: root
   dnf:
     name:
@@ -20,7 +20,7 @@
   when: ansible_distribution == "Fedora"
 
 # **** Installing VPN Packages | Arch-based
-- name: Software | vpn | install package
+- name: Software | VPN | Install package Arch
   become_user: root
   pacman:
     name:

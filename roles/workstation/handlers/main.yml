@@ -1,4 +1,4 @@
 ---
 
-- name: Update fonts
+- name: update_fonts
   command: fc-cache -vf

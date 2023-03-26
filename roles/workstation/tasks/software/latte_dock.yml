@@ -1,14 +1,14 @@
 ---
 
 # **** Installing Latte Dock Package | Fedora and Debian-based
-- name: Software | latte_dock | install package
+- name: Software | Latte | Install package
   become_user: root
   package:
     name: latte-dock
   when: ansible_distribution in ["Debian", "Ubuntu", "Fedora"]
 
 # **** Installing Latte Dock Package | Arch-based
-- name: Software | latte_dock | install package
+- name: Software | Latte | Install package Arch
   kewlfft.aur.aur:
     use: yay
     name: latte-dock

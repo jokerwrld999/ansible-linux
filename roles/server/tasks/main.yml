@@ -5,6 +5,9 @@
 
 - block:
   - import_tasks: qemu-agent.yml
+    when:
+    - proxmox_instance is defined
+    - proxmox_instance == true
 
   - include_tasks: unattended_upgrades.yml
     when:

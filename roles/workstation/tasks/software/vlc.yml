@@ -1,6 +1,6 @@
 ---
 
-- name: Software | vlc | install package
+- name: Software | Vlc | Install snap
   become_user: root
   snap:
     name: vlc

@@ -1,6 +1,6 @@
 ---
 
-- name: Software | libreoffice | install package
+- name: Software | LibreOffice | Install snap
   become_user: root
   snap:
     name: libreoffice

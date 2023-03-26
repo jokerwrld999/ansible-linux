@@ -1,7 +1,7 @@
 ---
 
 # **** Installing KDE Packages | Debian-based
-- name: Software | kde | install package
+- name: KDE | Install package
   become_user: root
   apt:
     name:
@@ -10,7 +10,7 @@
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # **** Installing KDE Packages | Fedora
-- name: Software | kde | install package
+- name: KDE | Install package
   become_user: root
   dnf:
     name: "@KDE Plasma Workspaces"
@@ -18,7 +18,7 @@
   when: ansible_distribution == "Fedora"
 
 # **** Installing KDE Packages | Arch-based
-- name: Software | kde | install package
+- name: KDE | Install package
   become_user: root
   pacman:
     name:
@@ -27,7 +27,7 @@
       - kde-applications
   when: ansible_distribution == "Archlinux"
 
-- name: Software | kde services | start sddm
+- name: KDE services | start sddm
   become_user: root
   systemd:
     name: sddm
@@ -35,7 +35,7 @@
     force: true
   when: ansible_distribution in ["Archlinux", "Fedora"]
 
-- name: Change file ownership, group and permissions
+- name: KDE | SDDM | Change file permissions
   become_user: root
   file:
     path: /var/lib/sddm/.config
@@ -44,7 +44,7 @@
     mode: '0755'
   when: ansible_distribution == "Archlinux"
 
-- name: Software | kde services | start NetworkManager
+- name: KDE services | Start NetworkManager
   become_user: root
   systemd:
     name: NetworkManager
@@ -52,7 +52,7 @@
     enabled: true
   when: ansible_distribution in ["Archlinux", "Fedora"]
 
-- name: Software | kde services | disable kwallet
+- name: KDE services | Disable kwallet
   shell: |
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'Enabled' 'false'
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'First Use' 'false'

@@ -1,5 +1,12 @@
 autoload -U compinit && compinit
+autoload -U colors && colors
 zmodload -i zsh/complist
+
+# enable spell checker
+setopt correct
+#export SPROMPT="Correct %R to %r? [Yes, No, Abort, Edit] "
+export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color?
+ [Yes, No, Abort, Edit] "
 
 # man zshcontrib
 zstyle ':vcs_info:*' actionformats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '

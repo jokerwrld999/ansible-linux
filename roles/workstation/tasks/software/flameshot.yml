@@ -1,8 +1,8 @@
 ---
 
-- name: Software | flameshot | install package
+- name: Software | Flameshot | Install package
   become_user: root
   package:
-    state: latest
     name:
       - flameshot
+    state: latest

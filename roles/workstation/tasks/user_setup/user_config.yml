@@ -1,11 +1,11 @@
 ---
 
-- name: Users | custom user | stat .config folder
+- name: Users | Custom | Stat .config folder
   stat:
     path: "/home/{{ custom_user }}/.config"
   register: config_dir
 
-- name: Users | custom user | create config directories
+- name: Users | Custom | Create config directories
   file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
     state: directory
@@ -16,7 +16,7 @@
     - { dir: '.config' }
   when: config_dir.stat.exists == false
 
-- name: Users | custom user | create personal config directories
+- name: Users | Custom | Create personal config directories
   file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
     state: directory
@@ -35,16 +35,16 @@
     - { dir: .local/share/kwin/scripts/forceblur }
     - { dir: .icons }
 
-- name: Users | custom user | clone backups
+- name: Users | Custom | Clone backups
   become_user: "{{ custom_user }}"
   git:
     repo: https://github.com/jokerwrld999/ultimate-backup.git
-    dest: "{{ tmp_dir }}/ultimate-backup"
+    dest: "{{ temp_dir }}/ultimate-backup"
     force: yes
 
-- name: Users | custom user | restore backup files
+- name: Users | Custom | Restore backup
   copy:
-    src: "{{ tmp_dir }}/ultimate-backup/{{ item.src }}"
+    src: "{{ temp_dir }}/ultimate-backup/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
@@ -53,7 +53,7 @@
     - { src: 'fonts', dest: '.local/share/' }
     - { src: 'walls', dest: '/.local/share/wallpapers/' }
 
-- name: Users | custom user | copy personal config files
+- name: Users | Custom | Restore backup
   copy:
     src: "users/custom_user/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"

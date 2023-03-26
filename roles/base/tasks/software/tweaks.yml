@@ -14,14 +14,14 @@
   become_user: "{{ custom_user }}"
   git:
     repo: https://aur.archlinux.org/yay-bin.git
-    dest: "{{ tmp_dir }}/yay"
+    dest: "{{ temp_dir }}/yay"
     update: true
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Tweaks | Install yay Arch
   become_user: "{{ custom_user }}"
   command:
-    chdir: "{{ tmp_dir }}/yay"
+    chdir: "{{ temp_dir }}/yay"
     cmd: "makepkg -sfi --noconfirm"
     creates: /usr/bin/yay
   when: ansible_distribution == "Archlinux"

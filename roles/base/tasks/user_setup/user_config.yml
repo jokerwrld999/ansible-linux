@@ -1,5 +1,11 @@
 ---
 
+- name: Software | Utilities | Install packages
+  package:
+    name:
+      - git
+      - zsh
+
 - name: Users | Custom | Create user
   user:
     name: "{{ custom_user }}"
@@ -82,7 +88,6 @@
     - { src: 'htop/htoprc', dest: '.config/htop/htoprc' }
     - { src: 'inputrc', dest: '.inputrc' }
     - { src: 'zsh/zshrc', dest: '.zshrc' }
-    - { src: 'zsh/p10k.zsh', dest: '.zsh/.p10k.zsh' }
 
 - name: Users | Custom | Clone zsh-autosuggestions plugin repository
   become_user: "{{ custom_user }}"

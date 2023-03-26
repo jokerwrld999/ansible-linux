@@ -4,9 +4,9 @@
   package:
     name:
       - at
-      - git
       - colordiff
       - curl
+      - "{{ cron_package }}"
       - "{{ dns_utils_package }}"
       - "{{ github_cli }}"
       - htop
@@ -27,7 +27,6 @@
       - tree
       - wget
       - whois
-      - zsh
 
 - name: Software | Utilities | Install autojump
   package:

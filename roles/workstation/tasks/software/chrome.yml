@@ -1,20 +1,20 @@
 ---
 
 # **** Installing Chrome | Debian-based
-- name: Software | google-chrome | add repository key
+- name: Software | Chrome | Add repository key Debian
   become_user: root
   apt_key:
     url: "https://dl-ssl.google.com/linux/linux_signing_key.pub"
     state: present
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: Users | custom user | stat chrome repo
+- name: Software | Chrome | Stat Chrome repo Debian
   stat:
     path: "/etc/apt/sources.list.d/google-chrome.list"
   register: chrome_repo
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: Software | google-chrome | add repository
+- name: Software | Chrome | Add repository Debian
   become_user: root
   apt_repository:
     repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
@@ -22,7 +22,7 @@
     state: present
   when: ansible_distribution in ["Debian", "Ubuntu"] and chrome_repo.stat.exists == false
 
-- name: Software | google-chrome | install package
+- name: Software | Chrome | Install package Debian
   become_user: root
   apt:
     name: google-chrome-stable
@@ -30,14 +30,14 @@
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # **** Installing Chrome | Fedora
-- name: Software | google-chrome | add repository
+- name: Software | Chrome | Add repository Fedora
   become_user: root
   rpm_key:
     key: https://dl.google.com/linux/linux_signing_key.pub
     state: present
   when: ansible_distribution == "Fedora"
 
-- name: Add repository into repo.d list
+- name: Software | Chrome | Add repository Fedora
   become_user: root
   yum_repository:
     name: google-chrome
@@ -48,7 +48,7 @@
     gpgkey: https://dl.google.com/linux/linux_signing_key.pub
   when: ansible_distribution == "Fedora"
 
-- name: Software | google-chrome | install package
+- name: Software | Chrome | Install package Fedora
   become_user: root
   dnf:
     name: google-chrome-stable
@@ -56,7 +56,7 @@
   when: ansible_distribution == "Fedora"
 
 # **** Installing Chrome | Arch-based
-- name: Software | google-chrome | install package
+- name: Software | Chrome | Install package Archlinux
   kewlfft.aur.aur:
     use: yay
     name: google-chrome

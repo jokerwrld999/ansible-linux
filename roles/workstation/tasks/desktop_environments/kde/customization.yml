@@ -1,7 +1,7 @@
 ---
 
 # **** Installing Theme Packages | Debian-based
-- name: Software | theme | install packages
+- name: Customization | Install packages
   become_user: root
   apt:
     name:
@@ -12,7 +12,7 @@
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # **** Installing Theme Packages | Fedora
-- name: Software | theme | install packages
+- name: Customization | Install packages
   become_user: root
   dnf:
     name:
@@ -22,7 +22,7 @@
   when: ansible_distribution == "Fedora"
 
 # **** Installing Theme Packages | Arch-based
-- name: Software | theme | install packages
+- name: Customization | Install packages
   become_user: root
   pacman:
     name:
@@ -32,45 +32,45 @@
   when: ansible_distribution == "Archlinux"
 
   # **** Orchis KDE Theme
-- name: Software | theme | clone orchis-kde
+- name: Customization | Clone orchis-kde
   git:
     repo: https://github.com/vinceliuice/Orchis-kde.git
-    dest: "{{ tmp_dir }}/Orchis-kde"
+    dest: "{{ temp_dir }}/Orchis-kde"
     force: yes
 
-- name: Software | theme | install orchis-kde
+- name: Customization | Install orchis-kde
   shell: ./install.sh
   args:
-    chdir: "{{ tmp_dir }}/Orchis-kde/"
+    chdir: "{{ temp_dir }}/Orchis-kde/"
     creates: "/home/{{ custom_user }}/.local/share/plasma/desktoptheme/Orchis-dark"
   register: orchis_theme_installed
 
-- name: Software | theme | apply desktop theme
+- name: Customization | apply desktop theme
   command: plasma-apply-desktoptheme Orchis-dark -platform offscreen
   when: orchis_theme_installed.changed
 
 # **** Sevi Icon Theme
-- name: Software | theme | clone sevi icons
+- name: Customization | Clone sevi icons
   git:
     repo: https://github.com/TaylanTatli/Sevi.git
-    dest: "{{ tmp_dir }}/Sevi"
+    dest: "{{ temp_dir }}/Sevi"
     force: yes
 
-- name: Software | theme | install sevi icons
+- name: Customization | Install sevi icons
   shell: ./install.sh -black
   args:
-    chdir: "{{ tmp_dir }}/Sevi/"
+    chdir: "{{ temp_dir }}/Sevi/"
     creates: "/home/{{ custom_user }}/.local/share/icons/Sevi-black"
   register: sevi_icons_installed
 
-- name: Software | theme | apply icons
+- name: Customization | Apply icons
   shell: |
     changeicons=$(find /usr/ -name 'plasma-changeicons')
     $changeicons Sevi-black -platform offscreen
   when: sevi_icons_installed.changed
 
   # **** Bibata Cursors
-- name: Software | theme | install bibata cursors for user
+- name: Customization | Install bibata cursors for user
   unarchive:
     src: users/custom_user/resources/cursors/Bibata-Modern-Ice.tar.gz
     dest: "{{ item.dest }}"
@@ -81,7 +81,7 @@
     - { dest: '/home/{{ custom_user }}/.icons/' }
   register: bibata_cursors_installed
 
-- name: Software | theme | install bibata cursors for root
+- name: Customization | Install bibata cursors for root
   become_user: root
   unarchive:
     src: users/custom_user/resources/cursors/Bibata-Modern-Ice.tar.gz
@@ -92,20 +92,20 @@
   with_items:
     - { dest: '/usr/share/icons/' }
 
-- name: Software | theme | apply cursor theme
+- name: Customization | Apply cursor theme
   command: plasma-apply-cursortheme Bibata-Modern-Ice -platform offscreen
   when: bibata_cursors_installed.changed
 
 # **** Force Blur
-- name: Software | theme | clone force blur
+- name: Customization | Clone force blur
   git:
     repo: https://github.com/esjeon/kwin-forceblur.git
-    dest: "{{ tmp_dir }}/kwin-forceblur"
+    dest: "{{ temp_dir }}/kwin-forceblur"
     force: yes
 
-- name: Software | theme | copy forceblur files
+- name: Customization | Copy forceblur files
   copy:
-    src: "{{ tmp_dir }}/kwin-forceblur/metadata.desktop"
+    src: "{{ temp_dir }}/kwin-forceblur/metadata.desktop"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
@@ -116,14 +116,14 @@
     - { dest: '.local/share/kservices5/forceblur.desktop' }
 
 # **** SDDM
-- name: Software | theme | clone swish sddm
+- name: Customization | Clone swish sddm
   become_user: root
   git:
     repo: https://github.com/icaho/Swish.git
-    dest: "{{ tmp_dir }}/Swish"
+    dest: "{{ temp_dir }}/Swish"
     force: yes
 
-- name: Software | theme | make a dirictory
+- name: Customization | Create sddm dirictory
   become_user: root
   file:
     path: /etc/sddm.conf.d/
@@ -132,22 +132,22 @@
     group: root
     mode: 0755
 
-- name: Users | custom user | stat .config folder
+- name: Customization | Stat sddm theme folder
   stat:
     path: "/usr/share/sddm/themes/Swish"
   register: sddm_theme
 
-- name: Software | theme | restore swish sddm
+- name: Customization | Restore swish sddm
   become_user: root
   copy:
-    src: "{{ tmp_dir }}/Swish"
+    src: "{{ temp_dir }}/Swish"
     dest: /usr/share/sddm/themes/
     owner: root
     group: root
     mode: 0755
   when: sddm_theme.stat.exists == false
 
-- name: Software | theme | restore a kde_settings
+- name: Customization | Restore a kde_settings
   become_user: root
   copy:
     src: users/custom_user/resources/sddm/kde_settings.conf
@@ -156,9 +156,9 @@
     group: root
     mode: 0755
 
-- name: Software | theme | restore plasma backup
+- name: Customization | Restore plasma backup
   copy:
-    src: "{{ tmp_dir }}/ultimate-backup/{{ item.src }}"
+    src: "{{ temp_dir }}/ultimate-backup/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
@@ -168,12 +168,12 @@
     - { src: 'plasmaConfSaver', dest: '.config/' }
     - { src: 'konsole', dest: '.local/share/' }
 
-- name: Software | theme | restore fonts
+- name: Customization | Restore fonts
   copy:
-    src: "{{ tmp_dir }}/ultimate-backup/fonts"
+    src: "{{ temp_dir }}/ultimate-backup/fonts"
     dest: "/home/{{ custom_user }}/.local/share/"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
     mode: 0755
     remote_src: true
-  notify: Update fonts
+  notify: update_fonts
