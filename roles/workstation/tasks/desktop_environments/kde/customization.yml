@@ -123,7 +123,7 @@
     dest: "{{ temp_dir }}/Swish"
     force: yes
 
-- name: Customization | Create sddm dirictory
+- name: Customization | Create sddm directory
   become_user: root
   file:
     path: /etc/sddm.conf.d/
