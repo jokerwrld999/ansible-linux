@@ -1,6 +1,15 @@
 ---
 
-- name: Users | root | create config directories
+- name: Users | Root | Ensure root user is unlocked
+  user:
+    name: root
+    group: root
+    password: "{{ custom_user_passwd }}"
+    update_password: on_create
+    shell: /bin/zsh
+    state: present
+
+- name: Users | Root | Create config directories
   file:
     path: /home/root/{{ item.dir }}
     state: directory
@@ -13,7 +22,7 @@
     - { dir: '.config/htop' }
     - { dir: '.zsh' }
 
-- name: Users | root | copy dotfiles
+- name: Users | Root | Copy dotfiles
   copy:
     src: users/root/{{ item.src }}
     dest: /home/root/{{ item.dest }}
@@ -33,25 +42,25 @@
     - { src: 'zsh/p10k.zsh', dest: '.zsh/.p10k.zsh' }
 
 
-- name: Users | root | clone zsh-autosuggestions plugin repository
+- name: Users | Root | Clone zsh-autosuggestions plugin repository
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
     dest: /home/root/.zsh/zsh-autosuggestions
     force: yes
 
-- name: Users | root | clone zsh-syntax-highlighting plugin repository
+- name: Users | Root | Clone zsh-syntax-highlighting plugin repository
   git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
     dest: /home/root/.zsh/zsh-syntax-highlighting
     force: yes
 
-- name: Users | root | clone powerlevel10k plugin repository
+- name: Users | Root | Clone powerlevel10k plugin repository
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
     dest: /home/root/.zsh/powerlevel10k
     force: yes
 
-- name: Users | root | copy individual zsh config files
+- name: Users | Root | Copy individual zsh config files
   copy:
     src: users/root/zsh/{{ item.src }}
     dest: /home/root/.zsh/{{ item.src }}

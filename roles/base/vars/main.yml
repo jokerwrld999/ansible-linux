@@ -10,6 +10,8 @@ microcode_intel_install: true
 microcode_amd_install: false
 
 # user
+# Encrypt Password
+# python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
 custom_user: jokerwrld
 temp_dir: "/home/{{ custom_user }}/tmp"
 custom_user_passwd: $6$7pBJdaOrm.iB9vGI$Swk3nCORRyvKw1gBN4pC7GiF1J.cb/AuZC0A8nTrrKNia1JBvu3B27Tud.BPCl.OyPVA0yhJQE6b6eEcCgCcz/
@@ -30,6 +32,3 @@ telegram_token: !vault |
           3633623561323131310a303434346236643065623065313532396365373432343733386635616563
           34656262623666353363323030336232613237353535326363663962303766313064306263616433
           6235663136363430313264343736656261633835393265353762
-
-# Encrypt Password
-# python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
