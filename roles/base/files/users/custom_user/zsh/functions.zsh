@@ -73,94 +73,6 @@ mkdirgo ()
 	cd "$1"
 }
 
-# Show the current distribution
-distribution ()
-{
-	local dtype
-	# Assume unknown
-	dtype="unknown"
-
-	# First test against Fedora / RHEL / CentOS / generic Redhat derivative
-	if [ -r /etc/rc.d/init.d/functions ]; then
-		source /etc/rc.d/init.d/functions
-		[ zz`type -t passed 2>/dev/null` == "zzfunction" ] && dtype="redhat"
-
-	# Then test against SUSE (must be after Redhat,
-	# I've seen rc.status on Ubuntu I think? TODO: Recheck that)
-	elif [ -r /etc/rc.status ]; then
-		source /etc/rc.status
-		[ zz`type -t rc_reset 2>/dev/null` == "zzfunction" ] && dtype="suse"
-
-	# Then test against Debian, Ubuntu and friends
-	elif [ -r /lib/lsb/init-functions ]; then
-		source /lib/lsb/init-functions
-		[ zz`type -t log_begin_msg 2>/dev/null` == "zzfunction" ] && dtype="debian"
-
-	# Then test against Gentoo
-	elif [ -r /etc/init.d/functions.sh ]; then
-		source /etc/init.d/functions.sh
-		[ zz`type -t ebegin 2>/dev/null` == "zzfunction" ] && dtype="gentoo"
-
-	# For Mandriva we currently just test if /etc/mandriva-release exists
-	# and isn't empty (TODO: Find a better way :)
-	elif [ -s /etc/mandriva-release ]; then
-		dtype="mandriva"
-
-	# For Slackware we currently just test if /etc/slackware-version exists
-	elif [ -s /etc/slackware-version ]; then
-		dtype="slackware"
-
-	fi
-	echo $dtype
-}
-
-# Show the current version of the operating system
-ver ()
-{
-	local dtype
-	dtype=$(distribution)
-
-	if [ $dtype == "redhat" ]; then
-		if [ -s /etc/redhat-release ]; then
-			cat /etc/redhat-release && uname -a
-		else
-			cat /etc/issue && uname -a
-		fi
-	elif [ $dtype == "suse" ]; then
-		cat /etc/SuSE-release
-	elif [ $dtype == "debian" ]; then
-		lsb_release -a
-		# sudo cat /etc/issue && sudo cat /etc/issue.net && sudo cat /etc/lsb_release && sudo cat /etc/os-release # Linux Mint option 2
-	elif [ $dtype == "gentoo" ]; then
-		cat /etc/gentoo-release
-	elif [ $dtype == "mandriva" ]; then
-		cat /etc/mandriva-release
-	elif [ $dtype == "slackware" ]; then
-		cat /etc/slackware-version
-	else
-		if [ -s /etc/issue ]; then
-			cat /etc/issue
-		else
-			echo "Error: Unknown distribution"
-			exit 1
-		fi
-	fi
-}
-
-# Show current network information
-netinfo ()
-{
-	echo "--------------- Network Information ---------------"
-	/sbin/ifconfig | awk /'inet addr/ {print $2}'
-	echo ""
-	/sbin/ifconfig | awk /'Bcast/ {print $3}'
-	echo ""
-	/sbin/ifconfig | awk /'inet addr/ {print $4}'
-
-	/sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
-	echo "---------------------------------------------------"
-}
-
 # IP address lookup
 whatsmyip ()
 {
@@ -218,33 +130,45 @@ mysqlconfig ()
 }
 
 
-# Git shortcuts
+# Git commit
 gcom() {
     git add .
     git commit -m "$1"
 }
+
+# Lazy git push
 lazyg() {
 	git add .
 	git commit -m "$1"
 	git push
 }
+
+# Git clone repo and go to the directory
 gclone() {
 	repo=$(basename "$1" | cut -d '.' -f 1)
 	git clone "$1"
 	cd $repo
 }
 
-gup() {
-    eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/github
-    ssh -T git@github.com
+# Gh clone repo and go to the directory
+ghclone() {
+	repo = $(echo "$1" | cut -d '/' -f2 )
+	gh repo clone "$1"
+	cd $repo
 }
 
-# Quick shortcut to start code
+# To cache the passphrase for our session
+ssha() {
+    eval "$(ssh-agent -s)"
+    ssh-add
+}
+
+# Start VS Code
 c() {
 	code "$1" &
 }
 
+# Go to the directory and list content
 cdls() {
 	cd "$1"
 	ll .

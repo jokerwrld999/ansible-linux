@@ -2,13 +2,29 @@
 
 Provision your Linux Servers and Desktops with this playbook.
 
-# Setting up a Managed node
+# Setting SSH Key-Based Authentication
 
-1. Configure SSH Key-Based Authentication
+1. Generate an ssh key
+```
+ssh-keygen -t ed25519 -C "jay default"
+```
 
-2. Select SSH Key in ansible.cfg
+2. Copy the ssh key to the server(s)
+```
+ssh-copy-id -i ~/.ssh/id_ed25519.pub <IP Adderss>
+```
 
-# Setting up a Control node
+3. Generate an ssh key that’s going to be specifically used for Ansible
+```
+ssh-keygen -t ed25519 -C "ansible"
+```
+
+4. Copy the ssh key to the server(s)
+```
+ssh-copy-id -i ~/.ssh/ansible.pub
+```
+
+# Modify The Variables
 
 * Modify the variables in inventory/hosts
 
