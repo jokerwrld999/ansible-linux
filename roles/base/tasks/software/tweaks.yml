@@ -26,18 +26,28 @@
     creates: /usr/bin/yay
   when: ansible_distribution == "Archlinux"
 
-- name: Software | Tweaks | Install xorg Arch
-  become_user: root
-  package:
-    name: xorg-server
+# **** Installing Snap Package | Arch-based
+- name: Software | Tweaks | Clone snap Arch
+  become_user: "{{ custom_user }}"
+  git:
+    repo: https://aur.archlinux.org/snapd.git
+    dest: "{{ temp_dir }}/snapd"
+    update: true
   when: ansible_distribution == "Archlinux"
 
-# **** Installing Snap Package | Arch-based
-- name: Software | Tweaks | Install snapd Arch
-  kewlfft.aur.aur:
-    use: yay
-    name: snapd
+- name: Software | Tweaks | Install snap Arch
+  become_user: "{{ custom_user }}"
+  command:
+    chdir: "{{ temp_dir }}/snapd"
+    cmd: "makepkg -si --noconfirm"
+    creates: /usr/bin/snap
   when: ansible_distribution == "Archlinux"
+
+- name: Software | Tweaks | Enable snapd
+  service:
+    name: snapd
+    state: started
+    enabled: true
 
 - name: Software | Tweaks | Create snap soft link
   become_user: root
@@ -48,12 +58,6 @@
     group: root
     state: link
   when: ansible_distribution != "Ubuntu"
-
-- name: Software | Tweaks | Enable snapd
-  service:
-    name: snapd
-    state: started
-    enabled: true
 
 - name: Software | Tweaks | Enable snapd.apparmor Arch
   service:
