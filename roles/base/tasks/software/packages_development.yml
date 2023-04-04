@@ -35,7 +35,4 @@
     state: latest
   when: ansible_distribution == "Fedora"
 
-- name: Software | Development | Install kubectl snap
-  snap:
-    name: kubectl
-    classic: true
+
