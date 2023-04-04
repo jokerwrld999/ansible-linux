@@ -13,7 +13,6 @@
     groups: "{{ custom_user }},{{ sudo_group }}"
     append: true
     password: "{{ custom_user_passwd }}"
-    #update_password: on_create
     shell: /bin/zsh
     state: present
 
