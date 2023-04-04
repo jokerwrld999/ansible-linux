@@ -39,7 +39,7 @@
   become_user: "{{ custom_user }}"
   command:
     chdir: "{{ temp_dir }}/snapd"
-    cmd: "makepkg -si --noconfirm"
+    cmd: "makepkg -sfi --noconfirm"
     creates: /usr/bin/snap
   when: ansible_distribution == "Archlinux"
 
