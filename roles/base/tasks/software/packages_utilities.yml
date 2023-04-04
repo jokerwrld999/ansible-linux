@@ -49,7 +49,7 @@
       - github-cli
   when: ansible_distribution == "Archlinux"
 
-- name: Software | Development | Install kubectl snap
+- name: Software | Utilities | Install kubectl snap
   snap:
     name: kubectl
     classic: true
