@@ -18,7 +18,7 @@
   register: dev_pkg
 
 - name: Software | Development | Install packages Arch
-  shell: pacman -Syu base-devel --needed
+  shell: pacman -Syu base-devel --needed --noconfirm
   when:
     - ansible_distribution == "Archlinux"
     - dev_pkg.changed
