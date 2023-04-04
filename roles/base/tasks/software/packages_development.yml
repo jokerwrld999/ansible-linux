@@ -15,10 +15,13 @@
       - "{{ ruby_rake_package }}"
       - tig
     state: latest
+  register: dev_pkg
 
 - name: Software | Development | Install packages Arch
   shell: pacman -Syu base-devel --needed
-  when: ansible_distribution == "Archlinux"
+  when:
+    - ansible_distribution == "Archlinux"
+    - dev_pkg.changed
 
 - name: Software | Development | Install packages Debian
   apt:

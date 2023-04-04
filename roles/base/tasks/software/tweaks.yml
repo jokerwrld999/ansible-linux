@@ -39,6 +39,7 @@
     name: snapd
     state: started
     enabled: true
+  register: snapd_service
 
 - name: Software | Tweaks | Create snap soft link
   become_user: root
@@ -55,7 +56,9 @@
     name: snapd.apparmor
     state: started
     enabled: true
-  when: ansible_distribution == "Archlinux"
+  when:
+    - ansible_distribution == "Archlinux"
+    - snapd_service.changed
 
 # **** Installing Snap Core Package
 - name: Software | Tweaks | Install/update core snap
