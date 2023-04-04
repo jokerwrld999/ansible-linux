@@ -17,9 +17,7 @@
     state: latest
 
 - name: Software | Development | Install packages Arch
-  pacman:
-    name: base-devel
-    state: latest
+  shell: pacman -Syu base-devel --needed
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Development | Install packages Debian

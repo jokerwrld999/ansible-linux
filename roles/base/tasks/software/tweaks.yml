@@ -27,20 +27,11 @@
   when: ansible_distribution == "Archlinux"
 
 # **** Installing Snap Package | Arch-based
-- name: Software | Tweaks | Clone snap Arch
-  become_user: "{{ custom_user }}"
-  git:
-    repo: https://aur.archlinux.org/snapd.git
-    dest: "{{ temp_dir }}/snapd"
-    update: true
-  when: ansible_distribution == "Archlinux"
-
 - name: Software | Tweaks | Install snap Arch
   become_user: "{{ custom_user }}"
-  command:
-    chdir: "{{ temp_dir }}/snapd"
-    cmd: "makepkg -sfi --noconfirm"
-    creates: /usr/bin/snap
+  kewlfft.aur.aur:
+    use: yay
+    name: snapd
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Tweaks | Enable snapd
