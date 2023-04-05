@@ -6,12 +6,6 @@
     state: latest
   notify: restart_sshd
 
-- name: System setup | OpenSSH | Enable daemon
-  service:
-    name: "{{ openssh_service }}"
-    enabled: yes
-    state: started
-
 - name: System setup | OpenSSH | Generate sshd_config file from template
   template:
     src: sshd_config.j2
@@ -19,7 +13,25 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart_sshd
+
+- name: System setup | OpenSSH | Stat wsl.conf file
+  stat:
+    path: /etc/wsl.conf
+  register: wsl_info
+
+- name: System setup | OpenSSH | Disable apport Ubuntu
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "Port 22"
+    line: "Port 2222"
+  failed_when: false
+  when: wsl_info.stat.exists == true
+
+- name: System setup | OpenSSH | Enable daemon
+  service:
+    name: "{{ openssh_service }}"
+    enabled: yes
+    state: started
 
 - name: System setup | OpenSSH | Copy issue.net
   copy:
