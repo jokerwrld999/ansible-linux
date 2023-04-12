@@ -128,3 +128,8 @@ alias sha1='openssl sha1'
 # Alias for git
 alias gpush='git push'
 alias gs='git status'
+
+# Aliases for docker
+alias d='docker'
+alias stopdocks='docker stop $(docker ps -a -q)'
+alias rmdocks='docker rm $(docker ps -a -q)'
