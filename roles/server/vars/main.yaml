@@ -1,5 +1,5 @@
 ---
 
 # Server Configuration
-proxmox_instance: true
+proxmox_instance: false
 unattended_upgrades: true

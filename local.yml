@@ -31,16 +31,16 @@
   roles:
     - base
 
+- hosts: server
+  become: true
+  roles:
+    - server
+
 - hosts: workstation
   become: true
   become_user: "{{ custom_user }}"
   roles:
     - workstation
-
-- hosts: server
-  become: true
-  roles:
-    - server
 
 - hosts: all
   become: true

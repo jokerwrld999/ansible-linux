@@ -3,7 +3,7 @@
 # Base Configuration
 # ssh
 ssh_users: "{{ custom_user }}"
-ssh_port: 22
+ssh_port: 2222
 
 # platform-specific
 microcode_intel_install: true
