@@ -43,3 +43,5 @@ esac
 
 # reload bash config
 alias reload="source ~/.bashrc"
+
+export PATH="$HOME/.local/bin:$PATH"

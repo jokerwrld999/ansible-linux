@@ -17,7 +17,6 @@ source ~/.zsh/prompt.zsh
 source ~/.zsh/setopt.zsh
 source ~/.zsh/theming.zsh
 
-
 # ZSH Plugins
 source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
@@ -27,3 +26,5 @@ source /usr/share/autojump/autojump.zsh 2>/dev/null
 # ZSH p10k Theme
 POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 [[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh
+
+export PATH="$HOME/.local/bin:$PATH"
