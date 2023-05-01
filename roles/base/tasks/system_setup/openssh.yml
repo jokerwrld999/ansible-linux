@@ -19,7 +19,7 @@
     path: /etc/wsl.conf
   register: wsl_info
 
-- name: System setup | OpenSSH | Disable apport Ubuntu
+- name: System setup | OpenSSH | Update port for WSL
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "Port 22"
