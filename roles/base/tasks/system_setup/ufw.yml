@@ -6,15 +6,27 @@
       - ufw
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: System setup | UFW | Enable UFW
+- name: System setup | UFW | UFW allow outgoing
   ufw:
-    state: enabled
+    default: allow
+    direction: outgoing
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: System setup | UFW | UFW alow OpenSSH
+- name: System setup | UFW | UFW deny incoming
+  ufw:
+    default: deny
+    direction: incoming
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: System setup | UFW | UFW allow OpenSSH
   ufw:
     rule: allow
     name: OpenSSH
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: System setup | UFW | Enable UFW
+  ufw:
+    state: enabled
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: System setup | ufw-docker | Get ufw-docker
@@ -33,23 +45,22 @@
 
 - name: System setup | ufw-docker | Search for ufw-docker rules
   lineinfile:
-      dest: /etc/ufw/after.rules
-      line: '-A DOCKER-USER -j ufw-user-forward'
-      state: present
+    dest: /etc/ufw/after.rules
+    line: '-A DOCKER-USER -j ufw-user-forward'
+    state: present
   check_mode: true
   when: ansible_distribution in ["Debian", "Ubuntu"]
   register: ufw_rules_content
 
 - name: System setup | ufw-docker | Install ufw-docker rules
   shell: sudo ufw-docker install
-  when: 
+  when:
     - ansible_distribution in ["Debian", "Ubuntu"]
     - ufw_rules_content.changed
   register: ufw_rules
 
 - name: System setup | ufw-docker | Restart UFW Service
   shell: sudo systemctl restart ufw
-  when: 
+  when:
     - ansible_distribution in ["Debian", "Ubuntu"]
     - ufw_rules.changed
- 

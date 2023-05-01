@@ -27,7 +27,7 @@
       changed_when: false
       when: ansible_distribution == "Fedora"
 
-- name: Pre-configuring hosts  
+- name: Pre-configuring hosts
   hosts: all
   become: true
   roles:

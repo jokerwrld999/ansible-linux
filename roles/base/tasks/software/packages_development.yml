@@ -18,10 +18,9 @@
   register: dev_pkg
 
 - name: Software | Development | Install packages Arch
-  shell: pacman -Syu base-devel --needed --noconfirm
-  when:
-    - ansible_distribution == "Archlinux"
-    - dev_pkg.changed
+  pacman:
+    name: base-devel
+  when: ansible_distribution == "Archlinux"
 
 - name: Software | Development | Install packages Debian
   apt:
@@ -36,5 +35,3 @@
       - '@Development libraries'
     state: latest
   when: ansible_distribution == "Fedora"
-
-

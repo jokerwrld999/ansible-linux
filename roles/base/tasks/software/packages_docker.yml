@@ -1,8 +1,30 @@
 ---
 
-- name: Software | Docker | Install snap
-  snap:
+- name: Software | Docker | Install package Arch
+  pacman:
     name: docker
+    state: latest
+  when: ansible_distribution == "Archlinux"
+
+- name: Software | Docker | Download script Debian
+  ansible.builtin.get_url:
+    url: https://get.docker.com
+    dest: "{{ temp_dir }}/get-docker.sh"
+    mode: 0755
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: Software | Docker | Install package Debian
+  shell: ./get-docker.sh
+  args:
+    chdir: "{{ temp_dir }}"
+    creates: /usr/bin/docker
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: Software | Docker | Install package Fedora
+  dnf:
+    name: docker
+    state: latest
+  when: ansible_distribution == "Fedora"
 
 - name: Software | Docker | Create group
   group:
@@ -20,9 +42,8 @@
     name:
       - docker-compose
 
-# - name: System setup | docker | start docker service
-#  service:
-#    name: docker
-#    state: started
-#    enabled: true
-#  when: ansible_distribution != "Archlinux"
+- name: Software | Docker | Start docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
