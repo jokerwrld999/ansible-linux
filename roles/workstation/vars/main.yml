@@ -2,5 +2,5 @@
 
 # Workstation Configuration
 # User
-custom_user: jokerwrld
+custom_user: jenkins
 temp_dir: "/home/{{ custom_user }}/tmp"

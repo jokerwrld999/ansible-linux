@@ -1,12 +1,12 @@
 ---
 
 # **** Installing Snap Package
-- name: Software | Tweaks | Install snapd
-  become_user: root
-  package:
-    name: snapd
-    state: latest
-  when: ansible_distribution in ["Debian", "Ubuntu", "Fedora"]
+#- name: Software | Tweaks | Install snapd
+#  become_user: root
+#  package:
+#    name: snapd
+#    state: latest
+#  when: ansible_distribution in ["Debian", "Ubuntu", "Fedora"]
 
 # **** Distro-specific Tasks For Arch
 # **** Installing AUR Helper Package
@@ -34,22 +34,22 @@
     name: snapd
   when: ansible_distribution == "Archlinux"
 
-- name: Software | Tweaks | Enable snapd
-  service:
-    name: snapd
-    state: started
-    enabled: true
-  register: snapd_service
-
-- name: Software | Tweaks | Create snap soft link
-  become_user: root
-  file:
-    src: /var/lib/snapd/snap
-    dest: /snap
-    owner: root
-    group: root
-    state: link
-  when: ansible_distribution != "Ubuntu"
+#- name: Software | Tweaks | Enable snapd
+#  service:
+#    name: snapd
+#    state: started
+#    enabled: true
+#  register: snapd_service
+#
+#- name: Software | Tweaks | Create snap soft link
+#  become_user: root
+#  file:
+#    src: /var/lib/snapd/snap
+#    dest: /snap
+#    owner: root
+#    group: root
+#    state: link
+#  when: ansible_distribution != "Ubuntu"
 
 - name: Software | Tweaks | Enable snapd.apparmor Arch
   service:
@@ -61,9 +61,9 @@
     - snapd_service.changed
 
 # **** Installing Snap Core Package
-- name: Software | Tweaks | Install/update core snap
-  snap:
-    name: core
+#- name: Software | Tweaks | Install/update core snap
+#  snap:
+#    name: core
 
 # **** Distro-specific Tasks For Ubuntu
 - name: Software | Tweaks | Disable apport Ubuntu
