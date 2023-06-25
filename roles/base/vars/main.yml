@@ -12,7 +12,7 @@ microcode_amd_install: false
 # user
 # Encrypt Password
 # python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
-custom_user: jenkins
+custom_user: jokerwrld
 temp_dir: "/home/{{ custom_user }}/tmp"
 custom_user_passwd: $6$7pBJdaOrm.iB9vGI$Swk3nCORRyvKw1gBN4pC7GiF1J.cb/AuZC0A8nTrrKNia1JBvu3B27Tud.BPCl.OyPVA0yhJQE6b6eEcCgCcz/
 
