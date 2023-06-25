@@ -2,7 +2,7 @@
 
 # Base Configuration
 # ssh
-#ssh_users: "{{ custom_user }}"
+ssh_users: "{{ custom_user }}"
 ssh_port: 22
 
 # platform-specific
