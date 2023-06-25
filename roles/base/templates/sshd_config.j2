@@ -5,7 +5,7 @@ Port {{ ssh_port | default(22) }}
 Protocol 2
 
 # Authentication:
-AllowUsers {{ ssh_users | default("jokerwrld") }}
+#AllowUsers {{ ssh_users }}
 ChallengeResponseAuthentication no
 HostbasedAuthentication no
 LoginGraceTime 120
