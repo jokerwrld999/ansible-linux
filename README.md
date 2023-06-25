@@ -42,8 +42,9 @@ ssh-copy-id -i ~/.ssh/ansible.pub
 
 * !!! Modify the variables in vars/main.yml
 
-* Ensure that Ansible is installed on your Linux execute the following command:
+* Ensure that Ansible is installed on your Linux execute the following commands:
 
 ```
+ansible-galaxy collection install -r requirements.yml
 ansible-playbook local.yml
 ```

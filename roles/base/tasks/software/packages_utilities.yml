@@ -4,7 +4,8 @@
   package:
     name:
       - at
-      - "{{ aws-cli }}"
+      - "{{ aws_cli }}"
+      - bpytop
       - colordiff
       - curl
       - "{{ cron_package }}"
@@ -22,11 +23,13 @@
       - "{{ rename_package }}"
       - rsync
       - sshfs
+      - speedtest-cli
       - "{{ system_guard }}"
       - terraform
       - tldr
       - traceroute
       - tree
+      - unzip
       - wget
       - whois
 
@@ -36,19 +39,11 @@
       - "{{ autojump_package }}"
   when: ansible_distribution != "Archlinux"
 
-- name: Software | Utilities | Install autojump Arch
+- name: Software | Utilities | Install packages Arch
   become_user: "{{ custom_user }}"
   kewlfft.aur.aur:
     use: yay
     name: "{{ autojump_package }}"
-  when: ansible_distribution == "Archlinux"
-
-- name: Software | Utilities | Install packages Arch
-  pacman:
-    name:
-      - man-db
-      - man-pages
-      - github-cli
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Utilities | Download SAM
@@ -60,11 +55,11 @@
 - name: Software | Utilities | Unarchive SAM
   unarchive:
     src: "{{ temp_dir }}/aws-sam-cli-linux-x86_64.zip"
-    dest: "{{ temp_dir }}/sam-installation"
+    dest: "{{ temp_dir }}/"
     mode: 0755
 
-- name: Software | Docker | Install package Debian
+- name: Software | Utilities | Install SAM
   shell: ./install
   args:
-    chdir: "{{ temp_dir }}/sam-installation"
-    creates: /usr/bin/sam
+    chdir: "{{ temp_dir }}/"
+    creates: /usr/local/bin/sam

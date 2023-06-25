@@ -1,8 +1,0 @@
----
-
-- name: Software | Pip | Install packages
-  pip:
-    name:
-      - bpytop
-      - speedtest-cli
-    state: latest

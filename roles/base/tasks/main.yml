@@ -17,7 +17,6 @@
     - import_tasks: software/tweaks.yml
     - import_tasks: software/packages_docker.yml
     - import_tasks: software/packages_cleanup.yml
-    - import_tasks: software/packages_pip.yml
     - import_tasks: software/packages_utilities.yml
 
     # Perform remaining tasks:
