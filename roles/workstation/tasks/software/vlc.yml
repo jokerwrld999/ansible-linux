@@ -1,7 +1,7 @@
 ---
 
-- name: Software | Vlc | Install snap
+- name: Software | Vlc | Install package
   become_user: root
-  snap:
+  package:
     name: vlc
     state: present

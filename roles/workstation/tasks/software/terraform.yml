@@ -1,7 +1,0 @@
----
-
-- name: Software | Terraform | Install snap
-  become_user: root
-  snap:
-    name: terraform
-    classic: true

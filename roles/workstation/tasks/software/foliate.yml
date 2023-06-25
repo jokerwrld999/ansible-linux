@@ -1,7 +1,0 @@
----
-
-- name: Software | Foliate | Install snap
-  become_user: root
-  snap:
-    name: foliate
-    state: present

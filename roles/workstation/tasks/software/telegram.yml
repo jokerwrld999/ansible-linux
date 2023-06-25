@@ -1,6 +1,6 @@
 ---
 
-- name: Software | Telegram | Install snap
+- name: Software | Telegram | Install package
   become_user: root
-  snap:
+  package:
     name: telegram-desktop

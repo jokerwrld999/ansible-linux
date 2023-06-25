@@ -4,6 +4,7 @@
   package:
     name:
       - at
+      - "{{ aws-cli }}"
       - colordiff
       - curl
       - "{{ cron_package }}"
@@ -22,6 +23,7 @@
       - rsync
       - sshfs
       - "{{ system_guard }}"
+      - terraform
       - tldr
       - traceroute
       - tree
@@ -49,7 +51,20 @@
       - github-cli
   when: ansible_distribution == "Archlinux"
 
-- name: Software | Utilities | Install kubectl snap
-  snap:
-    name: kubectl
-    classic: true
+- name: Software | Utilities | Download SAM
+  ansible.builtin.get_url:
+    url: https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip
+    dest: "{{ temp_dir }}/aws-sam-cli-linux-x86_64.zip"
+    mode: 0755
+
+- name: Software | Utilities | Unarchive SAM
+  unarchive:
+    src: "{{ temp_dir }}/aws-sam-cli-linux-x86_64.zip"
+    dest: "{{ temp_dir }}/sam-installation"
+    mode: 0755
+
+- name: Software | Docker | Install package Debian
+  shell: ./install
+  args:
+    chdir: "{{ temp_dir }}/sam-installation"
+    creates: /usr/bin/sam
