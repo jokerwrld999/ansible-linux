@@ -7,3 +7,4 @@
   service:
     name: "{{ openssh_service }}"
     state: restarted
+  ignore_errors: true

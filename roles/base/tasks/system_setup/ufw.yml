@@ -30,7 +30,7 @@
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: System setup | ufw-docker | Get ufw-docker
-  shell: sudo wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+  shell: wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
   args:
     creates: "/usr/local/bin/ufw-docker"
   when: ansible_distribution in ["Debian", "Ubuntu"]
@@ -53,14 +53,14 @@
   register: ufw_rules_content
 
 - name: System setup | ufw-docker | Install ufw-docker rules
-  shell: sudo ufw-docker install
+  shell: ufw-docker install
   when:
     - ansible_distribution in ["Debian", "Ubuntu"]
     - ufw_rules_content.changed
   register: ufw_rules
 
 - name: System setup | ufw-docker | Restart UFW Service
-  shell: sudo systemctl restart ufw
+  shell: systemctl restart ufw
   when:
     - ansible_distribution in ["Debian", "Ubuntu"]
     - ufw_rules.changed
