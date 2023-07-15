@@ -45,21 +45,3 @@
     use: yay
     name: "{{ autojump_package }}"
   when: ansible_distribution == "Archlinux"
-
-- name: Software | Utilities | Download SAM
-  ansible.builtin.get_url:
-    url: https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip
-    dest: "{{ temp_dir }}/aws-sam-cli-linux-x86_64.zip"
-    mode: 0755
-
-- name: Software | Utilities | Unarchive SAM
-  unarchive:
-    src: "{{ temp_dir }}/aws-sam-cli-linux-x86_64.zip"
-    dest: "{{ temp_dir }}/"
-    mode: 0755
-
-- name: Software | Utilities | Install SAM
-  shell: ./install
-  args:
-    chdir: "{{ temp_dir }}/"
-    creates: /usr/local/bin/sam

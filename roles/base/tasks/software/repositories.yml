@@ -26,8 +26,17 @@
   package:
       name:
           - aptitude
+          - gnupg2
+          - curl
           - software-properties-common
       state: latest
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: Software | Repos | Import Terraform
+  shell: |
+    curl https://apt.releases.hashicorp.com/gpg | gpg --dearmor > hashicorp.gpg
+    install -o root -g root -m 644 hashicorp.gpg /etc/apt/trusted.gpg.d/
+    apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Repos | Stat rpmfusion repos
