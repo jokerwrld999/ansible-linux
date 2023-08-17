@@ -5,6 +5,7 @@
     name:
       - at
       - "{{ aws_cli }}"
+      - bat
       - bpytop
       - colordiff
       - curl
@@ -45,3 +46,18 @@
     use: yay
     name: "{{ autojump_package }}"
   when: ansible_distribution == "Archlinux"
+
+- name: Software | Utilities | Install Helm
+  shell: |
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  args:
+    creates: /usr/local/bin/helm
+
+- name: Software | Utilities | Install Kubernetes
+  shell: |
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    rm -f kubectl
+  args:
+    creates: /usr/local/bin/kubectl
+  when: ansible_distribution in ["Debian", "Ubuntu"]

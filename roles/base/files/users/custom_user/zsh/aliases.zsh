@@ -105,3 +105,9 @@ alias d='docker'
 alias stopdocks='docker stop $(docker ps -a -q)'
 alias rmdocks='docker rm $(docker ps -a -q)'
 alias rmimages='docker rmi $(docker images -a -q) -f'
+
+# Aliases for kubectl
+alias k='kubectl'
+
+# Aliases for terraform
+alias tf='terraform'

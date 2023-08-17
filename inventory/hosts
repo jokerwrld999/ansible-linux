@@ -1,5 +1,6 @@
 [server]
 localhost ansible_connection=local
+192.168.100.30
 #192.168.100.94 ansible_ssh_user=jenkins
 #192.168.1.11
 

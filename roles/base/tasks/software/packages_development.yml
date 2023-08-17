@@ -19,12 +19,16 @@
 
 - name: Software | Development | Install packages Arch
   pacman:
-    name: base-devel
+    name: 
+      - base-devel
+      - kubectl
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Development | Install packages Debian
   apt:
-    name: build-essential
+    name: 
+      - build-essential
+      - python-is-python3
     state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
