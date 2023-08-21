@@ -1,23 +1,37 @@
 ---
-
-- block:
+- name: Desktop Configuration
+  block:
     ## User configs
-    - import_tasks: user_setup/user_config.yml
+    - name: Desktop Configuration | Configure User
+      ansible.builtin.import_tasks: user_setup/user_config.yml
 
     ## Desktop environments
-    - include_tasks: desktop_environments/kde/kde.yml
-    - include_tasks: desktop_environments/kde/plasmoids.yml
-    - include_tasks: desktop_environments/kde/customization.yml
+    - name: Desktop Configuration | Configure KDE
+      ansible.builtin.import_tasks: desktop_environments/kde/kde.yml
+    - name: Desktop Configuration | Configure Plasmoids
+      ansible.builtin.import_tasks: desktop_environments/kde/plasmoids.yml
+    - name: Desktop Configuration | Configure Customization
+      ansible.builtin.import_tasks: desktop_environments/kde/customization.yml
 
     ## Install software
-    - import_tasks: software/chrome.yml
-    - import_tasks: software/flameshot.yml
-    - import_tasks: software/latte_dock.yml
-    - import_tasks: software/libreoffice.yml
-    - import_tasks: software/telegram.yml
-    - import_tasks: software/vlc.yml
-    - import_tasks: software/vpn.yml
-    - import_tasks: software/vs_code.yml
+    - name: Desktop Configuration | Install
+      ansible.builtin.import_tasks: software/chrome.yml
+    - name: Desktop Configuration | Install Flameshot
+      ansible.builtin.import_tasks: software/flameshot.yml
+    - name: Desktop Configuration | Install Latte Dock
+      ansible.builtin.import_tasks: software/latte_dock.yml
+    - name: Desktop Configuration | Install LibreOffice
+      ansible.builtin.import_tasks: software/libreoffice.yml
+    - name: Desktop Configuration | Install Telegram
+      ansible.builtin.import_tasks: software/telegram.yml
+    - name: Desktop Configuration | Install VLC
+      ansible.builtin.import_tasks: software/vlc.yml
+    - name: Desktop Configuration | Install VPN
+      ansible.builtin.import_tasks: software/vpn.yml
+    - name: Desktop Configuration | Install VSCode
+      ansible.builtin.import_tasks: software/vs_code.yml
 
   rescue:
-    - set_fact: task_failed=true
+    - name: Desktop Configuration | Rescue
+      ansible.builtin.set_fact:
+        task_failed: true

@@ -1,7 +1,6 @@
 ---
-
 - name: Software | Docker | Install package Arch
-  pacman:
+  community.general.pacman:
     name: docker
     state: latest
   when: ansible_distribution == "Archlinux"
@@ -14,36 +13,36 @@
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Docker | Install package Debian
-  shell: ./get-docker.sh
+  ansible.builtin.shell: ./get-docker.sh
   args:
     chdir: "{{ temp_dir }}"
     creates: /usr/bin/docker
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Docker | Install package Fedora
-  dnf:
+  ansible.builtin.dnf:
     name: docker
     state: latest
   when: ansible_distribution == "Fedora"
 
 - name: Software | Docker | Create group
-  group:
+  ansible.builtin.group:
     name: docker
     state: present
 
 - name: Software | Docker | Add user to group
-  user:
+  ansible.builtin.user:
     name: "{{ custom_user }}"
     groups: docker
     append: yes
 
 - name: Software | Docker Compose | Install package
-  package:
+  ansible.builtin.package:
     name:
       - docker-compose
 
 - name: Software | Docker | Start docker service
-  service:
+  ansible.builtin.service:
     name: docker
     state: started
     enabled: true

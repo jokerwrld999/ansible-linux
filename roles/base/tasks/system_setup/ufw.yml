@@ -1,66 +1,66 @@
 ---
-
 - name: System setup | UFW | Install UFW
-  package:
+  ansible.builtin.package:
     name:
       - ufw
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: System setup | UFW | UFW allow outgoing
-  ufw:
+  community.general.ufw:
     default: allow
     direction: outgoing
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: System setup | UFW | UFW deny incoming
-  ufw:
+  community.general.ufw:
     default: deny
     direction: incoming
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: System setup | UFW | UFW allow OpenSSH
-  ufw:
+  community.general.ufw:
     rule: allow
     name: OpenSSH
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: System setup | UFW | Enable UFW
-  ufw:
+  community.general.ufw:
     state: enabled
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: System setup | ufw-docker | Get ufw-docker
-  shell: wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+  ansible.builtin.shell: |
+    wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
   args:
     creates: "/usr/local/bin/ufw-docker"
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: System setup | ufw-docker | Make ufw-docker an executable
-  file:
+  ansible.builtin.file:
     path: /usr/local/bin/ufw-docker
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: System setup | ufw-docker | Search for ufw-docker rules
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/ufw/after.rules
-    line: '-A DOCKER-USER -j ufw-user-forward'
+    line: "-A DOCKER-USER -j ufw-user-forward"
     state: present
   check_mode: true
   when: ansible_distribution in ["Debian", "Ubuntu"]
   register: ufw_rules_content
 
 - name: System setup | ufw-docker | Install ufw-docker rules
-  shell: ufw-docker install
+  ansible.builtin.shell: ufw-docker install
   when:
     - ansible_distribution in ["Debian", "Ubuntu"]
     - ufw_rules_content.changed
   register: ufw_rules
 
 - name: System setup | ufw-docker | Restart UFW Service
-  shell: systemctl restart ufw
+  ansible.builtin.shell: systemctl restart ufw
   when:
     - ansible_distribution in ["Debian", "Ubuntu"]
     - ufw_rules.changed

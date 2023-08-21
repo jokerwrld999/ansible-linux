@@ -1,8 +1,7 @@
 ---
-
 - name: Software | Flameshot | Install package
   become_user: root
-  package:
+  ansible.builtin.package:
     name:
       - flameshot
     state: latest

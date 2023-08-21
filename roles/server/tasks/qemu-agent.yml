@@ -1,15 +1,14 @@
 ---
-
 - name: Qemu-agent | Install package
-  package:
+  ansible.builtin.package:
     state: latest
     name:
       - qemu-guest-agent
   notify:
-    - restart_qemu_agent
+    - Restart qemu
 
 - name: Qemu-agent | Enable qemu agent daemon
-  service:
+  ansible.builtin.service:
     name: "{{ qemu_agent_service }}"
     state: started
     enabled: yes

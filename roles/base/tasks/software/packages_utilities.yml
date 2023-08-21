@@ -1,7 +1,6 @@
 ---
-
 - name: Software | Utilities | Install packages
-  package:
+  ansible.builtin.package:
     name:
       - at
       - "{{ aws_cli }}"
@@ -35,7 +34,7 @@
       - whois
 
 - name: Software | Utilities | Install autojump
-  package:
+  ansible.builtin.package:
     name:
       - "{{ autojump_package }}"
   when: ansible_distribution != "Archlinux"
@@ -48,13 +47,13 @@
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Utilities | Install Helm
-  shell: |
+  ansible.builtin.shell: |
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
   args:
     creates: /usr/local/bin/helm
 
 - name: Software | Utilities | Install Kubernetes
-  shell: |
+  ansible.builtin.shell: |
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
     rm -f kubectl

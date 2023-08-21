@@ -1,19 +1,24 @@
 ---
-
-- include_vars: "{{ ansible_distribution }}.yml"
+- name: Server Configuration | Include Distro Variables
+  ansible.builtin.include_vars: "{{ ansible_distribution }}.yml"
   tags: always
 
-- block:
-    - import_tasks: qemu-agent.yml
+- name: Server Configuration
+  block:
+    - name: Server Configuration | Install Qemu Agent
+      ansible.builtin.import_tasks: qemu-agent.yml
       when:
         - proxmox_instance is defined
         - proxmox_instance == true
 
-    - include_tasks: unattended_upgrades.yml
+    - name: Server Configuration | Install Unattended Upgrades
+      ansible.builtin.include_tasks: unattended_upgrades.yml
       when:
         - ansible_distribution in ["Debian", "Ubuntu"]
         - unattended_upgrades is defined
         - unattended_upgrades == true
 
   rescue:
-    - set_fact: task_failed=true
+    - name: Server Configuration | Rescue
+      ansible.builtin.set_fact:
+        task_failed: true

@@ -1,7 +1,6 @@
 ---
-
 - name: Telegram | Send completion alert
-  telegram:
+  community.general.telegram:
     token: "{{ telegram_token }}"
     api_args:
       chat_id: "{{ telegram_chat_id }}"

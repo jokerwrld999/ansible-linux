@@ -1,4 +1,3 @@
 ---
-
-- name: update_fonts
-  command: fc-cache -vf
+- name: Update fonts
+  ansible.builtin.command: fc-cache -vf

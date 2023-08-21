@@ -1,16 +1,15 @@
 ---
-
 - name: Base Configuration | Include Distro Variables
-  include_vars: "{{ ansible_distribution }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_distribution }}.yml"
   tags: always
 
 - name: Base Configuration
   block:
     # User Configuration
     - name: Base Configuration | Configure Root User
-      import_tasks: user_setup/root_config.yml
+      ansible.builtin.import_tasks: user_setup/root_config.yml
     - name: Base Configuration | Configure Custom User
-      import_tasks: user_setup/user_config.yml
+      ansible.builtin.import_tasks: user_setup/user_config.yml
 
     # Set up the ansible environment
     - name: Base Configuration | Configure Ansible
@@ -42,5 +41,5 @@
 
   rescue:
     - name: Base Configuration | Configure
-      set_fact:
+      ansible.builtin.set_fact:
         task_failed: true

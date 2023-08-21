@@ -1,6 +1,5 @@
 ---
-
-- name: restart_qemu_agent
-  service:
+- name: Restart qemu
+  ansible.builtin.service:
     name: "{{ qemu_agent_service }}"
     state: restarted

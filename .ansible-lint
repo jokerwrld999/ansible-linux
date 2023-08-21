@@ -13,6 +13,7 @@ exclude_paths:
 
 # Ansible-lint does not fail on warnings from the rules or tags listed below
 skip_list:
+  - no-handler
   - latest[git]
   - risky-file-permissions
   - risky-shell-pipe

@@ -1,10 +1,9 @@
 ---
-
 # **** Distro-specific Tasks For Arch
 # **** Installing AUR Helper Package
 - name: Software | Tweaks | Clone yay Arch
   become_user: "{{ custom_user }}"
-  git:
+  ansible.builtin.git:
     repo: https://aur.archlinux.org/yay-bin.git
     dest: "{{ temp_dir }}/yay"
     update: true
@@ -12,9 +11,8 @@
 
 - name: Software | Tweaks | Install yay Arch
   become_user: "{{ custom_user }}"
-  command:
+  ansible.builtin.command:
     chdir: "{{ temp_dir }}/yay"
     cmd: "makepkg -sfi --noconfirm"
     creates: /usr/bin/yay
   when: ansible_distribution == "Archlinux"
-

@@ -1,5 +1,4 @@
 ---
-
 - name: Pre-run | Updating packages
   hosts: all
   become: true
@@ -53,33 +52,33 @@
     - roles/base/vars/main.yml
   tasks:
     - name: Post-cleanup | Packages (arch)
-      shell: yes | pacman -Scc
+      ansible.builtin.shell: yes | pacman -Scc
       when: ansible_distribution == "Archlinux"
 
     - name: Post-cleanup | Packages' cache (debian and ubuntu)
-      apt:
+      ansible.builtin.apt:
         autoclean: yes
       changed_when: false
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: Post-cleanup | Autoremove orphan packages (debian and ubuntu)
-      apt:
+      ansible.builtin.apt:
         autoremove: yes
         purge: yes
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: Post-cleanup | Package's cache (fedora)
-      dnf:
+      ansible.builtin.dnf:
         autoremove: yes
       when: ansible_distribution == "Fedora"
 
     - name: Telegram | Send completion alert
-      include_tasks: roles/base/tasks/alerts/completion_alert.yml
+      ansible.builtin.include_tasks: roles/base/tasks/alerts/completion_alert.yml
       when:
         - task_failed is not defined
 
     - name: Telegram | Send failure alert
-      include_tasks: roles/base/tasks/alerts/failure_alert.yml
+      ansible.builtin.include_tasks: roles/base/tasks/alerts/failure_alert.yml
       when:
         - task_failed is defined
         - task_failed == true

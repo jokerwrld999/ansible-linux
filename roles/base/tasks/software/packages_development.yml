@@ -1,7 +1,6 @@
 ---
-
 - name: Software | Development | Install packages
-  package:
+  ansible.builtin.package:
     name:
       - perl
       - "{{ python_flake8_package }}"
@@ -18,24 +17,24 @@
   register: dev_pkg
 
 - name: Software | Development | Install packages Arch
-  pacman:
-    name: 
+  community.general.pacman:
+    name:
       - base-devel
       - kubectl
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Development | Install packages Debian
-  apt:
-    name: 
+  ansible.builtin.apt:
+    name:
       - build-essential
       - python-is-python3
     state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Development | Install packages Fedora
-  dnf:
+  ansible.builtin.dnf:
     name:
-      - '@Development tools'
-      - '@Development libraries'
+      - "@Development tools"
+      - "@Development libraries"
     state: latest
   when: ansible_distribution == "Fedora"

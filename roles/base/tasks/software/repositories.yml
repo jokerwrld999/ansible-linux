@@ -1,55 +1,54 @@
 ---
-
 - name: Software | Repos | Add ignored packages Arch
-  lineinfile:
-      dest: /etc/pacman.conf
-      regexp: "^#?IgnorePkg"
-      line: "IgnorePkg   = ansible linux linux-headers linux-lts linux-lts-headers"
+  ansible.builtin.lineinfile:
+    dest: /etc/pacman.conf
+    regexp: "^#?IgnorePkg"
+    line: "IgnorePkg   = ansible linux linux-headers linux-lts linux-lts-headers"
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Repos | Add sources Debian
-  copy:
-      src: distribution_packages/debian_sources.list
-      dest: /etc/apt/sources.list
-      backup: yes
-  notify: apt_update
+  ansible.builtin.copy:
+    src: distribution_packages/debian_sources.list
+    dest: /etc/apt/sources.list
+    backup: yes
+  notify: Update cache
   when: ansible_distribution == "Debian"
 
 - name: Software | Repos | Add debian-backports
-  apt_repository:
-      repo: deb http://deb.debian.org/debian buster-backports main
-      filename: debian-backports
-  notify: apt_update
+  ansible.builtin.apt_repository:
+    repo: deb http://deb.debian.org/debian buster-backports main
+    filename: debian-backports
+  notify: Update cache
   when: ansible_distribution == "Debian"
 
 - name: Software | Repos | Install package management tools
-  package:
-      name:
-          - aptitude
-          - gnupg2
-          - curl
-          - software-properties-common
-      state: latest
+  ansible.builtin.package:
+    name:
+      - aptitude
+      - gnupg2
+      - curl
+      - software-properties-common
+    state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Repos | Import Terraform
-  shell: |
+  ansible.builtin.shell: |
     curl https://apt.releases.hashicorp.com/gpg | gpg --dearmor > hashicorp.gpg
     install -o root -g root -m 644 hashicorp.gpg /etc/apt/trusted.gpg.d/
     apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main" -y
   args:
     creates: /etc/apt/trusted.gpg.d/hashicorp.gpg
-  notify: apt_update
+  notify: Update cache
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Repos | Stat rpmfusion repos
-  stat:
-      path: "/etc/yum.repos.d/rpmfusion-free.repo"
+  ansible.builtin.stat:
+    path: "/etc/yum.repos.d/rpmfusion-free.repo"
   register: rpmfusion_repos
   when: ansible_distribution == "Fedora"
 
 - name: Software | Repos | Install rpmfusion
-  shell: |
+  ansible.builtin.shell: |
     dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
     dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
     dnf install -y fedora-workstation-Repos

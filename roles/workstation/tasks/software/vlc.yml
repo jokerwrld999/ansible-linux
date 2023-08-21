@@ -1,7 +1,6 @@
 ---
-
 - name: Software | Vlc | Install package
   become_user: root
-  package:
+  ansible.builtin.package:
     name: vlc
     state: present

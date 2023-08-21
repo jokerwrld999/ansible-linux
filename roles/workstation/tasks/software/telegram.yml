@@ -1,6 +1,5 @@
 ---
-
 - name: Software | Telegram | Install package
   become_user: root
-  package:
+  ansible.builtin.package:
     name: telegram-desktop

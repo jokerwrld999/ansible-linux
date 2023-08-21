@@ -1,7 +1,6 @@
 ---
-
 - name: Software | LibreOffice | Install package
   become_user: root
-  package:
+  ansible.builtin.package:
     name: libreoffice
     state: present

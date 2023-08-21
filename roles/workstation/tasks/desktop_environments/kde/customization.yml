@@ -1,9 +1,8 @@
 ---
-
 # **** Installing Theme Packages | Debian-based
 - name: Customization | Install packages
   become_user: root
-  apt:
+  ansible.builtin.apt:
     name:
       - gtk2-engines-murrine
       - sassc
@@ -14,7 +13,7 @@
 # **** Installing Theme Packages | Fedora
 - name: Customization | Install packages
   become_user: root
-  dnf:
+  ansible.builtin.dnf:
     name:
       - gtk-murrine-engine
       - sassc
@@ -24,7 +23,7 @@
 # **** Installing Theme Packages | Arch-based
 - name: Customization | Install packages
   become_user: root
-  pacman:
+  community.general.pacman:
     name:
       - gtk-engine-murrine
       - sassc
@@ -33,78 +32,78 @@
 
   # **** Orchis KDE Theme
 - name: Customization | Clone orchis-kde
-  git:
+  ansible.builtin.git:
     repo: https://github.com/vinceliuice/Orchis-kde.git
     dest: "{{ temp_dir }}/Orchis-kde"
     force: yes
 
 - name: Customization | Install orchis-kde
-  shell: ./install.sh
+  ansible.builtin.shell: ./install.sh
   args:
     chdir: "{{ temp_dir }}/Orchis-kde/"
     creates: "/home/{{ custom_user }}/.local/share/plasma/desktoptheme/Orchis-dark"
   register: orchis_theme_installed
 
 - name: Customization | apply desktop theme
-  command: plasma-apply-desktoptheme Orchis-dark -platform offscreen
+  ansible.builtin.command: plasma-apply-desktoptheme Orchis-dark -platform offscreen
   when: orchis_theme_installed.changed
 
 # **** Sevi Icon Theme
 - name: Customization | Clone sevi icons
-  git:
+  ansible.builtin.git:
     repo: https://github.com/TaylanTatli/Sevi.git
     dest: "{{ temp_dir }}/Sevi"
     force: yes
 
 - name: Customization | Install sevi icons
-  shell: ./install.sh -black
+  ansible.builtin.shell: ./install.sh -black
   args:
     chdir: "{{ temp_dir }}/Sevi/"
     creates: "/home/{{ custom_user }}/.local/share/icons/Sevi-black"
   register: sevi_icons_installed
 
 - name: Customization | Apply icons
-  shell: |
+  ansible.builtin.shell: |
     changeicons=$(find /usr/ -name 'plasma-changeicons')
     $changeicons Sevi-black -platform offscreen
   when: sevi_icons_installed.changed
 
   # **** Bibata Cursors
 - name: Customization | Install bibata cursors for user
-  unarchive:
+  ansible.builtin.unarchive:
     src: users/custom_user/resources/cursors/Bibata-Modern-Ice.tar.gz
     dest: "{{ item.dest }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
     mode: 0755
   with_items:
-    - { dest: '/home/{{ custom_user }}/.icons/' }
+    - { dest: "/home/{{ custom_user }}/.icons/" }
   register: bibata_cursors_installed
 
 - name: Customization | Install bibata cursors for root
   become_user: root
-  unarchive:
+  ansible.builtin.unarchive:
     src: users/custom_user/resources/cursors/Bibata-Modern-Ice.tar.gz
     dest: "{{ item.dest }}"
     owner: root
     group: root
     mode: 0755
   with_items:
-    - { dest: '/usr/share/icons/' }
+    - { dest: "/usr/share/icons/" }
 
 - name: Customization | Apply cursor theme
-  command: plasma-apply-cursortheme Bibata-Modern-Ice -platform offscreen
+  ansible.builtin.command: plasma-apply-cursortheme Bibata-Modern-Ice -platform offscreen
   when: bibata_cursors_installed.changed
 
 # **** Force Blur
 - name: Customization | Clone force blur
-  git:
+  ansible.builtin.git:
     repo: https://github.com/esjeon/kwin-forceblur.git
     dest: "{{ temp_dir }}/kwin-forceblur"
     force: yes
 
 - name: Customization | Copy forceblur files
-  copy:
+  ansible.builtin.copy:
     src: "{{ temp_dir }}/kwin-forceblur/metadata.desktop"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
@@ -112,20 +111,20 @@
     mode: 0755
     remote_src: true
   with_items:
-    - { dest: '.local/share/kwin/scripts/forceblur/' }
-    - { dest: '.local/share/kservices5/forceblur.desktop' }
+    - { dest: ".local/share/kwin/scripts/forceblur/" }
+    - { dest: ".local/share/kservices5/forceblur.desktop" }
 
 # **** SDDM
 - name: Customization | Clone swish sddm
   become_user: root
-  git:
+  ansible.builtin.git:
     repo: https://github.com/icaho/Swish.git
     dest: "{{ temp_dir }}/Swish"
     force: yes
 
 - name: Customization | Create sddm directory
   become_user: root
-  file:
+  ansible.builtin.file:
     path: /etc/sddm.conf.d/
     state: directory
     owner: root
@@ -133,13 +132,13 @@
     mode: 0755
 
 - name: Customization | Stat sddm theme folder
-  stat:
+  ansible.builtin.stat:
     path: "/usr/share/sddm/themes/Swish"
   register: sddm_theme
 
 - name: Customization | Restore swish sddm
   become_user: root
-  copy:
+  ansible.builtin.copy:
     src: "{{ temp_dir }}/Swish"
     dest: /usr/share/sddm/themes/
     owner: root
@@ -149,7 +148,7 @@
 
 - name: Customization | Restore a kde_settings
   become_user: root
-  copy:
+  ansible.builtin.copy:
     src: users/custom_user/resources/sddm/kde_settings.conf
     dest: /etc/sddm.conf.d/
     owner: root
@@ -157,7 +156,7 @@
     mode: 0755
 
 - name: Customization | Restore plasma backup
-  copy:
+  ansible.builtin.copy:
     src: "{{ temp_dir }}/ultimate-backup/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
@@ -165,15 +164,15 @@
     mode: 0755
     remote_src: true
   with_items:
-    - { src: 'plasmaConfSaver', dest: '.config/' }
-    - { src: 'konsole', dest: '.local/share/' }
+    - { src: "plasmaConfSaver", dest: ".config/" }
+    - { src: "konsole", dest: ".local/share/" }
 
 - name: Customization | Restore fonts
-  copy:
+  ansible.builtin.copy:
     src: "{{ temp_dir }}/ultimate-backup/fonts"
     dest: "/home/{{ custom_user }}/.local/share/"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
     mode: 0755
     remote_src: true
-  notify: update_fonts
+  notify: Update fonts

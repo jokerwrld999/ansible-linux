@@ -1,23 +1,22 @@
 ---
-
 - name: Users | Custom | Stat .config folder
-  stat:
+  ansible.builtin.stat:
     path: "/home/{{ custom_user }}/.config"
   register: config_dir
 
 - name: Users | Custom | Create config directories
-  file:
+  ansible.builtin.file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
     state: directory
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
     mode: 0700
   with_items:
-    - { dir: '.config' }
+    - { dir: ".config" }
   when: config_dir.stat.exists == false
 
 - name: Users | Custom | Create personal config directories
-  file:
+  ansible.builtin.file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
     state: directory
     owner: "{{ custom_user }}"
@@ -37,29 +36,29 @@
 
 - name: Users | Custom | Clone backups
   become_user: "{{ custom_user }}"
-  git:
+  ansible.builtin.git:
     repo: https://github.com/jokerwrld999/ultimate-backup.git
     dest: "{{ temp_dir }}/ultimate-backup"
     force: yes
 
 - name: Users | Custom | Restore backup
-  copy:
+  ansible.builtin.copy:
     src: "{{ temp_dir }}/ultimate-backup/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
     mode: 0755
   with_items:
-    - { src: 'fonts', dest: '.local/share/' }
-    - { src: 'walls', dest: '/.local/share/wallpapers/' }
+    - { src: "fonts", dest: ".local/share/" }
+    - { src: "walls", dest: "/.local/share/wallpapers/" }
 
 - name: Users | Custom | Restore backup
-  copy:
+  ansible.builtin.copy:
     src: "users/custom_user/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
     mode: 0755
   with_items:
-    - { src: 'bpytop.conf', dest: '.config/bpytop/bpytop.conf' }
-    - { src: 'resources/splash_screen/ksplashrc', dest: '.config' }
+    - { src: "bpytop.conf", dest: ".config/bpytop/bpytop.conf" }
+    - { src: "resources/splash_screen/ksplashrc", dest: ".config" }

@@ -1,9 +1,8 @@
 ---
-
 # **** Installing VPN Packages | Debian-based
 - name: Software | VPN | Install package Debian
   become_user: root
-  apt:
+  ansible.builtin.apt:
     name:
       - strongswan
       - network-manager-strongswan
@@ -13,7 +12,7 @@
 # **** Installing VPN Packages | Fedora
 - name: Software | VPN | Install package Fedora
   become_user: root
-  dnf:
+  ansible.builtin.dnf:
     name:
       - strongswan
       - NetworkManager-strongswan
@@ -22,7 +21,7 @@
 # **** Installing VPN Packages | Arch-based
 - name: Software | VPN | Install package Arch
   become_user: root
-  pacman:
+  community.general.pacman:
     name:
       - strongswan
       - networkmanager-strongswan

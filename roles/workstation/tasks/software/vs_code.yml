@@ -1,16 +1,15 @@
 ---
-
 # **** Installing VS Code | Debian-based
 - name: Software | Code | Add repository key Debian
   become_user: root
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://packages.microsoft.com/keys/microsoft.asc
     state: present
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Code | Add repository Debian
   become_user: root
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
     state: present
     filename: vscode
@@ -18,7 +17,7 @@
 
 - name: Software | Code | Install package Debian
   become_user: root
-  apt:
+  ansible.builtin.apt:
     name: code
     state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
@@ -36,7 +35,7 @@
 
 - name: Software | Code | Install package Fedora
   become_user: root
-  dnf:
+  ansible.builtin.dnf:
     name: code
   when: ansible_distribution == "Fedora"
 

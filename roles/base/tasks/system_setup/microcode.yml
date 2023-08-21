@@ -1,7 +1,6 @@
 ---
-
 - name: System setup | Microcode | Install package Amd
-  package:
+  ansible.builtin.package:
     name: "{{ amd_microcode_package }}"
     state: latest
   when:
@@ -9,7 +8,7 @@
     - microcode_amd_install == true
 
 - name: System setup | Microcode | Install package Intel
-  package:
+  ansible.builtin.package:
     name: "{{ intel_microcode_package }}"
     state: latest
   when:

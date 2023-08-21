@@ -1,8 +1,8 @@
 ---
-
-- block:
+- name: Telegram | Alerts Block
+  block:
     - name: Telegram | Send failure alert
-      telegram:
+      community.general.telegram:
         token: "{{ telegram_token }}"
         api_args:
           chat_id: "{{ telegram_chat_id }}"
@@ -15,7 +15,7 @@
 
   rescue:
     - name: Telegram | Send failure alert
-      telegram:
+      community.general.telegram:
         token: "{{ telegram_token }}"
         api_args:
           chat_id: "{{ telegram_chat_id }}"

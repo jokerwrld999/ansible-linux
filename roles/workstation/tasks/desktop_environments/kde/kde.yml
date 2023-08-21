@@ -1,9 +1,8 @@
 ---
-
 # **** Installing KDE Packages | Debian-based
 - name: KDE | Install package
   become_user: root
-  apt:
+  ansible.builtin.apt:
     name:
       - kde-plasma-desktop
       - plasma-workspace-wayland
@@ -12,7 +11,7 @@
 # **** Installing KDE Packages | Fedora
 - name: KDE | Install package
   become_user: root
-  dnf:
+  ansible.builtin.dnf:
     name: "@KDE Plasma Workspaces"
     state: latest
   when: ansible_distribution == "Fedora"
@@ -20,7 +19,7 @@
 # **** Installing KDE Packages | Arch-based
 - name: KDE | Install package
   become_user: root
-  pacman:
+  community.general.pacman:
     name:
       - plasma
       - plasma-wayland-session
@@ -29,7 +28,7 @@
 
 - name: KDE services | start sddm
   become_user: root
-  systemd:
+  ansible.builtin.systemd:
     name: sddm
     enabled: true
     force: true
@@ -37,23 +36,23 @@
 
 - name: KDE | SDDM | Change file permissions
   become_user: root
-  file:
+  ansible.builtin.file:
     path: /var/lib/sddm/.config
     owner: sddm
     group: sddm
-    mode: '0755'
+    mode: "0755"
   when: ansible_distribution == "Archlinux"
 
 - name: KDE services | Start NetworkManager
   become_user: root
-  systemd:
+  ansible.builtin.systemd:
     name: NetworkManager
     state: started
     enabled: true
   when: ansible_distribution in ["Archlinux", "Fedora"]
 
 - name: KDE services | Disable kwallet
-  shell: |
+  ansible.builtin.shell: |
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'Enabled' 'false'
     kwriteconfig5 --file kwalletrc --group 'Wallet' --key 'First Use' 'false'
   args:

@@ -1,22 +1,21 @@
 ---
-
 # **** Installing Chrome | Debian-based
 - name: Software | Chrome | Add repository key Debian
   become_user: root
-  apt_key:
+  ansible.builtin.apt_key:
     url: "https://dl-ssl.google.com/linux/linux_signing_key.pub"
     state: present
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Chrome | Stat Chrome repo Debian
-  stat:
+  ansible.builtin.stat:
     path: "/etc/apt/sources.list.d/google-chrome.list"
   register: chrome_repo
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Chrome | Add repository Debian
   become_user: root
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
     filename: google-chrome
     state: present
@@ -24,7 +23,7 @@
 
 - name: Software | Chrome | Install package Debian
   become_user: root
-  apt:
+  ansible.builtin.apt:
     name: google-chrome-stable
     state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
@@ -32,14 +31,14 @@
 # **** Installing Chrome | Fedora
 - name: Software | Chrome | Add repository Fedora
   become_user: root
-  rpm_key:
+  ansible.builtin.rpm_key:
     key: https://dl.google.com/linux/linux_signing_key.pub
     state: present
   when: ansible_distribution == "Fedora"
 
 - name: Software | Chrome | Add repository Fedora
   become_user: root
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: google-chrome
     description: google-chrome repository
     baseurl: http://dl.google.com/linux/chrome/rpm/stable/x86_64
@@ -50,7 +49,7 @@
 
 - name: Software | Chrome | Install package Fedora
   become_user: root
-  dnf:
+  ansible.builtin.dnf:
     name: google-chrome-stable
     state: latest
   when: ansible_distribution == "Fedora"
