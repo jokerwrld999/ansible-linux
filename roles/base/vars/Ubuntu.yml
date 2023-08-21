@@ -1,5 +1,4 @@
 ---
-
 aws_cli: awscli
 autojump_package: autojump
 amd_microcode_package: amd64-microcode

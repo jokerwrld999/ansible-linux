@@ -36,10 +36,18 @@
     groups: docker
     append: yes
 
+- name: Software | Docker | Reconnect to server session
+  ansible.builtin.meta: reset_connection
+
 - name: Software | Docker Compose | Install package
   ansible.builtin.package:
     name:
       - docker-compose
+
+- name: Software | Utilities | Install pip package
+  ansible.builtin.pip:
+    name:
+      - docker
 
 - name: Software | Docker | Start docker service
   ansible.builtin.service:

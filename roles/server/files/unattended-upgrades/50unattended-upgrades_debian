@@ -48,7 +48,7 @@ Unattended-Upgrade::Package-Blacklist {
 };
 
 // This option allows you to control if on a unclean dpkg exit
-// unattended-upgrades will automatically run 
+// unattended-upgrades will automatically run
 //   dpkg --force-confold --configure -a
 // The default is true, to ensure updates keep getting installed
 //Unattended-Upgrade::AutoFixInterruptedDpkg "false";
@@ -59,7 +59,7 @@ Unattended-Upgrade::Package-Blacklist {
 // is running is possible (with a small delay)
 //Unattended-Upgrade::MinimalSteps "true";
 
-// Install all unattended-upgrades when the machine is shuting down
+// Install all unattended-upgrades when the machine is shutting down
 // instead of doing it in the background while the machine is running
 // This will (obviously) make shutdown slower
 //Unattended-Upgrade::InstallOnShutdown "true";
@@ -79,7 +79,7 @@ Unattended-Upgrade::Mail "user@my-email.com";
 Unattended-Upgrade::Remove-Unused-Dependencies "yes";
 
 // Automatically reboot *WITHOUT CONFIRMATION* if
-//  the file /var/run/reboot-required is found after the upgrade 
+//  the file /var/run/reboot-required is found after the upgrade
 //Unattended-Upgrade::Automatic-Reboot "false";
 
 // Automatically reboot even if there are users currently logged in.
@@ -99,4 +99,3 @@ Unattended-Upgrade::Remove-Unused-Dependencies "yes";
 
 // Specify syslog facility. Default is daemon
 // Unattended-Upgrade::SyslogFacility "daemon";
-

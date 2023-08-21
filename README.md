@@ -30,7 +30,7 @@ ssh-copy-id -i ~/.ssh/ansible.pub
 
 ## Modify The Variables
 
-* Modify the variables in inventory/hosts
+- Modify the variables in inventory/hosts
 
 ```
 [server]
@@ -40,9 +40,9 @@ ssh-copy-id -i ~/.ssh/ansible.pub
 #Workstation IP
 ```
 
-* !!! Modify the variables in vars/main.yml
+- !!! Modify the variables in vars/main.yml
 
-* Ensure that Ansible is installed on your Linux execute the following commands:
+- Ensure that Ansible is installed on your Linux execute the following commands:
 
 ```
 ansible-galaxy collection install -r requirements.yml
