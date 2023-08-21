@@ -26,9 +26,6 @@ HISTCONTROL=ignoreboth
 # Set history format to include timestamps
 HISTTIMEFORMAT="%Y-%m-%d %T "
 
-# Correct simple errors while using cd
-setopt -s cdspell
-
 # Add /home/$USER/bin to $PATH
 case :$PATH: in
 	*:/home/$USER/bin:*) ;;

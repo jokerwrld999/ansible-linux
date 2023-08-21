@@ -8,3 +8,9 @@
     name: "{{ openssh_service }}"
     state: restarted
   failed_when: true
+
+- name: Source profile
+  ansible.builtin.shell: "source /home/{{ custom_user }}/{{ item.file }}"
+  with_items:
+    - { file: ".bashrc" }
+    - { file: ".zshrc" }
