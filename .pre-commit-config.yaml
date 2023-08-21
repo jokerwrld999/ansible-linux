@@ -1,0 +1,73 @@
+---
+ci:
+  # format compatible with commitlint
+  autoupdate_commit_msg: "chore: pre-commit autoupdate"
+  autoupdate_schedule: monthly
+  autofix_commit_msg: |
+    chore: auto fixes from pre-commit.com hooks
+
+    for more information, see https://pre-commit.ci
+  skip:
+    # https://github.com/pre-commit-ci/issues/issues/55
+    - pip-compile
+    - schemas
+  submodules: true
+repos:
+  - repo: meta
+    hooks:
+      - id: check-useless-excludes
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    # keep it before yamllint
+    rev: v3.0.2
+    hooks:
+      - name: Prettier
+        id: prettier
+        # Temporary excludes so we can gradually normalize the formatting
+        exclude: >
+          (?x)^(
+            .pre-commit-config.yaml|
+            collections/.*
+          )$
+        always_run: true
+        additional_dependencies:
+          - prettier
+          - prettier-plugin-toml
+          - prettier-plugin-sort-json
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.24.1
+    hooks:
+      - id: check-github-workflows
+  - repo: https://github.com/pre-commit/pre-commit-hooks.git
+    rev: v4.4.0
+    hooks:
+      - name: Fix End Of File
+        id: end-of-file-fixer
+      - name: Fix Trailing Spaces
+        id: trailing-whitespace
+      - name: Fix Mixed Line Endings
+        id: mixed-line-ending
+      - name: Fix UTF-8
+        id: fix-byte-order-marker
+      - name: Check Shebangs
+        id: check-executables-have-shebangs
+      - name: Check Merge Conglicts
+        id: check-merge-conflict
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.5
+    hooks:
+      - name: Codespell
+        id: codespell
+        additional_dependencies:
+          - tomli
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.32.0
+    hooks:
+      - name: YAML Linter
+        id: yamllint
+        files: \.(yaml|yml)$
+  - repo: https://github.com/ansible/ansible-lint.git
+    rev: v6.17.2
+    hooks:
+      - name: Ansible Linter
+        id: ansible-lint
+        files: \.(yaml|yml)$

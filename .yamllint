@@ -1,15 +1,21 @@
 ---
-
 extends: default
 rules:
   line-length:
-    max: 180
+    max: 260
+
   truthy:
     allowed-values: ["yes", "no", "true", "false"]
+    check-keys: true
+
   braces:
     min-spaces-inside: 1
     max-spaces-inside: 3
 
+  comments:
+    min-spaces-from-content: 1
+
 ignore: |
   /.github
   /collections/
+  .pre-commit-config.yaml

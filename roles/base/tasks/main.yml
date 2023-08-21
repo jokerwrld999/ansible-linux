@@ -1,29 +1,46 @@
 ---
 
-- include_vars: "{{ ansible_distribution }}.yml"
+- name: Base Configuration | Include Distro Variables
+  include_vars: "{{ ansible_distribution }}.yml"
   tags: always
 
-- block:
+- name: Base Configuration
+  block:
     # User Configuration
-    - import_tasks: user_setup/root_config.yml
-    - import_tasks: user_setup/user_config.yml
+    - name: Base Configuration | Configure Root User
+      import_tasks: user_setup/root_config.yml
+    - name: Base Configuration | Configure Custom User
+      import_tasks: user_setup/user_config.yml
 
     # Set up the ansible environment
-    - import_tasks: system_setup/ansible_setup.yml
+    - name: Base Configuration | Configure Ansible
+      ansible.builtin.import_tasks: system_setup/ansible_setup.yml
 
     # Install software
-    - import_tasks: software/repositories.yml
-    - import_tasks: software/packages_development.yml
-    - import_tasks: software/tweaks.yml
-    - import_tasks: software/packages_docker.yml
-    - import_tasks: software/packages_cleanup.yml
-    - import_tasks: software/packages_utilities.yml
+    - name: Base Configuration | Configure Repositories
+      ansible.builtin.import_tasks: software/repositories.yml
+    - name: Base Configuration | Configure Dev Packages
+      ansible.builtin.import_tasks: software/packages_development.yml
+    - name: Base Configuration | Configure Tweaks
+      ansible.builtin.import_tasks: software/tweaks.yml
+    - name: Base Configuration | Configure Docker
+      ansible.builtin.import_tasks: software/packages_docker.yml
+    - name: Base Configuration | Configure Cleanup
+      ansible.builtin.import_tasks: software/packages_cleanup.yml
+    - name: Base Configuration | Configure Utilities
+      ansible.builtin.import_tasks: software/packages_utilities.yml
 
     # Perform remaining tasks:
-    - import_tasks: system_setup/logging.yml
-    - import_tasks: system_setup/microcode.yml
-    - import_tasks: system_setup/openssh.yml
-    - import_tasks: system_setup/ufw.yml
+    - name: Base Configuration | Configure Logging
+      ansible.builtin.import_tasks: system_setup/logging.yml
+    - name: Base Configuration | Configure Microcode
+      ansible.builtin.import_tasks: system_setup/microcode.yml
+    - name: Base Configuration | Configure OpenSSH
+      ansible.builtin.import_tasks: system_setup/openssh.yml
+    - name: Base Configuration | Configure UFW
+      ansible.builtin.import_tasks: system_setup/ufw.yml
 
   rescue:
-    - set_fact: task_failed=true
+    - name: Base Configuration | Configure
+      set_fact:
+        task_failed: true

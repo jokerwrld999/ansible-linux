@@ -27,7 +27,7 @@ bindkey '^[[1;3A'      cdParentKey
 bindkey '^[[1;3D'      cdUndoKey
 
 
-# Control-x-e to open current line in $EDITOR, awesome when writting functions or editing multiline commands.
+# Control-x-e to open current line in $EDITOR, awesome when writing functions or editing multiline commands.
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
