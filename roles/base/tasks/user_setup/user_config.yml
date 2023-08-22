@@ -9,7 +9,7 @@
   ansible.builtin.user:
     name: "{{ custom_user }}"
     group: "{{ custom_user }}"
-    groups: "{{ custom_user }},{{ sudo_group }}"
+    groups: "{{ sudo_group }}"
     append: true
     password: "{{ custom_user_passwd }}"
     shell: /bin/zsh

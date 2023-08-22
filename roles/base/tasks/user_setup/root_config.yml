@@ -4,7 +4,6 @@
     name: root
     group: root
     password: "{{ custom_user_passwd }}"
-    update_password: on_create
     shell: /bin/zsh
     state: present
 
