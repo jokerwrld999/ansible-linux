@@ -48,6 +48,7 @@
   ansible.builtin.pip:
     name:
       - docker
+      - docker-compose
 
 - name: Software | Docker | Start docker service
   ansible.builtin.service:
