@@ -43,7 +43,9 @@
   become_user: "{{ custom_user }}"
   kewlfft.aur.aur:
     use: yay
-    name: "{{ autojump_package }}"
+    name:
+      - "{{ autojump_package }}"
+      - kubectl
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Utilities | Install Helm

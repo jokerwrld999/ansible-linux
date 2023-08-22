@@ -20,7 +20,6 @@
   community.general.pacman:
     name:
       - base-devel
-      - kubectl
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Development | Install packages Debian
