@@ -145,14 +145,14 @@ lazyg() {
 
 # Git clone repo and go to the directory
 gclone() {
-	repo_name = $(basename "$1" | cut -d '.' -f 1)
+	repo_name=$(basename "$1" | cut -d '.' -f 1)
 	git clone "$1"
 	cd $repo_name
 }
 
 # Gh clone repo and go to the directory
 ghclone() {
-	repo_name = $(basename "$1" | cut -d '.' -f 1)
+	repo_name=$(basename "$1" | cut -d '.' -f 1)
 	gh repo clone "$1"
 	cd $repo_name
 }
