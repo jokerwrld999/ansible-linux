@@ -12,6 +12,7 @@
       - "{{ dns_utils_package }}"
       - "{{ github_cli }}"
       - htop
+      - jq
       - "{{ lm_sensors_package }}"
       - lsof
       - ncdu

@@ -34,13 +34,14 @@
 - name: Customization | Clone orchis-kde
   ansible.builtin.git:
     repo: https://github.com/vinceliuice/Orchis-kde.git
-    dest: "{{ temp_dir }}/Orchis-kde"
+    dest: "~/{{ temp_dir }}/Orchis-kde"
     force: yes
 
 - name: Customization | Install orchis-kde
-  ansible.builtin.shell: ./install.sh
+  ansible.builtin.shell: |
+    ./install.sh
   args:
-    chdir: "{{ temp_dir }}/Orchis-kde/"
+    chdir: "~/{{ temp_dir }}/Orchis-kde/"
     creates: "/home/{{ custom_user }}/.local/share/plasma/desktoptheme/Orchis-dark"
   register: orchis_theme_installed
 
@@ -52,13 +53,14 @@
 - name: Customization | Clone sevi icons
   ansible.builtin.git:
     repo: https://github.com/TaylanTatli/Sevi.git
-    dest: "{{ temp_dir }}/Sevi"
+    dest: "~/{{ temp_dir }}/Sevi"
     force: yes
 
 - name: Customization | Install sevi icons
-  ansible.builtin.shell: ./install.sh -black
+  ansible.builtin.shell: |
+    ./install.sh -black
   args:
-    chdir: "{{ temp_dir }}/Sevi/"
+    chdir: "~/{{ temp_dir }}/Sevi/"
     creates: "/home/{{ custom_user }}/.local/share/icons/Sevi-black"
   register: sevi_icons_installed
 
@@ -99,12 +101,12 @@
 - name: Customization | Clone force blur
   ansible.builtin.git:
     repo: https://github.com/esjeon/kwin-forceblur.git
-    dest: "{{ temp_dir }}/kwin-forceblur"
+    dest: "~/{{ temp_dir }}/kwin-forceblur"
     force: yes
 
 - name: Customization | Copy forceblur files
   ansible.builtin.copy:
-    src: "{{ temp_dir }}/kwin-forceblur/metadata.desktop"
+    src: "~/{{ temp_dir }}/kwin-forceblur/metadata.desktop"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
@@ -119,7 +121,7 @@
   become_user: root
   ansible.builtin.git:
     repo: https://github.com/icaho/Swish.git
-    dest: "{{ temp_dir }}/Swish"
+    dest: "~/{{ temp_dir }}/Swish"
     force: yes
 
 - name: Customization | Create sddm directory
@@ -139,7 +141,7 @@
 - name: Customization | Restore swish sddm
   become_user: root
   ansible.builtin.copy:
-    src: "{{ temp_dir }}/Swish"
+    src: "~/{{ temp_dir }}/Swish"
     dest: /usr/share/sddm/themes/
     owner: root
     group: root
@@ -157,7 +159,7 @@
 
 - name: Customization | Restore plasma backup
   ansible.builtin.copy:
-    src: "{{ temp_dir }}/ultimate-backup/{{ item.src }}"
+    src: "~/{{ temp_dir }}/ultimate-backup/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"
@@ -169,7 +171,7 @@
 
 - name: Customization | Restore fonts
   ansible.builtin.copy:
-    src: "{{ temp_dir }}/ultimate-backup/fonts"
+    src: "~/{{ temp_dir }}/ultimate-backup/fonts"
     dest: "/home/{{ custom_user }}/.local/share/"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"

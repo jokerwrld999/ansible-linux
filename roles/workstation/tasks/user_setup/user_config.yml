@@ -38,12 +38,12 @@
   become_user: "{{ custom_user }}"
   ansible.builtin.git:
     repo: https://github.com/jokerwrld999/ultimate-backup.git
-    dest: "{{ temp_dir }}/ultimate-backup"
+    dest: "~/{{ temp_dir }}/ultimate-backup"
     force: yes
 
 - name: Users | Custom | Restore backup
   ansible.builtin.copy:
-    src: "{{ temp_dir }}/ultimate-backup/{{ item.src }}"
+    src: "~/{{ temp_dir }}/ultimate-backup/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
     owner: "{{ custom_user }}"
     group: "{{ custom_user }}"

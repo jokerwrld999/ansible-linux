@@ -5,17 +5,10 @@
     state: latest
   when: ansible_distribution == "Archlinux"
 
-- name: Software | Docker | Download script Debian
-  ansible.builtin.get_url:
-    url: https://get.docker.com
-    dest: "{{ temp_dir }}/get-docker.sh"
-    mode: 0755
-  when: ansible_distribution in ["Debian", "Ubuntu"]
-
-- name: Software | Docker | Install package Debian
-  ansible.builtin.shell: ./get-docker.sh
+- name: Software | Docker | Install package Debian/Ubuntu
+  ansible.builtin.shell: |
+    curl https://get.docker.com | bash
   args:
-    chdir: "{{ temp_dir }}"
     creates: /usr/bin/docker
   when: ansible_distribution in ["Debian", "Ubuntu"]
 

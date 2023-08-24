@@ -53,14 +53,17 @@
   register: ufw_rules_content
 
 - name: System setup | ufw-docker | Install ufw-docker rules
-  ansible.builtin.shell: ufw-docker install
+  ansible.builtin.shell: |
+    ufw-docker install
   when:
     - ansible_distribution in ["Debian", "Ubuntu"]
     - ufw_rules_content.changed
   register: ufw_rules
 
 - name: System setup | ufw-docker | Restart UFW Service
-  ansible.builtin.shell: systemctl restart ufw
+  ansible.builtin.service:
+    name: ufw
+    state: restarted
   when:
     - ansible_distribution in ["Debian", "Ubuntu"]
     - ufw_rules.changed

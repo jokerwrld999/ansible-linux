@@ -24,8 +24,6 @@
       ansible.builtin.import_tasks: software/tweaks.yml
     - name: Base Configuration | Configure Docker
       ansible.builtin.import_tasks: software/packages_docker.yml
-    - name: Base Configuration | Configure Cleanup
-      ansible.builtin.import_tasks: software/packages_cleanup.yml
     - name: Base Configuration | Configure Utilities
       ansible.builtin.import_tasks: software/packages_utilities.yml
 

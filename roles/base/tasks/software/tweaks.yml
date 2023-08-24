@@ -5,14 +5,14 @@
   become_user: "{{ custom_user }}"
   ansible.builtin.git:
     repo: https://aur.archlinux.org/yay-bin.git
-    dest: "{{ temp_dir }}/yay"
+    dest: "~/{{ temp_dir }}/yay"
     update: true
   when: ansible_distribution == "Archlinux"
 
 - name: Software | Tweaks | Install yay Arch
   become_user: "{{ custom_user }}"
   ansible.builtin.command:
-    chdir: "{{ temp_dir }}/yay"
+    chdir: "~/{{ temp_dir }}/yay"
     cmd: "makepkg -sfi --noconfirm"
     creates: /usr/bin/yay
   when: ansible_distribution == "Archlinux"

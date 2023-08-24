@@ -1,19 +1,22 @@
 ---
 # Base Configuration
-# ssh
+# SSH
 ssh_users: "{{ custom_user }}"
 ssh_port: 22
 
-# platform-specific
+# Platform-specific
 microcode_intel_install: true
 microcode_amd_install: false
 
-# user
+# Users Config
+custom_user: debian # >>> ubuntu | ec2-user | custom_user
+custom_hostname: "{{ custom_user }}-server"
+temp_dir: "tmp"
+
 # Encrypt Password
 # python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
-custom_user: jokerwrld
-temp_dir: "/home/{{ custom_user }}/tmp"
-custom_user_passwd: $6$7pBJdaOrm.iB9vGI$Swk3nCORRyvKw1gBN4pC7GiF1J.cb/AuZC0A8nTrrKNia1JBvu3B27Tud.BPCl.OyPVA0yhJQE6b6eEcCgCcz/
+root_passwd: "$6$aBitRBNIk5O7.rRs$.r7jWebBbVsx6GL7/8EixidRnFxtvSPEcXMkCLa.zKXS8ETQjpay54Htc9Q4sLJfs1Cyvjj4VVGpe5yc1zXLe/" # root
+custom_user_passwd: "$6$8ReSwQWsQjmGVfva$2/.pJ9aeIIXxAPhhpDuOhZ7161EKvAx2uFFdGpMC9tpMGEBO4m5MbGYR9nJloPrf68GSb7eSsN6Ef0FMKxkbQ1" # sudo
 
 # Alerts
 telegram_chat_id: !vault |

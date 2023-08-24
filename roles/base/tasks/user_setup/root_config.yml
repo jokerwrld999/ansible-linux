@@ -1,21 +1,26 @@
 ---
+- name: Users | Root | Install Git, ZSH
+  ansible.builtin.package:
+    name:
+      - git
+      - zsh
+
 - name: Users | Root | Ensure root user is unlocked
   ansible.builtin.user:
     name: root
     group: root
-    password: "{{ custom_user_passwd }}"
+    password: "{{ root_passwd }}"
     shell: /bin/zsh
     state: present
 
 - name: Users | Root | Create config directories
   ansible.builtin.file:
-    path: /home/root/{{ item.dir }}
+    path: /root/{{ item.dir }}
     state: directory
     owner: root
     group: root
     mode: 0700
   with_items:
-    - { dir: ".bash" }
     - { dir: ".config" }
     - { dir: ".config/htop" }
     - { dir: ".zsh" }
@@ -23,17 +28,11 @@
 - name: Users | Root | Copy dotfiles
   ansible.builtin.copy:
     src: users/root/{{ item.src }}
-    dest: /home/root/{{ item.dest }}
+    dest: /root/{{ item.dest }}
     owner: root
     group: root
     mode: 0600
   with_items:
-    - { src: "bash/bash_aliases", dest: ".bash/bash_aliases" }
-    - { src: "bash/bash_profile", dest: ".bash_profile" }
-    - { src: "bash/bash_prompt", dest: ".bash/bash_prompt" }
-    - { src: "bash/bash_functions", dest: ".bash/bash_functions" }
-    - { src: "bash/bashrc", dest: ".bashrc" }
-    - { src: "bash/profile", dest: ".profile" }
     - { src: "htop/htoprc", dest: ".config/htop/htoprc" }
     - { src: "inputrc", dest: ".inputrc" }
     - { src: "zsh/zshrc", dest: ".zshrc" }
@@ -42,25 +41,25 @@
 - name: Users | Root | Clone zsh-autosuggestions plugin repository
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
-    dest: /home/root/.zsh/zsh-autosuggestions
+    dest: /root/.zsh/zsh-autosuggestions
     force: yes
 
 - name: Users | Root | Clone zsh-syntax-highlighting plugin repository
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: /home/root/.zsh/zsh-syntax-highlighting
+    dest: /root/.zsh/zsh-syntax-highlighting
     force: yes
 
 - name: Users | Root | Clone powerlevel10k plugin repository
   ansible.builtin.git:
     repo: https://github.com/romkatv/powerlevel10k.git
-    dest: /home/root/.zsh/powerlevel10k
+    dest: /root/.zsh/powerlevel10k
     force: yes
 
 - name: Users | Root | Copy individual zsh config files
   ansible.builtin.copy:
     src: users/root/zsh/{{ item.src }}
-    dest: /home/root/.zsh/{{ item.src }}
+    dest: /root/.zsh/{{ item.src }}
     owner: root
     group: root
     mode: 0600

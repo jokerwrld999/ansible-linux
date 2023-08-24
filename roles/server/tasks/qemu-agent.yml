@@ -4,8 +4,7 @@
     state: latest
     name:
       - qemu-guest-agent
-  notify:
-    - Restart qemu
+  notify: Restart qemu
 
 - name: Qemu-agent | Enable qemu agent daemon
   ansible.builtin.service:

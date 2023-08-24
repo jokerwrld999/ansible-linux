@@ -1,9 +1,7 @@
 ---
-- name: Software | Utilities | Install packages
-  ansible.builtin.package:
-    name:
-      - git
-      - zsh
+- name: Users | Custom | Set a hostname
+  ansible.builtin.hostname:
+    name: "{{ custom_hostname }}"
 
 - name: Users | Custom | Create user
   ansible.builtin.user:
@@ -61,10 +59,9 @@
     group: "{{ custom_user }}"
     mode: 0700
   with_items:
-    - { dir: ".bash" }
     - { dir: ".config/htop" }
     - { dir: "github" }
-    - { dir: "tmp" }
+    - { dir: "{{ temp_dir }}" }
     - { dir: ".ssh" }
     - { dir: ".zsh" }
 
@@ -76,12 +73,6 @@
     group: "{{ custom_user }}"
     mode: 0600
   with_items:
-    - { src: "bash/bash_aliases", dest: ".bash/bash_aliases" }
-    - { src: "bash/bash_profile", dest: ".bash_profile" }
-    - { src: "bash/bash_prompt", dest: ".bash/bash_prompt" }
-    - { src: "bash/bash_functions", dest: ".bash/bash_functions" }
-    - { src: "bash/bashrc", dest: ".bashrc" }
-    - { src: "bash/profile", dest: ".profile" }
     - { src: "htop/htoprc", dest: ".config/htop/htoprc" }
     - { src: "inputrc", dest: ".inputrc" }
     - { src: "zsh/zshrc", dest: ".zshrc" }

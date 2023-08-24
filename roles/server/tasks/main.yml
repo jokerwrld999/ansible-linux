@@ -12,7 +12,7 @@
         - proxmox_instance == true
 
     - name: Server Configuration | Install Unattended Upgrades
-      ansible.builtin.include_tasks: unattended_upgrades.yml
+      ansible.builtin.import_tasks: unattended_upgrades.yml
       when:
         - ansible_distribution in ["Debian", "Ubuntu"]
         - unattended_upgrades is defined

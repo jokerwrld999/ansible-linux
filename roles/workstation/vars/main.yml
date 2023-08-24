@@ -2,4 +2,4 @@
 # Workstation Configuration
 # User
 custom_user: jokerwrld
-temp_dir: "/home/{{ custom_user }}/tmp"
+temp_dir: "tmp"

@@ -4,12 +4,6 @@
     name: ansible
     state: latest
 
-- name: Ansible setup | Install required packages
-  ansible.builtin.package:
-    name:
-      - "{{ dconf_package }}"
-      - "{{ python_psutil_package }}"
-
 - name: Ansible setup | Install acl package
   ansible.builtin.package:
     name: acl

@@ -2,17 +2,10 @@
 - name: Software | Development | Install packages
   ansible.builtin.package:
     name:
-      - perl
-      - "{{ python_flake8_package }}"
       - "{{ python_package }}"
       - "{{ python_pip_package }}"
-      - "{{ python_pyflakes_package }}"
-      - pkg-config
-      - python-setuptools
+      - "{{ python_psutil_package }}"
       - "{{ python_virtualenv_package }}"
-      - ruby
-      - "{{ ruby_rake_package }}"
-      - tig
     state: latest
   register: dev_pkg
 
