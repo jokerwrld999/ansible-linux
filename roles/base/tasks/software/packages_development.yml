@@ -6,8 +6,8 @@
       - "{{ python_pip_package }}"
       - "{{ python_psutil_package }}"
       - "{{ python_virtualenv_package }}"
+      - pipx
     state: latest
-  register: dev_pkg
 
 - name: Software | Development | Install packages Arch
   community.general.pacman:
@@ -30,3 +30,14 @@
       - "@Development libraries"
     state: latest
   when: ansible_distribution == "Fedora"
+
+- name: Software | Development | Install python packages
+  community.general.pipx:
+    name: "{{ item.package }}"
+    install_deps: true
+    state: latest
+  with_items:
+    - { package: "boto3" }
+    - { package: "docker" }
+    - { package: "botocore" }
+    - { package: "requests" }

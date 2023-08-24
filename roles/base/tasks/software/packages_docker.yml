@@ -37,18 +37,6 @@
     name:
       - docker-compose
 
-# - name: Software | Docker | Install pip packages
-#   ansible.builtin.pip:
-#     name:
-#       - docker
-#   when: ansible_distribution != "Archlinux"
-
-# - name: Software | Docker | Install pip packages Arch
-#   community.general.pacman:
-#     name:
-#       - python-docker
-#   when: ansible_distribution == "Archlinux"
-
 - name: Software | Docker | Start docker service
   ansible.builtin.service:
     name: docker
