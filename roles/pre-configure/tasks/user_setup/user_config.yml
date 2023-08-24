@@ -3,6 +3,17 @@
   ansible.builtin.hostname:
     name: "{{ custom_hostname }}"
 
+- name: Users | Custom | Change hosts file
+  ansible.builtin.lineinfile:
+    dest: "/etc/hosts"
+    regexp: "^127.0.1.1"
+    line: "127.0.1.1\t{{ custom_hostname }}"
+
+- name: Users | Custom | Create user's group
+  ansible.builtin.group:
+    name: "{{ custom_user }}"
+    state: present
+
 - name: Users | Custom | Create user
   ansible.builtin.user:
     name: "{{ custom_user }}"
