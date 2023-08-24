@@ -1,43 +1,43 @@
 ---
-- name: Base Configuration | Include Distro Variables
+- name: Pre-Configuration | Include Distro Variables
   ansible.builtin.include_vars: "{{ ansible_distribution }}.yml"
   tags: always
 
-- name: Base Configuration
+- name: Pre-Configuration
   block:
     # User Configuration
-    - name: Base Configuration | Configure Root User
+    - name: Pre-Configuration | Configure Root User
       ansible.builtin.import_tasks: user_setup/root_config.yml
-    - name: Base Configuration | Configure Custom User
+    - name: Pre-Configuration | Configure Custom User
       ansible.builtin.import_tasks: user_setup/user_config.yml
 
     # Set up the ansible environment
-    - name: Base Configuration | Configure Ansible
+    - name: Pre-Configuration | Configure Ansible
       ansible.builtin.import_tasks: system_setup/ansible_setup.yml
 
     # Install software
-    - name: Base Configuration | Configure Repositories
+    - name: Pre-Configuration | Configure Repositories
       ansible.builtin.import_tasks: software/repositories.yml
-    - name: Base Configuration | Configure Dev Packages
+    - name: Pre-Configuration | Configure Dev Packages
       ansible.builtin.import_tasks: software/packages_development.yml
-    - name: Base Configuration | Configure Tweaks
+    - name: Pre-Configuration | Configure Tweaks
       ansible.builtin.import_tasks: software/tweaks.yml
-    - name: Base Configuration | Configure Docker
+    - name: Pre-Configuration | Configure Docker
       ansible.builtin.import_tasks: software/packages_docker.yml
-    - name: Base Configuration | Configure Utilities
+    - name: Pre-Configuration | Configure Utilities
       ansible.builtin.import_tasks: software/packages_utilities.yml
 
     # Perform remaining tasks:
-    - name: Base Configuration | Configure Logging
+    - name: Pre-Configuration | Configure Logging
       ansible.builtin.import_tasks: system_setup/logging.yml
-    - name: Base Configuration | Configure Microcode
+    - name: Pre-Configuration | Configure Microcode
       ansible.builtin.import_tasks: system_setup/microcode.yml
-    - name: Base Configuration | Configure OpenSSH
+    - name: Pre-Configuration | Configure OpenSSH
       ansible.builtin.import_tasks: system_setup/openssh.yml
-    - name: Base Configuration | Configure UFW
+    - name: Pre-Configuration | Configure UFW
       ansible.builtin.import_tasks: system_setup/ufw.yml
 
   rescue:
-    - name: Base Configuration | Configure
+    - name: Pre-Configuration | Configure
       ansible.builtin.set_fact:
         task_failed: true

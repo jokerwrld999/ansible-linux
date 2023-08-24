@@ -1,5 +1,5 @@
 ---
-# Base Configuration
+# Pre-Configuration
 # SSH
 ssh_users: "{{ custom_user }}"
 ssh_port: 22
