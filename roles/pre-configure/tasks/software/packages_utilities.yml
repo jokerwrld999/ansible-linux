@@ -5,7 +5,6 @@
       - at
       - "{{ aws_cli }}"
       - bat
-      - bpytop
       - colordiff
       - curl
       - "{{ cron_package }}"

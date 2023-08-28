@@ -30,11 +30,18 @@
     state: latest
   when: ansible_distribution == "Fedora"
 
+- name: Software | Development | Upgrade pip
+  ansible.builtin.pip:
+    name: pip
+    executable: pip3
+    state: latest
+
 - name: Software | Development | Install python packages
   ansible.builtin.shell: |
     pip install "{{ item.package }}"
   with_items:
     - { package: "boto3" }
-    - { package: "docker" }
     - { package: "botocore" }
+    - { package: "bpytop" }
+    - { package: "docker" }
     - { package: "requests" }
