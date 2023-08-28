@@ -4,7 +4,6 @@
     name:
       - "{{ python_package }}"
       - "{{ python_pip_package }}"
-      - "{{ python_psutil_package }}"
       - "{{ python_virtualenv_package }}"
     state: latest
 

@@ -11,7 +11,6 @@ openssh_package: openssh
 openssh_service: sshd
 python_package: python
 python_pip_package: python-pip
-python_psutil_package: python-psutil
 python_virtualenv_package: python-virtualenv
 rename_package: perl-rename
 sudo_group: wheel
