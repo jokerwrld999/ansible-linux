@@ -6,7 +6,6 @@
       - "{{ python_pip_package }}"
       - "{{ python_psutil_package }}"
       - "{{ python_virtualenv_package }}"
-      - pipx
     state: latest
 
 - name: Software | Development | Install packages Arch
@@ -32,10 +31,8 @@
   when: ansible_distribution == "Fedora"
 
 - name: Software | Development | Install python packages
-  community.general.pipx:
-    name: "{{ item.package }}"
-    install_deps: true
-    state: latest
+  ansible.builtin.shell: |
+    pip install "{{ item.package }}" --break-system
   with_items:
     - { package: "boto3" }
     - { package: "docker" }
