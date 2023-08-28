@@ -32,7 +32,7 @@
 
 - name: Software | Development | Install python packages
   ansible.builtin.shell: |
-    pip install "{{ item.package }}" --break-system
+    pip install "{{ item.package }}"
   with_items:
     - { package: "boto3" }
     - { package: "docker" }
