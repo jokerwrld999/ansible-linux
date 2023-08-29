@@ -1,5 +1,6 @@
 ---
 - name: Pre-run | Updating packages
+  tags: always
   hosts: all
   become: true
   pre_tasks:
@@ -46,6 +47,7 @@
     - workstation
 
 - name: Post-run | Cleaning up hosts
+  tags: always
   hosts: all
   become: true
   vars_files:
