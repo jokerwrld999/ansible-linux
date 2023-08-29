@@ -21,6 +21,13 @@
   notify: Update cache
   when: ansible_distribution == "Debian"
 
+- name: Software | Repos | Add sources Ubuntu
+  ansible.builtin.copy:
+    src: distribution_packages/ubuntu_sources.list
+    dest: /etc/apt/sources.list.d/
+  notify: Update cache
+  when: ansible_distribution == "Ubuntu"
+
 - name: Software | Repos | Install package management tools
   ansible.builtin.package:
     name:
@@ -28,17 +35,6 @@
       - curl
       - software-properties-common
     state: latest
-  when: ansible_distribution in ["Debian", "Ubuntu"]
-
-- name: Software | Repos | Import GitHub Cli
-  ansible.builtin.shell: |
-    github_keyring='/usr/share/keyrings/githubcli-archive-keyring.gpg'
-    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=$github_keyring
-    chmod go+r $github_keyring
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=$github_keyring] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-  args:
-    creates: /etc/apt/sources.list.d/github-cli.list
-  notify: Update cache
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Repos | Import Terraform
@@ -49,7 +45,7 @@
   args:
     creates: /etc/apt/trusted.gpg.d/hashicorp.gpg
   notify: Update cache
-  when: ansible_distribution in ["Debian", "Ubuntu"]
+  when: ansible_distribution == "Debian"
 
 - name: Software | Repos | Stat rpmfusion repos
   ansible.builtin.stat:
