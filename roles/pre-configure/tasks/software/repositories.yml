@@ -31,7 +31,6 @@
 - name: Software | Repos | Install package management tools
   ansible.builtin.package:
     name:
-      - gnupg2
       - curl
       - software-properties-common
     state: latest
