@@ -24,7 +24,6 @@
 - name: Software | Repos | Install package management tools
   ansible.builtin.package:
     name:
-      - aptitude
       - gnupg2
       - curl
       - software-properties-common

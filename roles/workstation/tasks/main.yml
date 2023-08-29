@@ -1,11 +1,11 @@
 ---
 - name: Desktop Configuration
   block:
-    ## User configs
+    # User configs
     - name: Desktop Configuration | Configure User
       ansible.builtin.import_tasks: user_setup/user_config.yml
 
-    ## Desktop environments
+    # Desktop environments
     - name: Desktop Configuration | Configure KDE
       ansible.builtin.import_tasks: desktop_environments/kde/kde.yml
     - name: Desktop Configuration | Configure Plasmoids
@@ -13,7 +13,7 @@
     - name: Desktop Configuration | Configure Customization
       ansible.builtin.import_tasks: desktop_environments/kde/customization.yml
 
-    ## Install software
+    # Install software
     - name: Desktop Configuration | Install
       ansible.builtin.import_tasks: software/chrome.yml
     - name: Desktop Configuration | Install Flameshot
