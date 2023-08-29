@@ -41,9 +41,9 @@
   ansible.builtin.shell: |
     curl https://apt.releases.hashicorp.com/gpg | gpg --dearmor > hashicorp.gpg
     install -o root -g root -m 644 hashicorp.gpg /etc/apt/trusted.gpg.d/
-    apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com impish main" -y
+    echo "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com impish main" > /etc/apt/sources.list.d/hashicorp.list
   args:
-    creates: /etc/apt/trusted.gpg.d/hashicorp.gpg
+    creates: /etc/apt/sources.list.d/hashicorp.list
   notify: Update cache
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
