@@ -37,6 +37,11 @@
     name:
       - docker-compose
 
+- name: Software | Docker | Change permissions
+  ansible.builtin.file:
+    path: /var/run/docker.sock
+    mode: "0666"
+
 - name: Software | Docker | Start docker service
   ansible.builtin.service:
     name: docker
