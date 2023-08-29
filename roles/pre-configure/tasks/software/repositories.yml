@@ -30,6 +30,17 @@
     state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
+- name: Software | Repos | Import GitHub Cli
+  ansible.builtin.shell: |
+    github_keyring='/usr/share/keyrings/githubcli-archive-keyring.gpg'
+    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=$github_keyring
+    chmod go+r $github_keyring
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=$github_keyring] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+  args:
+    creates: /etc/apt/sources.list.d/github-cli.list
+  notify: Update cache
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
 - name: Software | Repos | Import Terraform
   ansible.builtin.shell: |
     curl https://apt.releases.hashicorp.com/gpg | gpg --dearmor > hashicorp.gpg
