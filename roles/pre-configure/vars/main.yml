@@ -1,6 +1,7 @@
 ---
 # Pre-Configuration
 # SSH
+ssh_users: "{{ custom_user }}"
 ssh_port: 22
 
 # Platform-specific
@@ -8,7 +9,7 @@ microcode_intel_install: true
 microcode_amd_install: false
 
 # Users Config
-custom_user: # >>> ubuntu | ec2-user | jenkins | ansible
+custom_user: ubuntu # >>> ubuntu | ec2-user | custom_user
 custom_hostname: "{{ custom_user }}-server"
 temp_dir: "tmp"
 

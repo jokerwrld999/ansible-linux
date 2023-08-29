@@ -18,12 +18,23 @@
     # Install software
     - name: Pre-Configuration | Configure Repositories
       ansible.builtin.import_tasks: software/repositories.yml
+      tags:
+        - development
+        - docker
     - name: Pre-Configuration | Configure Dev Packages
       ansible.builtin.import_tasks: software/packages_development.yml
+      tags:
+        - development
+        - docker
+
     - name: Pre-Configuration | Configure Tweaks
       ansible.builtin.import_tasks: software/tweaks.yml
     - name: Pre-Configuration | Configure Docker
       ansible.builtin.import_tasks: software/packages_docker.yml
+      tags:
+        - development
+        - docker
+
     - name: Pre-Configuration | Configure Utilities
       ansible.builtin.import_tasks: software/packages_utilities.yml
 
