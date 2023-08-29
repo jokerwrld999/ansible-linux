@@ -52,8 +52,6 @@
       ansible.builtin.import_tasks: system_setup/microcode.yml
     - name: Pre-Configuration | Configure OpenSSH
       ansible.builtin.import_tasks: system_setup/openssh.yml
-    - name: Pre-Configuration | Configure UFW
-      ansible.builtin.import_tasks: system_setup/ufw.yml
 
   rescue:
     - name: Pre-Configuration | Configure
