@@ -47,3 +47,7 @@
     name: docker
     state: started
     enabled: true
+
+- name: Software | Docker | Reboot server
+  ansible.builtin.reboot:
+    reboot_timeout: 3600
