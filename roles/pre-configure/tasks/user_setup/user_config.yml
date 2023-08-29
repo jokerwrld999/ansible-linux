@@ -1,5 +1,5 @@
 ---
-- name: Users | Custom | Set a hostname
+- name: Users | Custom | Set a hostname to "{{ custom_hostname }}"
   ansible.builtin.hostname:
     name: "{{ custom_hostname }}"
 
