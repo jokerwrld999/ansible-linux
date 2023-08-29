@@ -8,8 +8,15 @@
     # User Configuration
     - name: Pre-Configuration | Configure Root User
       ansible.builtin.import_tasks: user_setup/root_config.yml
+      tags:
+        - development
+        - docker
+
     - name: Pre-Configuration | Configure Custom User
       ansible.builtin.import_tasks: user_setup/user_config.yml
+      tags:
+        - development
+        - docker
 
     # Set up the ansible environment
     - name: Pre-Configuration | Configure Ansible
