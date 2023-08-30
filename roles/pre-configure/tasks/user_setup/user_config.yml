@@ -1,20 +1,20 @@
 ---
-- name: Users | Custom | Set a hostname to "{{ custom_hostname }}"
+- name: Users | {{ custom_user }} | Set a hostname to "{{ custom_hostname }}"
   ansible.builtin.hostname:
     name: "{{ custom_hostname }}"
 
-- name: Users | Custom | Change hosts file
+- name: Users | {{ custom_user }} | Change hosts file
   ansible.builtin.lineinfile:
     dest: "/etc/hosts"
     regexp: "^127.0.1.1"
     line: "127.0.1.1\t{{ custom_hostname }}"
 
-- name: Users | Custom | Create user's group
+- name: Users | {{ custom_user }} | Create user's group
   ansible.builtin.group:
     name: "{{ custom_user }}"
     state: present
 
-- name: Users | Custom | Create user
+- name: Users | {{ custom_user }} | Create user
   ansible.builtin.user:
     name: "{{ custom_user }}"
     group: "{{ custom_user }}"
@@ -24,12 +24,12 @@
     shell: /bin/zsh
     state: present
 
-- name: Users | Custom | Stat sudoers file
+- name: Users | {{ custom_user }} | Stat sudoers file
   ansible.builtin.stat:
     path: "/etc/sudoers.d/sudoers_{{ custom_user }}"
   register: sudoers_file
 
-- name: Users | Custom | Copy sudoers file
+- name: Users | {{ custom_user }} | Copy sudoers file
   ansible.builtin.copy:
     src: "users/sudoers_custom_user"
     dest: "/etc/sudoers.d/sudoers_{{ custom_user }}"
@@ -39,22 +39,22 @@
   register: new_sudoers_file
   when: sudoers_file.stat.exists == false
 
-- name: Users | Custom | Change sudoers file
+- name: Users | {{ custom_user }} | Change sudoers file
   ansible.builtin.lineinfile:
     dest: "/etc/sudoers.d/sudoers_{{ custom_user }}"
     regexp: "^custom_user"
     line: "{{ custom_user }} ALL=(ALL) NOPASSWD: ALL"
   when: new_sudoers_file.changed
 
-- name: Users | Custom | Reconnect to server session
+- name: Users | {{ custom_user }} | Reconnect to server session
   ansible.builtin.meta: reset_connection
 
-- name: Users | Custom | Stat.config folder
+- name: Users | {{ custom_user }} | Stat.config folder
   ansible.builtin.stat:
     path: "/home/{{ custom_user }}/.config"
   register: config_dir
 
-- name: Users | Custom | Create config directories
+- name: Users | {{ custom_user }} | Create config directories
   ansible.builtin.file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
     state: directory
@@ -65,7 +65,7 @@
     - { dir: ".config" }
   when: config_dir.stat.exists == false
 
-- name: Users | Custom | Create config directories
+- name: Users | {{ custom_user }} | Create config directories
   ansible.builtin.file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
     state: directory
@@ -78,7 +78,7 @@
     - { dir: ".ssh" }
     - { dir: ".zsh" }
 
-- name: Users | Custom | Create temp dir
+- name: Users | {{ custom_user }} | Create temp dir
   ansible.builtin.file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
     state: directory
@@ -88,7 +88,7 @@
   with_items:
     - { dir: "{{ temp_dir }}" }
 
-- name: Users | Custom | Copy dotfiles
+- name: Users | {{ custom_user }} | Copy dotfiles
   ansible.builtin.copy:
     src: "users/custom_user/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
@@ -101,28 +101,28 @@
     - { src: "zsh/zshrc", dest: ".zshrc" }
     - { src: "zsh/p10k.zsh", dest: ".zsh/.p10k.zsh" }
 
-- name: Users | Custom | Clone zsh-autosuggestions plugin repository
+- name: Users | {{ custom_user }} | Clone zsh-autosuggestions plugin repository
   become_user: "{{ custom_user }}"
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
     dest: "/home/{{ custom_user }}/.zsh/zsh-autosuggestions"
     force: yes
 
-- name: Users | Custom | Clone zsh-syntax-highlighting plugin repository
+- name: Users | {{ custom_user }} | Clone zsh-syntax-highlighting plugin repository
   become_user: "{{ custom_user }}"
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
     dest: "/home/{{ custom_user }}/.zsh/zsh-syntax-highlighting"
     force: yes
 
-- name: Users | Custom | Clone powerlevel10k plugin repository
+- name: Users | {{ custom_user }} | Clone powerlevel10k plugin repository
   become_user: "{{ custom_user }}"
   ansible.builtin.git:
     repo: https://github.com/romkatv/powerlevel10k.git
     dest: "/home/{{ custom_user }}/.zsh/powerlevel10k"
     force: yes
 
-- name: Users | Custom | Copy zsh config files
+- name: Users | {{ custom_user }} | Copy zsh config files
   ansible.builtin.copy:
     src: "users/custom_user/zsh/{{ item.src }}"
     dest: "/home/{{ custom_user }}/.zsh/{{ item.src }}"
@@ -141,3 +141,18 @@
     - { src: "prompt.zsh" }
     - { src: "setopt.zsh" }
     - { src: "theming.zsh" }
+
+- name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
+  become: false
+  community.crypto.openssh_keypair:
+    path: ~/.ssh/id_rsa
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+  connection: local
+
+- name: Users | {{ custom_user }} | Copy SSh Key
+  become_user: "{{ custom_user }}"
+  ansible.posix.authorized_key:
+    user: "{{ custom_user }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

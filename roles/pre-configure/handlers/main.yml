@@ -1,10 +1,4 @@
 ---
-- name: Update cache
-  ansible.builtin.apt:
-    update_cache: yes
-    name: "*"
-    state: latest
-
 - name: Restart sshd
   ansible.builtin.service:
     name: "{{ openssh_service }}"

@@ -9,6 +9,7 @@ exclude_paths:
   - .pre-commit-config.yaml
 
 skip_list:
+  - name[template]
   - internal-error
   - no-handler
   - latest[git]

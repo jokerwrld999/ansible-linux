@@ -31,11 +31,3 @@
     name: "{{ openssh_service }}"
     enabled: yes
     state: started
-
-- name: System setup | OpenSSH | Copy issue.net
-  ansible.builtin.copy:
-    src: system_setup/openssh_issue.net
-    dest: /etc/issue.net
-    owner: root
-    group: root
-    mode: 0644

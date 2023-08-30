@@ -11,22 +11,13 @@
     src: distribution_packages/debian_sources.list
     dest: /etc/apt/sources.list
     backup: yes
-  notify: Update cache
   when: ansible_distribution == "Debian"
 
 - name: Software | Repos | Add debian-backports
   ansible.builtin.apt_repository:
     repo: deb http://deb.debian.org/debian buster-backports main
     filename: debian-backports
-  notify: Update cache
   when: ansible_distribution == "Debian"
-
-- name: Software | Repos | Add sources Ubuntu
-  ansible.builtin.copy:
-    src: distribution_packages/ubuntu_sources.list
-    dest: /etc/apt/sources.list.d/
-  notify: Update cache
-  when: ansible_distribution == "Ubuntu"
 
 - name: Software | Repos | Install package management tools
   ansible.builtin.package:
@@ -43,7 +34,6 @@
     echo "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com impish main" > /etc/apt/sources.list.d/hashicorp.list
   args:
     creates: /etc/apt/sources.list.d/hashicorp.list
-  notify: Update cache
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
 - name: Software | Repos | Stat rpmfusion repos

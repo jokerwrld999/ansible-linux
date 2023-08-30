@@ -1,10 +1,10 @@
 ---
-- name: Users | Custom | Stat .config folder
+- name: Users | {{ custom_user }} | Stat .config folder
   ansible.builtin.stat:
     path: "/home/{{ custom_user }}/.config"
   register: config_dir
 
-- name: Users | Custom | Create config directories
+- name: Users | {{ custom_user }} | Create config directories
   ansible.builtin.file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
     state: directory
@@ -15,7 +15,7 @@
     - { dir: ".config" }
   when: config_dir.stat.exists == false
 
-- name: Users | Custom | Create personal config directories
+- name: Users | {{ custom_user }} | Create personal config directories
   ansible.builtin.file:
     path: "/home/{{ custom_user }}/{{ item.dir }}"
     state: directory
@@ -34,14 +34,14 @@
     - { dir: .local/share/kwin/scripts/forceblur }
     - { dir: .icons }
 
-- name: Users | Custom | Clone backups
+- name: Users | {{ custom_user }} | Clone backups
   become_user: "{{ custom_user }}"
   ansible.builtin.git:
     repo: https://github.com/jokerwrld999/ultimate-backup.git
     dest: "~/{{ temp_dir }}/ultimate-backup"
     force: yes
 
-- name: Users | Custom | Restore backup
+- name: Users | {{ custom_user }} | Restore backup
   ansible.builtin.copy:
     src: "~/{{ temp_dir }}/ultimate-backup/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
@@ -52,7 +52,7 @@
     - { src: "fonts", dest: ".local/share/" }
     - { src: "walls", dest: "/.local/share/wallpapers/" }
 
-- name: Users | Custom | Restore backup
+- name: Users | {{ custom_user }} | Restore backup
   ansible.builtin.copy:
     src: "users/custom_user/{{ item.src }}"
     dest: "/home/{{ custom_user }}/{{ item.dest }}"
