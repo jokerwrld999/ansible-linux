@@ -98,7 +98,9 @@ alias sha1='openssl sha1'
 
 # Alias for git
 alias gpush='git push'
-alias gs='git status'
+alias gst='git status'
+alias greset="git fetch --all && git reset --hard origin/main"
+alias gfixup="GIT_SEQUENCE_EDITOR=\"curl -s https://raw.githubusercontent.com/jokerwrld999/py-automation/main/scripts/fixup/main.py | python -\" git rebase -i --root"
 
 # Aliases for docker
 alias d='docker'

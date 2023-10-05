@@ -145,14 +145,14 @@ lazyg() {
 
 # Git clone repo and go to the directory
 gclone() {
-	repo_name=$(basename "$1" | cut -d '.' -f 1)
+	repo_name=$(basename "$1" ".git")
 	git clone "$1"
 	cd $repo_name
 }
 
 # Gh clone repo and go to the directory
 ghclone() {
-	repo_name=$(basename "$1" | cut -d '.' -f 1)
+	repo_name=$(basename "$1" ".git")
 	gh repo clone "$1"
 	cd $repo_name
 }
@@ -172,4 +172,13 @@ c() {
 cdls() {
 	cd "$1"
 	ll .
+}
+
+# Jekyll New Post
+new_post() {
+    if [ ! -d "_posts/$1" ]; then
+        mkdir -p "_posts/$1"
+    fi
+    bundle exec jekyll post "$2" | grep -oP '_.*?\.md' | xargs basename | read filename
+    mv "_posts/$filename" "_posts/$1/$filename"
 }

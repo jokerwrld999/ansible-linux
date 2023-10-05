@@ -29,18 +29,18 @@
     state: latest
   when: ansible_distribution == "Fedora"
 
-- name: Software | Development | Upgrade pip
-  ansible.builtin.pip:
-    name: pip
-    executable: pip3
-    state: latest
+- name: Software | Development | Check for python packages
+  ansible.builtin.command: pip3 show boto3
+  register: check_pip
+  ignore_errors: true
 
 - name: Software | Development | Install python packages
   ansible.builtin.shell: |
-    pip install "{{ item.package }}"
+    pip install "{{ item.package }}" --break-system-packages
   with_items:
     - { package: "boto3" }
     - { package: "botocore" }
     - { package: "bpytop" }
     - { package: "docker" }
     - { package: "requests" }
+  when: check_pip.stdout.find('WARNING') != -1

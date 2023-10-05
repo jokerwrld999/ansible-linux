@@ -1,7 +1,7 @@
 [all]
-#localhost ansible_connection=local
+localhost ansible_connection=local
 
 [server]
-192.168.10.10
+#192.168.10.10
 
 [workstation]
