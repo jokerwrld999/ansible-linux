@@ -13,7 +13,7 @@ ssh-keygen -t ed25519 -C "Default key"
 2. Copy the ssh key to the server(s)
 
 ```
-ssh-copy-id -i ~/.ssh/id_ed25519.pub <IP Adderss>
+ssh-copy-id -i ~/.ssh/id_ed25519.pub <IP Address>
 ```
 
 3. Generate an ssh key that’s going to be specifically used for Ansible
@@ -45,6 +45,6 @@ ssh-copy-id -i ~/.ssh/ansible.pub
 - Ensure that Ansible is installed on your Linux execute the following commands:
 
 ```
-ansible-galaxy collection install -r requirements.yml
+ansible-galaxy collection install -r requirements.yml;
 ansible-playbook local.yml
 ```
