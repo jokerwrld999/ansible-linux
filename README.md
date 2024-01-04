@@ -45,6 +45,6 @@ ssh-copy-id -i ~/.ssh/ansible.pub
 - Ensure that Ansible is installed on your Linux execute the following commands:
 
 ```
-ansible-galaxy collection install -r requirements.yml;
+ansible-galaxy install -r requirements.yml;
 ansible-playbook local.yml
 ```

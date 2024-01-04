@@ -1,0 +1,10 @@
+---
+- name: Users | {{ custom_user }} | Set a hostname to "{{ custom_hostname }}"
+  ansible.builtin.hostname:
+    name: "{{ custom_hostname }}"
+
+- name: Users | {{ custom_user }} | Change hosts file
+  ansible.builtin.lineinfile:
+    dest: "/etc/hosts"
+    regexp: "^127.0.1.1"
+    line: "127.0.1.1\t{{ custom_hostname }}"

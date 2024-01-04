@@ -4,6 +4,9 @@
   hosts: all
   become: true
   pre_tasks:
+    - name: Status | Start time
+      ansible.builtin.set_fact:
+        start_time: "{{ ansible_date_time.iso8601[:19] }}"
     - name: Pre-run | Update package cache (arch, manjaro)
       community.general.pacman:
         update_cache: yes
@@ -74,6 +77,15 @@
       ansible.builtin.dnf:
         autoremove: yes
       when: ansible_distribution == "Fedora"
+
+    - name: Status | Updating timestamp
+      ansible.builtin.setup:
+        filter:
+          - "ansible_date_time"
+
+    - name: Status | Get runtime
+      ansible.builtin.set_fact:
+        runtime: "{{ ((ansible_date_time.iso8601[:19] | to_datetime('%Y-%m-%dT%H:%M:%S')) - (start_time | to_datetime('%Y-%m-%dT%H:%M:%S'))) }}"
 
     - name: Telegram | Send completion alert
       ansible.builtin.import_tasks: roles/pre-configure/tasks/alerts/completion_alert.yml

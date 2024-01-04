@@ -46,6 +46,18 @@
       ansible.builtin.import_tasks: software/packages_utilities.yml
 
     # Perform remaining tasks:
+    - name: Pre-Configuration | Configure Hostname
+      ansible.builtin.import_tasks: system_setup/hostname.yml
+      when:
+        - set_hostname is defined
+        - set_hostname == true
+    - name: Pre-Configuration | Configure Static IP Address
+      ansible.builtin.import_tasks: system_setup/static_ip.yml
+      tags:
+        - static_ip
+      when:
+        - set_static_ip is defined
+        - set_static_ip == true
     - name: Pre-Configuration | Configure Logging
       ansible.builtin.import_tasks: system_setup/logging.yml
     - name: Pre-Configuration | Configure Microcode

@@ -5,5 +5,6 @@
     api_args:
       chat_id: "{{ telegram_chat_id }}"
       parse_mode: "markdown"
-      text: "✔️  Ansible provision finished on *{{ ansible_hostname }}*"
+      text: "✔️  Ansible provision finished on *{{ ansible_hostname }}*\n\n
+        *🏁  Execution Time*: {{ runtime }}.\n"
   changed_when: false

@@ -1,0 +1,25 @@
+---
+- name: Include Role
+  ansible.builtin.include_role:
+    name: mrlesmithjr.netplan
+  vars:
+    netplan_enabled: false
+    netplan_apply: false
+    netplan_config_file: /etc/netplan/ansible-netplan.yaml
+    netplan_config_file_mode: "0400"
+    netplan_renderer:
+    netplan_configuration:
+      network:
+        version: 2
+        ethernets:
+          eth0:
+            dhcp4: no
+            addresses:
+              - "{{ ipv4_address }}/{{ subnet_prefix }}"
+            routes:
+              - to: default
+                via: "{{ default_gateway }}"
+            nameservers:
+              addresses:
+                - "{{ primary_dns }}"
+                - "{{ secondary_dns }}"

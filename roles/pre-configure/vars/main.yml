@@ -1,5 +1,17 @@
 ---
 # Pre-Configuration
+# Custom Hostname
+set_hostname: false
+custom_hostname: "{{ custom_user }}-server"
+
+# Static IP Address
+set_static_ip: false
+ipv4_address: 10.240.0.1
+subnet_prefix: 24
+default_gateway: 10.240.0.254
+primary_dns: 8.8.8.8
+secondary_dns: 1.1.1.1
+
 # SSH
 ssh_port: 22
 
@@ -9,7 +21,6 @@ microcode_amd_install: false
 
 # Users Config
 custom_user: "{{ lookup('env', 'CUSTOM_USER') | default('jokerwrld', true) }}" # >>> ubuntu | ec2-user | custom_user
-custom_hostname: "{{ custom_user }}-server"
 temp_dir: "tmp"
 
 # Encrypt Password
