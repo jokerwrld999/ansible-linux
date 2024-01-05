@@ -1,0 +1,7 @@
+---
+# Server Configuration
+unattended_upgrades: true
+
+# Encrypt Password
+# python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
+root_passwd: "$6$aBitRBNIk5O7.rRs$.r7jWebBbVsx6GL7/8EixidRnFxtvSPEcXMkCLa.zKXS8ETQjpay54Htc9Q4sLJfs1Cyvjj4VVGpe5yc1zXLe/" # root

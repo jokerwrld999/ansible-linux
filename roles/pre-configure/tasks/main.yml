@@ -69,6 +69,12 @@
       tags:
         - ssh
 
+    - name: Pre-Configuration | Install Qemu Guest Agent
+      ansible.builtin.import_tasks: system_setup/qemu-agent.yml
+      when:
+        - qemu_guest_agent is defined
+        - qemu_guest_agent == true
+
   rescue:
     - name: Pre-Configuration | Configure
       ansible.builtin.set_fact:

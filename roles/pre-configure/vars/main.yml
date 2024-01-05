@@ -16,6 +16,7 @@ secondary_dns: 1.1.1.1
 ssh_port: 22
 
 # Platform-specific
+# qemu_guest_agent: true
 microcode_intel_install: true
 microcode_amd_install: false
 

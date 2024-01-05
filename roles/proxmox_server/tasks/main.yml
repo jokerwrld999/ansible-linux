@@ -1,0 +1,28 @@
+---
+- name: Server Configuration | Include Distro Variables
+  ansible.builtin.include_vars: "{{ ansible_distribution }}.yml"
+  tags: always
+
+- name: Server Configuration
+  block:
+    # System Configuration
+    - name: Pre-Configuration | Configure Repositories
+      ansible.builtin.import_tasks: system_setup/repositories.yml
+
+    - name: Proxmox Configuration | System Setup | Install Unattended Upgrades
+      ansible.builtin.import_tasks: system_setup/unattended_upgrades.yml
+
+    # User Configuration
+    - name: Proxmox Configuration | Root Setup | Configure Root User
+      ansible.builtin.import_tasks: user_setup/root_config.yml
+
+    # VM Template Configuration
+    - name: Proxmox Configuration | VM Template Setup | Create Ubuntu template
+      ansible.builtin.import_tasks: vm_template/vm_template.yml
+      tags:
+        - template
+
+  rescue:
+    - name: Server Configuration | Rescue
+      ansible.builtin.set_fact:
+        task_failed: true

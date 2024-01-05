@@ -1,5 +1,5 @@
 ---
-- name: Pre-run | Updating packages
+- name: Pre-run | Status | Set timer
   tags: always
   hosts: all
   become: true
@@ -8,6 +8,11 @@
       ansible.builtin.set_fact:
         start_time: "{{ ansible_date_time.iso8601[:19] }}"
 
+- name: Pre-run | Updating packages
+  tags: always
+  hosts: all, !proxmox_servers
+  become: true
+  pre_tasks:
     - name: Pre-run | Update package cache (arch, manjaro)
       community.general.pacman:
         update_cache: yes
@@ -32,16 +37,16 @@
       when: ansible_distribution in ["Fedora", "Rocky"]
 
 - name: Pre-configuring hosts
-  hosts: all
+  hosts: all, !proxmox_servers
   become: true
   roles:
     - pre-configure
 
 - name: Setting up server hosts
-  hosts: server
+  hosts: proxmox_servers
   become: true
   roles:
-    - server
+    - proxmox_server
 
 - name: Setting up workstation hosts
   hosts: workstation
