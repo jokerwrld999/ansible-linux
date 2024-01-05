@@ -31,13 +31,13 @@
     baseurl: https://packages.microsoft.com/yumrepos/vscode
     gpgcheck: yes
     gpgkey: https://packages.microsoft.com/keys/microsoft.asc
-  when: ansible_distribution == "Fedora"
+  when: ansible_distribution in ["Fedora", "Rocky"]
 
 - name: Software | Code | Install package Fedora
   become_user: root
   ansible.builtin.dnf:
     name: code
-  when: ansible_distribution == "Fedora"
+  when: ansible_distribution in ["Fedora", "Rocky"]
 
 # **** Installing VS Code | Arch-based
 - name: Software | Code | Install package Arch

@@ -7,6 +7,7 @@
     - name: Status | Start time
       ansible.builtin.set_fact:
         start_time: "{{ ansible_date_time.iso8601[:19] }}"
+
     - name: Pre-run | Update package cache (arch, manjaro)
       community.general.pacman:
         update_cache: yes
@@ -22,13 +23,13 @@
         state: latest
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
-    - name: Pre-run | Update package cache (fedora)
+    - name: Pre-run | Update package cache (fedora/rocky)
       ansible.builtin.dnf:
         update_only: yes
         name: "*"
         state: latest
       changed_when: false
-      when: ansible_distribution == "Fedora"
+      when: ansible_distribution in ["Fedora", "Rocky"]
 
 - name: Pre-configuring hosts
   hosts: all
@@ -59,6 +60,7 @@
     - name: Post-cleanup | Packages (arch)
       ansible.builtin.shell: |
         yes | pacman -Scc
+      changed_when: false
       when: ansible_distribution == "Archlinux"
 
     - name: Post-cleanup | Packages' cache (debian and ubuntu)
@@ -73,10 +75,10 @@
         purge: yes
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
-    - name: Post-cleanup | Package's cache (fedora)
+    - name: Post-cleanup | Package's cache (fedora/rocky)
       ansible.builtin.dnf:
         autoremove: yes
-      when: ansible_distribution == "Fedora"
+      when: ansible_distribution in ["Fedora", "Rocky"]
 
     - name: Status | Updating timestamp
       ansible.builtin.setup:

@@ -4,6 +4,8 @@
     name:
       - "{{ python_package }}"
       - "{{ python_pip_package }}"
+      - "{{ python_boto3 }}"
+      - "{{ python_botocore }}"
       - "{{ python_virtualenv_package }}"
     state: latest
 
@@ -21,26 +23,9 @@
     state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: Software | Development | Install packages Fedora
+- name: Software | Development | Install packages Fedora/Rocky
   ansible.builtin.dnf:
     name:
-      - "@Development tools"
-      - "@Development libraries"
+      - "@Development Tools"
     state: latest
-  when: ansible_distribution == "Fedora"
-
-- name: Software | Development | Check for python packages
-  ansible.builtin.command: pip3 show boto3
-  register: check_pip
-  ignore_errors: true
-
-- name: Software | Development | Install python packages
-  ansible.builtin.shell: |
-    pip install "{{ item.package }}" --break-system-packages
-  with_items:
-    - { package: "boto3" }
-    - { package: "botocore" }
-    - { package: "bpytop" }
-    - { package: "docker" }
-    - { package: "requests" }
-  when: check_pip.stdout.find('WARNING') != -1
+  when: ansible_distribution in ["Fedora", "Rocky"]

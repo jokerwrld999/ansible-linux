@@ -101,6 +101,7 @@ alias gpush='git push'
 alias gst='git status'
 alias greset="git fetch --all && git reset --hard origin/main"
 alias gfixup="GIT_SEQUENCE_EDITOR=\"curl -s https://raw.githubusercontent.com/jokerwrld999/py-automation/main/scripts/fixup/main.py | python -\" git rebase -i --root"
+alias precommit='pre-commit run --all-files'
 
 # Aliases for docker
 alias d='docker'
@@ -113,3 +114,9 @@ alias k='kubectl'
 
 # Aliases for terraform
 alias tf='terraform'
+
+# Aliases for jekyll
+alias draft="bundle exec jekyll draft"
+alias jekylls="bundle exec jekyll s --drafts"
+alias publish='publish_draft'
+alias post='new_post'

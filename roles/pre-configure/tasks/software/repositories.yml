@@ -27,6 +27,16 @@
     state: latest
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
+- name: Software | Repos | Add GitHub CLI sources
+  ansible.builtin.shell: |
+    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+    chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+    apt update
+  args:
+    creates: /etc/apt/sources.list.d/github-cli.list
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
 - name: Software | Repos | Import Terraform
   ansible.builtin.shell: |
     curl https://apt.releases.hashicorp.com/gpg | gpg --dearmor > hashicorp.gpg
@@ -37,15 +47,39 @@
     creates: /etc/apt/sources.list.d/hashicorp.list
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: Software | Repos | Stat rpmfusion repos
+- name: Software | Repos | Stat RPM Fusion repos
   ansible.builtin.stat:
-    path: "/etc/yum.repos.d/rpmfusion-free.repo"
+    path: "/etc/yum.repos.d/rpmfusion-free-updates.repo"
   register: rpmfusion_repos
-  when: ansible_distribution == "Fedora"
+  when: ansible_distribution in ["Fedora", "Rocky"]
 
-- name: Software | Repos | Install rpmfusion
+- name: Software | Repos | Install RPM Fusion Fedora
   ansible.builtin.shell: |
     dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
     dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
     dnf install -y fedora-workstation-Repos
   when: ansible_distribution == "Fedora" and rpmfusion_repos.stat.exists == false
+
+- name: Software | Repos | Install RPM Fusion Rocky
+  ansible.builtin.shell: |
+    dnf install -y yum-utils
+    dnf install -y epel-release
+    dnf update -y
+    dnf install -y rpmfusion-free-release
+    dnf update -y
+  when: ansible_distribution == "Rocky" and rpmfusion_repos.stat.exists == false
+
+- name: Software | Repos | Stat Additional repos
+  ansible.builtin.stat:
+    path: "/etc/yum.repos.d/hashicorp.repo"
+  register: additional_repos
+  when: ansible_distribution in ["Fedora", "Rocky"]
+
+- name: Software | Repos | Install Additional repos Rocky
+  ansible.builtin.shell: |
+    dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+    dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+    dnf update -y
+    dnf makecache
+  when: ansible_distribution == "Rocky" and additional_repos.stat.exists == false

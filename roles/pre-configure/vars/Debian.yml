@@ -3,6 +3,7 @@ aws_cli: awscli
 autojump_package: autojump
 amd_microcode_package: amd64-microcode
 cron_package: cron
+docker_compose: docker-compose
 dns_utils_package: dnsutils
 intel_microcode_package: intel-microcode
 lm_sensors_package: lm-sensors
@@ -11,8 +12,9 @@ openssh_package: openssh-server
 openssh_service: sshd
 python_package: python3
 python_pip_package: python3-pip
+python_boto3: python3-boto3
+python_botocore: python3-botocore
 python_virtualenv_package: python3-virtualenv
 rename_package: rename
 sudo_group: sudo
-system_guard: ksystemstats
 github_cli: gh

@@ -34,7 +34,7 @@
   ansible.builtin.rpm_key:
     key: https://dl.google.com/linux/linux_signing_key.pub
     state: present
-  when: ansible_distribution == "Fedora"
+  when: ansible_distribution in ["Fedora", "Rocky"]
 
 - name: Software | Chrome | Add repository Fedora
   become_user: root
@@ -45,14 +45,14 @@
     enabled: true
     gpgcheck: true
     gpgkey: https://dl.google.com/linux/linux_signing_key.pub
-  when: ansible_distribution == "Fedora"
+  when: ansible_distribution in ["Fedora", "Rocky"]
 
 - name: Software | Chrome | Install package Fedora
   become_user: root
   ansible.builtin.dnf:
     name: google-chrome-stable
     state: latest
-  when: ansible_distribution == "Fedora"
+  when: ansible_distribution in ["Fedora", "Rocky"]
 
 # **** Installing Chrome | Arch-based
 - name: Software | Chrome | Install package Archlinux

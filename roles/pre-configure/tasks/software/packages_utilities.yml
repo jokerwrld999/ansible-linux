@@ -4,7 +4,6 @@
     name:
       - at
       - "{{ aws_cli }}"
-      - bat
       - colordiff
       - curl
       - "{{ cron_package }}"
@@ -22,9 +21,7 @@
       - openssl
       - "{{ rename_package }}"
       - rsync
-      - sshfs
       - speedtest-cli
-      - "{{ system_guard }}"
       - terraform
       - tldr
       - traceroute
@@ -32,6 +29,13 @@
       - unzip
       - wget
       - whois
+
+- name: Software | Utilities | Exclude packages Rocky
+  ansible.builtin.package:
+    name:
+      - bat
+      - sshfs
+  when: ansible_distribution != "Rocky"
 
 - name: Software | Utilities | Install autojump
   ansible.builtin.package:
@@ -53,6 +57,7 @@
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
   args:
     creates: /usr/local/bin/helm
+  when: ansible_distribution != "Rocky"
 
 - name: Software | Utilities | Install Kubernetes
   ansible.builtin.shell: |

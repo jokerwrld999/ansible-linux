@@ -18,7 +18,7 @@
       - gtk-murrine-engine
       - sassc
       - kvantum
-  when: ansible_distribution == "Fedora"
+  when: ansible_distribution in ["Fedora", "Rocky"]
 
 # **** Installing Theme Packages | Arch-based
 - name: Customization | Install packages

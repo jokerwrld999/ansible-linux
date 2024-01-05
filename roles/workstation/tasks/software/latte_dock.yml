@@ -4,7 +4,7 @@
   become_user: root
   ansible.builtin.package:
     name: latte-dock
-  when: ansible_distribution in ["Debian", "Ubuntu", "Fedora"]
+  when: ansible_distribution in ["Debian", "Ubuntu", "Fedora", "Rocky"]
 
 # **** Installing Latte Dock Package | Arch-based
 - name: Software | Latte | Install package Arch

@@ -11,6 +11,7 @@
     groups: "{{ sudo_group }}"
     append: true
     password: "{{ custom_user_passwd }}"
+    update_password: on_create
     shell: /bin/zsh
     state: present
 
@@ -36,7 +37,7 @@
     line: "{{ custom_user }} ALL=(ALL) NOPASSWD: ALL"
   when: new_sudoers_file.changed
 
-- name: Users | {{ custom_user }} | Reconnect to server session
+- name: Users | Custom user | Reconnect to server session
   ansible.builtin.meta: reset_connection
 
 - name: Users | {{ custom_user }} | Stat.config folder
@@ -131,18 +132,3 @@
     - { src: "prompt.zsh" }
     - { src: "setopt.zsh" }
     - { src: "theming.zsh" }
-
-- name: Generate an OpenSSH keypair with the default values (4096 bits, rsa)
-  become: false
-  community.crypto.openssh_keypair:
-    path: ~/.ssh/id_rsa
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
-  connection: local
-
-- name: Users | {{ custom_user }} | Copy SSh Key????
-  become_user: "{{ custom_user }}"
-  ansible.posix.authorized_key:
-    user: "{{ custom_user }}"
-    state: present
-    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

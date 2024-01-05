@@ -16,7 +16,7 @@
     name:
       - strongswan
       - NetworkManager-strongswan
-  when: ansible_distribution == "Fedora"
+  when: ansible_distribution in ["Fedora", "Rocky"]
 
 # **** Installing VPN Packages | Arch-based
 - name: Software | VPN | Install package Arch

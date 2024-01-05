@@ -18,16 +18,13 @@
         - development
         - docker
 
-    # Set up the ansible environment
-    - name: Pre-Configuration | Configure Ansible
-      ansible.builtin.import_tasks: system_setup/ansible_setup.yml
-
     # Install software
     - name: Pre-Configuration | Configure Repositories
       ansible.builtin.import_tasks: software/repositories.yml
       tags:
         - development
         - docker
+
     - name: Pre-Configuration | Configure Dev Packages
       ansible.builtin.import_tasks: software/packages_development.yml
       tags:
@@ -36,6 +33,7 @@
 
     - name: Pre-Configuration | Configure Tweaks
       ansible.builtin.import_tasks: software/tweaks.yml
+
     - name: Pre-Configuration | Configure Docker
       ansible.builtin.import_tasks: software/packages_docker.yml
       tags:
@@ -51,6 +49,7 @@
       when:
         - set_hostname is defined
         - set_hostname == true
+
     - name: Pre-Configuration | Configure Static IP Address
       ansible.builtin.import_tasks: system_setup/static_ip.yml
       tags:
@@ -58,12 +57,17 @@
       when:
         - set_static_ip is defined
         - set_static_ip == true
+
     - name: Pre-Configuration | Configure Logging
       ansible.builtin.import_tasks: system_setup/logging.yml
+
     - name: Pre-Configuration | Configure Microcode
       ansible.builtin.import_tasks: system_setup/microcode.yml
+
     - name: Pre-Configuration | Configure OpenSSH
       ansible.builtin.import_tasks: system_setup/openssh.yml
+      tags:
+        - ssh
 
   rescue:
     - name: Pre-Configuration | Configure

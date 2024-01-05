@@ -1,9 +1,9 @@
 ---
-- name: Software | Docker | Install package Arch
-  community.general.pacman:
+- name: Software | Docker | Install package Arch, Fedora
+  ansible.builtin.package:
     name: docker
     state: latest
-  when: ansible_distribution == "Archlinux"
+  when: ansible_distribution in ["Archlinux", "Fedora"]
 
 - name: Software | Docker | Install package Debian/Ubuntu
   ansible.builtin.shell: |
@@ -12,11 +12,30 @@
     creates: /usr/bin/docker
   when: ansible_distribution in ["Debian", "Ubuntu"]
 
-- name: Software | Docker | Install package Fedora
-  ansible.builtin.dnf:
-    name: docker
-    state: latest
-  when: ansible_distribution == "Fedora"
+- name: Software | Docker | Check for podman package Rocky
+  ansible.builtin.command: which podman
+  register: check_podman
+  changed_when: false
+  failed_when: false
+  when: ansible_distribution == "Rocky"
+
+- name: Software | Docker | Remove old packages Rocky
+  ansible.builtin.shell: |
+    dnf remove -y docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine \
+                  podman runc
+  when: ansible_distribution == "Rocky" and check_podman.rc == 0
+
+- name: Software | Docker | Install packages Rocky
+  ansible.builtin.shell: |
+    dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin
+  when: ansible_distribution == "Rocky" and check_podman.rc == 0
 
 - name: Software | Docker | Create group
   ansible.builtin.group:
@@ -28,14 +47,16 @@
     name: "{{ custom_user }}"
     groups: docker
     append: yes
+  register: docker_group
 
 - name: Software | Docker | Reconnect to server session
   ansible.builtin.meta: reset_connection
+  when: docker_group.changed
 
 - name: Software | Docker Compose | Install package
   ansible.builtin.package:
     name:
-      - docker-compose
+      - "{{ docker_compose }}"
 
 - name: Software | Docker | Start docker service
   ansible.builtin.service:
