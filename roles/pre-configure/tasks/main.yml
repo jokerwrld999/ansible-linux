@@ -50,19 +50,13 @@
         - set_hostname is defined
         - set_hostname == true
 
-    - name: Pre-Configuration | Configure Static IP Address
-      ansible.builtin.import_tasks: system_setup/static_ip.yml
-      tags:
-        - static_ip
-      when:
-        - set_static_ip is defined
-        - set_static_ip == true
-
     - name: Pre-Configuration | Configure Logging
       ansible.builtin.import_tasks: system_setup/logging.yml
 
     - name: Pre-Configuration | Configure Microcode
       ansible.builtin.import_tasks: system_setup/microcode.yml
+      tags:
+        - microcode
 
     - name: Pre-Configuration | Configure OpenSSH
       ansible.builtin.import_tasks: system_setup/openssh.yml
@@ -71,9 +65,6 @@
 
     - name: Pre-Configuration | Install Qemu Guest Agent
       ansible.builtin.import_tasks: system_setup/qemu-agent.yml
-      when:
-        - qemu_guest_agent is defined
-        - qemu_guest_agent == true
 
   rescue:
     - name: Pre-Configuration | Configure

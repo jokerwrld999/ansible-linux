@@ -1,7 +1,4 @@
 ---
-roles:
-  - name: mrlesmithjr.netplan
-
 collections:
   - ansible.posix
   - community.crypto

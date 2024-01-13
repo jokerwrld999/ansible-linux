@@ -17,5 +17,6 @@ python_boto3: python3-boto3
 python_botocore: python3-botocore
 python_virtualenv_package: python3-virtualenv
 rename_package: prename
+ruby: ruby
 sudo_group: wheel
 qemu_agent_service: qemu-guest-agent

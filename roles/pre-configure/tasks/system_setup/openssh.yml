@@ -23,10 +23,10 @@
     mode: 0644
   when: not sshd_template.found
 
-- name: System setup | OpenSSH | Stat wsl.conf file
-  ansible.builtin.stat:
-    path: /etc/wsl.conf
-  register: wsl_info
+- name: System setup | OpenSSH | Check for WSL
+  ansible.builtin.command: systemd-detect-virt
+  register: virt_env_output
+  changed_when: false
 
 - name: System setup | OpenSSH | Update port for WSL
   ansible.builtin.lineinfile:
@@ -34,7 +34,7 @@
     regexp: "Port 22"
     line: "Port 2222"
   failed_when: false
-  when: wsl_info.stat.exists == true
+  when: virt_env_output.stdout == "wsl"
 
 - name: System setup | OpenSSH | Enable daemon
   ansible.builtin.service:
