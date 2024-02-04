@@ -97,6 +97,7 @@ alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' 
 alias sha1='openssl sha1'
 
 # Alias for git
+alias g='cd ~/github'
 alias gpush='git push'
 alias gst='git status'
 alias greset="git fetch --all && git reset --hard origin/main"
