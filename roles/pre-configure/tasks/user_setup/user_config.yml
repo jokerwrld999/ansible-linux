@@ -40,7 +40,7 @@
 - name: Users | Custom user | Reconnect to server session
   ansible.builtin.meta: reset_connection
 
-- name: Users | {{ custom_user }} | Stat.config folder
+- name: Users | {{ custom_user }} | Stat dot_config folder
   ansible.builtin.stat:
     path: "/home/{{ custom_user }}/.config"
   register: config_dir

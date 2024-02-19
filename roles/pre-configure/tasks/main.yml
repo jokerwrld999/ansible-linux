@@ -67,6 +67,6 @@
       ansible.builtin.import_tasks: system_setup/qemu-agent.yml
 
   rescue:
-    - name: Pre-Configuration | Configure
+    - name: Pre-Configuration | Rescue
       ansible.builtin.set_fact:
         task_failed: true

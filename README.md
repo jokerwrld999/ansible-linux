@@ -2,6 +2,13 @@
 
 Provision your Linux Servers and Desktops with this playbook.
 
+## Pre-commit Commands
+
+```
+pre-commit install
+pre-commit run -a
+```
+
 ## Setting SSH Key-Based Authentication
 
 1. Generate an ssh key
@@ -28,19 +35,22 @@ ssh-keygen -t ed25519 -C "ansible"
 ssh-copy-id -i ~/.ssh/ansible.pub
 ```
 
-## Modify The Variables
+## Export Env Variables
 
-- Modify the variables in inventory/hosts
+- Export Environment Variables
 
 ```
-[server]
-#Server IP
-
-[workstation]
-#Workstation IP
+export CUSTOM_USER=
 ```
 
-- !!! Modify the variables in vars/main.yml
+- OR Modify the variables in `roles/pre-configure/vars/main.yml`
+
+## Create Vault Pass
+
+- Create `.vault_pass` file with password to decrypt Telegram Bot Tokens to use
+  Telegram Alerts
+
+## Run Ansible Playbooks
 
 - Ensure that Ansible is installed on your Linux execute the following commands:
 

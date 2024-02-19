@@ -41,3 +41,19 @@
     name: "{{ openssh_service }}"
     enabled: yes
     state: started
+
+- name: System setup | OpenSSH | Generate an OpenSSH keypair
+  become: false
+  community.crypto.openssh_keypair:
+    type: ed25519
+    path: ~/.ssh/ed25519
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+  connection: local
+
+- name: System setup | OpenSSH | Copy SSh Key
+  become_user: "{{ custom_user }}"
+  ansible.posix.authorized_key:
+    user: "{{ custom_user }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/ed25519.pub') }}"
