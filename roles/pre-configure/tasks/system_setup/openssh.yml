@@ -51,6 +51,32 @@
     group: "{{ lookup('env', 'USER') }}"
   connection: local
 
+- name: System setup | OpenSSH | Stat SSH Identity Config
+  become: false
+  ansible.builtin.stat:
+    path: "~/.ssh/config"
+  connection: local
+  register: ssh_identity
+
+- name: System setup | OpenSSH | New SSH Identity config
+  become: false
+  ansible.builtin.copy:
+    dest: "~/.ssh/config"
+    content: |
+      IdentityFile ~/.ssh/ed25519
+  connection: local
+  register: new_ssh_identity
+  when: ssh_identity.stat.exists == false
+
+- name: System setup | OpenSSH | Set Default Identity
+  become: false
+  ansible.builtin.lineinfile:
+    dest: "~/.ssh/config"
+    line: "IdentityFile ~/.ssh/ed25519"
+    state: present
+  connection: local
+  when: not new_ssh_identity.changed
+
 - name: System setup | OpenSSH | Copy SSh Key
   become_user: "{{ custom_user }}"
   ansible.posix.authorized_key:
