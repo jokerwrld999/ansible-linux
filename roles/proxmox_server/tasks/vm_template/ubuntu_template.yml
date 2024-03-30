@@ -4,20 +4,10 @@
     url: https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
     dest: /tmp/jammy-server-cloudimg-amd64.img
 
-- name: VM Template | Ubuntu | Create a new virtual machine
+- name: VM Template | Ubuntu | Create Template
   ansible.builtin.shell: |
     qm create 8000 --memory 4096 --core 2 --name ubuntu-cloud --net0 virtio,bridge=vmbr0
-  args:
-    creates: /etc/pve/qemu-server/8000.conf
-
-- name: VM Template | Ubuntu | Move Ubuntu disk to local-lvm storage
-  ansible.builtin.shell: |
     qm importdisk 8000 /tmp/jammy-server-cloudimg-amd64.img local-lvm
-  args:
-    creates: /etc/pve/qemu-server/8000.conf
-
-- name: VM Template | Ubuntu | Install Helm
-  ansible.builtin.shell: |
     qm set 8000 --scsihw virtio-scsi-pci --scsi0 local-lvm:vm-8000-disk-0
     qm set 8000 --ide2 local-lvm:cloudinit
     qm set 8000 --boot c --bootdisk scsi0

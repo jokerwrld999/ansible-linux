@@ -18,7 +18,7 @@
 
     # VM Template Configuration
     - name: Proxmox Configuration | VM Template Setup | Create Ubuntu template
-      ansible.builtin.import_tasks: vm_template/vm_template.yml
+      ansible.builtin.import_tasks: vm_template/ubuntu_template.yml
       tags:
         - template
 

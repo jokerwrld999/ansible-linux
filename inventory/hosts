@@ -1,9 +1,9 @@
 [all]
-localhost ansible_connection=local
+#localhost ansible_connection=local
 #10.10.10.1
 
 [proxmox_servers]
-# 192.168.200.116 ansible_user=root
+192.168.200.102 ansible_user=root
 # 192.168.100.125
 # 192.168.100.126 ansible_user=ubuntu
 # 10.240.0.1
