@@ -32,7 +32,7 @@ ssh-keygen -t ed25519 -C "ansible"
 4. Copy the ssh key to the server(s)
 
 ```
-ssh-copy-id -i ~/.ssh/ansible.pub
+ssh-copy-id -i ~/.ssh/ansible.pub <IP Address>
 ```
 
 ## Export Env Variables

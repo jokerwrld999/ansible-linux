@@ -11,6 +11,7 @@
       tags:
         - development
         - docker
+        - lxc
 
     - name: Pre-Configuration | Configure Custom User
       ansible.builtin.import_tasks: user_setup/user_config.yml
@@ -24,12 +25,14 @@
       tags:
         - development
         - docker
+        - lxc
 
     - name: Pre-Configuration | Configure Dev Packages
       ansible.builtin.import_tasks: software/packages_development.yml
       tags:
         - development
         - docker
+        - lxc
 
     - name: Pre-Configuration | Configure Tweaks
       ansible.builtin.import_tasks: software/tweaks.yml
@@ -62,6 +65,7 @@
       ansible.builtin.import_tasks: system_setup/openssh.yml
       tags:
         - ssh
+        - lxc
 
     - name: Pre-Configuration | Install Qemu Guest Agent
       ansible.builtin.import_tasks: system_setup/qemu-agent.yml
