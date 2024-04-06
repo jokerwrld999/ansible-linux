@@ -65,7 +65,6 @@
       ansible.builtin.import_tasks: system_setup/openssh.yml
       tags:
         - ssh
-        - lxc
 
     - name: Pre-Configuration | Install Qemu Guest Agent
       ansible.builtin.import_tasks: system_setup/qemu-agent.yml
