@@ -31,7 +31,9 @@ function key_exists() {
   local password="$2"
   local ip_address="$3"
   local key_file="$4"
+
   echo "$password" | sshpass ssh -o 'ConnectTimeout=5' -q $username@$ip_address "grep \"$(cat ~/.ssh/$key_file)\" ~/.ssh/authorized_keys" &> /dev/null
+
   if [[ $? -eq 0 ]]; then
     echo "true"
   else
@@ -39,11 +41,6 @@ function key_exists() {
   fi
 }
 
-# read -p "Enter the username for the server (default: root): " username
-# read -p "Enter the server IP address: " ip_address
-# username=${username:-root}  # Set default username to root if none provided
-
-read -p "Enter the password for the server: " password
 declare -A server_info
 
 while IFS= read -r line; do
@@ -53,18 +50,19 @@ while IFS= read -r line; do
 
   if [[ ! $ip_address =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]]; then
     continue
+  elif ! ping -c1 -W1 $ip_address &> /dev/null; then
+    echo "WARNING: Server $ip_address is not reachable. Skipping."
+    continue
   fi
 
   server_info["$ip_address"]="$username"
 done < ./inventory/hosts
 
+read -p "Enter the password for the server: " password
+echo
 for server in "${!server_info[@]}"; do
   ip_address="${server}"
   username="${server_info[$server]}"
-
-  # echo "  Username: $username"
-  # echo "  IP Address: $ip_address"
-  # echo
 
   for key_file in "id_ed25519" "ansible"; do
     if [ ! -f ~/.ssh/"$key_file" ]; then
@@ -78,12 +76,14 @@ for server in "${!server_info[@]}"; do
 
     key_exists_status=$(key_exists "$username" "$password" "$ip_address" "$key_file.pub")
 
+    echo "Provisioning server: $ip_address."
     if [[ "$key_exists_status" == "true" ]]; then
       echo "Key '$key_file.pub' already authorized."
     else
       echo "Copying '$key_file.pub'..."
-      echo "$password" | sshpass ssh-copy-id -i "/home/jokerwrld/.ssh/$key_file.pub" $username@$ip_address &> /dev/null
+      echo "$password" | sshpass ssh-copy-id -o 'StrictHostKeyChecking=no' -i "/home/jokerwrld/.ssh/$key_file.pub" $username@$ip_address &> /dev/null
     fi
+    echo
   done
 done
 
