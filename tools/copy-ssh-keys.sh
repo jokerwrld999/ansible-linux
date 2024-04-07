@@ -13,9 +13,9 @@ for package_manager in "${!package_managers[@]}"; do
     if ! command -v $sshpass_package >/dev/null 2>&1; then
       eval "${package_managers[$package_manager]} $sshpass_package"
       echo "Packages installed using $package_manager."
-      break  # Exit the loop after successful installation
+      break
     else
-      echo "Package $sshpass_package already exists."
+      # echo "Package $sshpass_package already exists."
       break
     fi
   else
@@ -39,29 +39,52 @@ function key_exists() {
   fi
 }
 
-read -p "Enter the username for the server (default: root): " username
+# read -p "Enter the username for the server (default: root): " username
+# read -p "Enter the server IP address: " ip_address
+# username=${username:-root}  # Set default username to root if none provided
+
 read -p "Enter the password for the server: " password
-read -p "Enter the server IP address: " ip_address
-username=${username:-root}  # Set default username to root if none provided
+declare -A server_info
 
-for key_file in "id_ed25519" "ansible"; do
-  if [ ! -f ~/.ssh/"$key_file" ]; then
-    echo "Generating '$key_file'..."
-    if [[ "$key_file" == "ansible.pub" ]]; then
-      ssh-keygen -f ~/.ssh/"$key_file" -t ed25519 -C "Ansible" -N '""' -q
-    else
-      ssh-keygen -f ~/.ssh/"$key_file" -t ed25519 -C "Default key" -N '""' -q
+while IFS= read -r line; do
+  ip_address=$(echo "$line" | awk '{print $1}')
+  username=$(echo "$line" | awk '{print $2}' | cut -d "=" -f2)
+  username=${username:-root}
+
+  if [[ ! $ip_address =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]]; then
+    continue
+  fi
+
+  server_info["$ip_address"]="$username"
+done < ./inventory/hosts
+
+for server in "${!server_info[@]}"; do
+  ip_address="${server}"
+  username="${server_info[$server]}"
+
+  # echo "  Username: $username"
+  # echo "  IP Address: $ip_address"
+  # echo
+
+  for key_file in "id_ed25519" "ansible"; do
+    if [ ! -f ~/.ssh/"$key_file" ]; then
+      echo "Generating '$key_file'..."
+      if [[ "$key_file" == "ansible.pub" ]]; then
+        ssh-keygen -f ~/.ssh/"$key_file" -t ed25519 -C "Ansible" -N '""' -q
+      else
+        ssh-keygen -f ~/.ssh/"$key_file" -t ed25519 -C "Default key" -N '""' -q
+      fi
     fi
-  fi
 
-  key_exists_status=$(key_exists "$username" "$password" "$ip_address" "$key_file.pub")
+    key_exists_status=$(key_exists "$username" "$password" "$ip_address" "$key_file.pub")
 
-  if [[ "$key_exists_status" == "true" ]]; then
-    echo "Key '$key_file.pub' already authorized."
-  else
-    echo "Copying '$key_file.pub'..."
-    echo "$password" | sshpass ssh-copy-id -i "/home/jokerwrld/.ssh/$key_file.pub" $username@$ip_address &> /dev/null
-  fi
+    if [[ "$key_exists_status" == "true" ]]; then
+      echo "Key '$key_file.pub' already authorized."
+    else
+      echo "Copying '$key_file.pub'..."
+      echo "$password" | sshpass ssh-copy-id -i "/home/jokerwrld/.ssh/$key_file.pub" $username@$ip_address &> /dev/null
+    fi
+  done
 done
 
 echo "SSH key setup completed!"
