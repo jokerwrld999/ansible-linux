@@ -1,4 +1,18 @@
 ---
+- name: Pre-run | Run local scripts
+  tags: always
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Pre-run | Copying SSH keys
+      command: bash ./tools/copy-ssh-keys.sh
+      changed_when: false
+
+    - name: Pre-run | Installing Ansible collections
+      command: ansible-galaxy install -r requirements.yml
+      changed_when: false
+
 - name: Pre-run | Status | Set timer
   tags: always
   hosts: all
@@ -36,26 +50,26 @@
       changed_when: false
       when: ansible_distribution in ["Fedora", "Rocky"]
 
-- name: Pre-configuring hosts
+- name: Pre-configuring servers 
   hosts: all, !proxmox_servers
   become: true
   roles:
     - pre-configure
 
-- name: Setting up server hosts
+- name: Setting up proxmox servers 
   hosts: proxmox_servers
   become: true
   roles:
     - proxmox_server
 
-- name: Setting up workstation hosts
+- name: Setting up workstation servers
   hosts: workstation
   become: true
   become_user: "{{ custom_user }}"
   roles:
     - workstation
 
-- name: Post-run | Cleaning up hosts
+- name: Post-run | Cleaning up servers
   tags: always
   hosts: all
   become: true

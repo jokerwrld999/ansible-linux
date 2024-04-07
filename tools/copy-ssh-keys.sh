@@ -42,7 +42,7 @@ while IFS= read -r line; do
   server_info["$ip_address"]="$username"
 done < ./inventory/hosts
 
-ssh_password=$(awk -F'=' '$1 == "ssh_password" {print $2}' .vault_pass)
+ssh_password=$(cat ./.ssh_pass)
 
 if [[ -z "$ssh_password" ]]; then
   read -p "Enter the SSH password for the server: " ssh_password
