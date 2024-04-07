@@ -8,37 +8,24 @@ declare -A package_managers=(
 )
 
 sshpass_package="sshpass"
-for package_manager in "${!package_managers[@]}"; do
-  if command -v $package_manager >/dev/null 2>&1; then
-    if ! command -v $sshpass_package >/dev/null 2>&1; then
+if ! command -v $sshpass_package >/dev/null 2>&1; then
+  for package_manager in "${!package_managers[@]}"; do
+    if command -v $package_manager >/dev/null 2>&1; then
       eval "${package_managers[$package_manager]} $sshpass_package"
       echo "Packages installed using $package_manager."
-      break
-    else
-      # echo "Package $sshpass_package already exists."
-      break
+      exit 0
     fi
-  else
-    echo "FAILED TO INSTALL PACKAGES: Package manager not found. You must manually install:"
-    for config in "${packagesAndConfig[@]}"; do
-      eval "echo $config"
-    done
-  fi
-done
+  done
+  echo "FAILED TO INSTALL PACKAGES: No supported package manager found."
+fi
 
 function key_exists() {
-  local username="$1"
-  local password="$2"
+  local ssh_password="$1"
+  local username="$2"
   local ip_address="$3"
   local key_file="$4"
 
-  echo "$password" | sshpass ssh -o 'ConnectTimeout=5' -q $username@$ip_address "grep \"$(cat ~/.ssh/$key_file)\" ~/.ssh/authorized_keys" &> /dev/null
-
-  if [[ $? -eq 0 ]]; then
-    echo "true"
-  else
-    echo "false"
-  fi
+  echo "$ssh_password" | sshpass ssh -o 'ConnectTimeout=5' -q $username@$ip_address "grep -q \"$(cat ~/.ssh/$key_file)\" ~/.ssh/authorized_keys" &> /dev/null
 }
 
 declare -A server_info
@@ -48,43 +35,51 @@ while IFS= read -r line; do
   username=$(echo "$line" | awk '{print $2}' | cut -d "=" -f2)
   username=${username:-root}
 
-  if [[ ! $ip_address =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]]; then
-    continue
-  elif ! ping -c1 -W1 $ip_address &> /dev/null; then
-    echo "WARNING: Server $ip_address is not reachable. Skipping."
+  if [[ ! $ip_address =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]] || ! ping -c1 -W1 $ip_address &> /dev/null; then
     continue
   fi
 
   server_info["$ip_address"]="$username"
 done < ./inventory/hosts
 
-read -p "Enter the password for the server: " password
-echo
+ssh_password=$(awk -F'=' '$1 == "ssh_password" {print $2}' .vault_pass)
+
+if [[ -z "$ssh_password" ]]; then
+  read -p "Enter the SSH password for the server: " ssh_password
+  echo
+fi
+
+generate_and_copy_keys() {
+  local ssh_password="$1"
+  local username="$2"
+  local ip_address="$3"
+  local key_file="$4"
+  local key_name="$5"
+
+  local key_path="$HOME/.ssh/$key_file"
+  if [ ! -f "$key_path" ]; then
+    echo "Generating SSH key: $description..."
+    ssh-keygen -f "$key_path" -t ed25519 -C "$description" -N '' -q
+  fi
+
+  if key_exists "$ssh_password" "$username" "$ip_address" "$key_file.pub"; then
+    echo "Key '$key_file.pub' already authorized."
+  else
+    echo "Copying '$key_file.pub' to $ip_address..."
+    echo "$ssh_password" | sshpass ssh-copy-id -o 'StrictHostKeyChecking=no' -i "$key_path.pub" $username@$ip_address &>/dev/null
+  fi
+}
+
 for server in "${!server_info[@]}"; do
-  ip_address="${server}"
-  username="${server_info[$server]}"
+  ip_address=$server
+  username=${server_info[$server]}
+  echo "Provisioning server: $ip_address."
 
-  for key_file in "id_ed25519" "ansible"; do
-    if [ ! -f ~/.ssh/"$key_file" ]; then
-      echo "Generating '$key_file'..."
-      if [[ "$key_file" == "ansible.pub" ]]; then
-        ssh-keygen -f ~/.ssh/"$key_file" -t ed25519 -C "Ansible" -N '""' -q
-      else
-        ssh-keygen -f ~/.ssh/"$key_file" -t ed25519 -C "Default key" -N '""' -q
-      fi
-    fi
+  generate_and_copy_keys "$ssh_password" "$username" "$ip_address" "id_ed25519" "Default key"
+  generate_and_copy_keys "$ssh_password" "$username" "$ip_address" "ansible" "Ansible key"
 
-    key_exists_status=$(key_exists "$username" "$password" "$ip_address" "$key_file.pub")
-
-    echo "Provisioning server: $ip_address."
-    if [[ "$key_exists_status" == "true" ]]; then
-      echo "Key '$key_file.pub' already authorized."
-    else
-      echo "Copying '$key_file.pub'..."
-      echo "$password" | sshpass ssh-copy-id -o 'StrictHostKeyChecking=no' -i "/home/jokerwrld/.ssh/$key_file.pub" $username@$ip_address &> /dev/null
-    fi
-    echo
-  done
+  echo
 done
 
 echo "SSH key setup completed!"
+echo
