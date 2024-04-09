@@ -2,13 +2,14 @@
 - name: Software | Development | Install packages
   ansible.builtin.package:
     name:
-      - "{{ github_cli }}"    
+      - "{{ github_cli }}"
       - "{{ python_package }}"
       - "{{ python_pip_package }}"
       - "{{ python_boto3 }}"
       - "{{ python_botocore }}"
       - "{{ python_virtualenv_package }}"
       - "{{ ruby }}"
+      - vim
     state: latest
 
 - name: Software | Development | Install packages Arch
