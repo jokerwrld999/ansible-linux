@@ -30,17 +30,25 @@ function key_exists() {
 
 declare -A server_info
 
-while IFS= read -r line; do
-  ip_address=$(echo "$line" | awk '{print $1}')
-  username=$(echo "$line" | awk '{print $2}' | cut -d "=" -f2)
-  username=${username:-root}
+# inventory_dir="/home/jokerwrld/github/k3s-on-proxmox/2_ansible/inventory"
+inventory_dir="./inventory"
 
-  if [[ ! $ip_address =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]] || ! ping -c1 -W1 $ip_address &> /dev/null; then
-    continue
+for filename in "$inventory_dir"/*; do
+  if [[ -f "$filename" ]]; then
+    while IFS= read -r line; do
+      ip_address=$(echo "$line" | awk '{print $1}')
+      username=$(echo "$line" | awk '{print $2}' | cut -d "=" -f2)
+      username=${username:-root}
+
+      if [[ ! $ip_address =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]] || ! ping -c1 -W1 $ip_address &> /dev/null; then
+        continue
+      fi
+
+      server_info["$ip_address"]="$username"
+    done < "$filename"
   fi
+done
 
-  server_info["$ip_address"]="$username"
-done < ./inventory/hosts
 
 ssh_password=$(cat ./.ssh_pass)
 
