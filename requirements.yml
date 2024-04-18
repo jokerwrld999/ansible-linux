@@ -1,6 +1,8 @@
 ---
 collections:
-  - ansible.posix
-  - community.crypto
-  - community.general
-  - kewlfft.aur
+  - name: community.general
+  - name: kewlfft.aur
+
+roles:
+  - name: jokerwrld999.bootstrap
+  - name: jokerwrld999.telegram-alerts

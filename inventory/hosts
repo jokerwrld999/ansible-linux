@@ -3,7 +3,7 @@
 # 10.10.10.1
 
 [lxc]
-10.10.20.100 ansible_user=root
+10.10.20.150 ansible_user=root
 # 10.10.20.160 ansible_user=root
 # 10.10.20.170 ansible_user=root
 # 10.10.20.180 ansible_user=root

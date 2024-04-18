@@ -5,7 +5,7 @@ profile: production
 exclude_paths:
   - .cache/
   - .github/
-  - /collections/
+  - collections/
   - .pre-commit-config.yaml
 
 skip_list:
@@ -22,3 +22,4 @@ skip_list:
   - command-instead-of-module
   - command-instead-of-shell
   - yaml[indentation]
+  - schema[meta]

@@ -41,7 +41,6 @@
     name: "{{ openssh_service }}"
     enabled: yes
     state: started
-
 # - name: System setup | OpenSSH | Generate an OpenSSH keypair
 #   become: false
 #   community.crypto.openssh_keypair:

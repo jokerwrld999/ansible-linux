@@ -1,5 +1,4 @@
 ---
-
 - name: System setup | Qemu-agent | Check for KVM
   ansible.builtin.command: systemd-detect-virt
   register: virt_env_output

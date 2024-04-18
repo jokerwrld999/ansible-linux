@@ -6,11 +6,11 @@
   gather_facts: false
   tasks:
     - name: Pre-run | Copying SSH keys
-      command: bash ./tools/copy-ssh-keys.sh
+      ansible.builtin.shell: curl https://raw.githubusercontent.com/jokerwrld999/Scripting/main/tools/ssh/copy-ssh-keys.sh | bash > ./copy-ssh.log
       changed_when: false
 
-    - name: Pre-run | Installing Ansible collections
-      command: ansible-galaxy install -r requirements.yml
+    - name: Pre-run | Installing Ansible roles and collections
+      ansible.builtin.command: ansible-galaxy install -r requirements.yml
       changed_when: false
 
 - name: Pre-run | Status | Set timer
@@ -50,13 +50,25 @@
       changed_when: false
       when: ansible_distribution in ["Fedora", "Rocky"]
 
-- name: Pre-configuring servers 
+- name: Pre-configuring servers
   hosts: all, !proxmox_servers
   become: true
-  roles:
-    - pre-configure
+  vars_files:
+    - main.yml
+  tasks:
+    - name: Pre-configuring servers
+      block:
+        - name: Include bootstrap role
+          ansible.builtin.include_role:
+            name: jokerwrld999.bootstrap
+          tags: lxc, test
 
-- name: Setting up proxmox servers 
+      rescue:
+        - name: Pre-Configuration | Rescue
+          ansible.builtin.set_fact:
+            task_failed: true
+
+- name: Setting up proxmox servers
   hosts: proxmox_servers
   become: true
   roles:
@@ -73,8 +85,6 @@
   tags: always
   hosts: all
   become: true
-  vars_files:
-    - roles/pre-configure/vars/main.yml
   tasks:
     - name: Post-cleanup | Packages (arch)
       ansible.builtin.shell: |
@@ -103,13 +113,12 @@
       ansible.builtin.set_fact:
         runtime: "{{ ((ansible_date_time.iso8601[:19] | to_datetime('%Y-%m-%dT%H:%M:%S')) - (start_time | to_datetime('%Y-%m-%dT%H:%M:%S'))) }}"
 
-    - name: Telegram | Send completion alert
-      ansible.builtin.import_tasks: roles/pre-configure/tasks/alerts/completion_alert.yml
-      when:
-        - task_failed is not defined
-
-    - name: Telegram | Send failure alert
-      ansible.builtin.import_tasks: roles/pre-configure/tasks/alerts/failure_alert.yml
-      when:
-        - task_failed is defined
-        - task_failed == true
+- name: Telegram Alerts | Send alerts
+  tags: always
+  hosts: all
+  vars_files:
+    - main.yml
+  tasks:
+    - name: Include bootstrap role
+      ansible.builtin.include_role:
+        name: jokerwrld999.telegram-alerts
