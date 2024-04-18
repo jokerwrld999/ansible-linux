@@ -6,7 +6,7 @@ Provision your Linux Servers and Desktops with this playbook.
 
 ```
 pre-commit install
-pre-commit run -a
+pre-commit run -a -c .config/.pre-commit-config.yaml
 ```
 
 ## Setting SSH Key-Based Authentication
