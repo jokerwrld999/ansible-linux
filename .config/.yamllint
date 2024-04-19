@@ -19,3 +19,4 @@ ignore: |
   /.github
   /collections/
   .pre-commit-config.yaml
+  /molecule
