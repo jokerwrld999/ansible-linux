@@ -1,9 +1,9 @@
 [all]
-# localhost ansible_connection=local
-# 10.10.10.1
+localhost ansible_connection=local
+# 10.10.20.88 ansible_user=jokerwrld
 
 [lxc]
-10.10.20.150 ansible_user=root
+# 10.10.20.150 ansible_user=root
 # 10.10.20.160 ansible_user=root
 # 10.10.20.170 ansible_user=root
 # 10.10.20.180 ansible_user=root

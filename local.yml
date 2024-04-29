@@ -22,34 +22,6 @@
       ansible.builtin.set_fact:
         start_time: "{{ ansible_date_time.iso8601[:19] }}"
 
-# - name: Pre-run | Updating packages
-#   tags: always
-#   hosts: all, !proxmox_servers
-#   become: true
-#   pre_tasks:
-#     - name: Pre-run | Update package cache (arch, manjaro)
-#       community.general.pacman:
-#         update_cache: yes
-#         upgrade: yes
-#       changed_when: false
-#       when: ansible_distribution == "Archlinux"
-
-#     - name: Pre-run | Update package cache (debian, etc)
-#       ansible.builtin.apt:
-#         update_cache: yes
-#         cache_valid_time: 3600
-#         name: "*"
-#         state: latest
-#       when: ansible_distribution in ["Debian", "Ubuntu"]
-
-#     - name: Pre-run | Update package cache (fedora/rocky)
-#       ansible.builtin.dnf:
-#         update_only: yes
-#         name: "*"
-#         state: latest
-#       changed_when: false
-#       when: ansible_distribution in ["Fedora", "Rocky"]
-
 - name: Pre-configuring servers
   hosts: all, !proxmox_servers
   become: true
