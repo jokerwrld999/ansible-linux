@@ -26,7 +26,7 @@
   hosts: all, !proxmox_servers
   become: true
   vars_files:
-    - main.yml
+    - vars/main.yml
   tasks:
     - name: Pre-configuring servers
       block:
@@ -89,7 +89,7 @@
   tags: always
   hosts: all
   vars_files:
-    - main.yml
+    - vars/main.yml
   tasks:
     - name: Include bootstrap role
       ansible.builtin.include_role:
